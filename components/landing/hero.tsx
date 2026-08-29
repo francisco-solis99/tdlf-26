@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Countdown } from "@/components/countdown";
+import { HeroPixels } from "@/components/landing/hero-pixels";
 import { site } from "@/config/site";
 
 export function Hero() {
@@ -8,12 +9,18 @@ export function Hero() {
       id="top"
       className="grain relative overflow-hidden border-b-2 border-accent bg-background"
     >
-      {/* --- pixel / halftone decoration — reference: miduconf blob --- */}
+      {/* --- background decoration --- */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        {/* large organic halftone blob behind the title */}
-        <div className="absolute left-1/2 top-[46%] h-[860px] w-[980px] max-w-[160vw] -translate-x-1/2 -translate-y-1/2">
+        {/* restored floating red bubble */}
+        <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-accent/15 blur-3xl" />
+
+        {/* interactive red pixels — gravity/rotate on cursor move */}
+        <HeroPixels />
+
+        {/* large organic halftone blob behind the title — keeps pink shape */}
+        <div className="absolute left-1/2 top-[46%] h-[760px] w-[860px] max-w-[150vw] -translate-x-1/2 -translate-y-1/2">
           <div
-            className="halftone-blob absolute inset-0 opacity-[0.32]"
+            className="halftone-blob absolute inset-0 opacity-[0.26]"
             style={{
               WebkitMaskImage:
                 "radial-gradient(ellipse 68% 62% at 50% 50%, black 58%, transparent 78%)",
@@ -21,75 +28,44 @@ export function Hero() {
                 "radial-gradient(ellipse 68% 62% at 50% 50%, black 58%, transparent 78%)",
             }}
           />
-          {/* pixel / glitch logo — absolute behind H1 */}
+          {/* pixel / glitch logo — smaller + subtle blur behind H1 */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative h-[520px] w-[520px] sm:h-[640px] sm:w-[640px]">
+            <div className="relative h-[360px] w-[360px] sm:h-[440px] sm:w-[440px] blur-[0.6px]">
               {/* glitch layers — chromatic offset */}
               <Image
-                src="/logo.jpg"
+                src="/logo.webp"
                 alt=""
                 fill
-                className="object-contain opacity-[0.14] mix-blend-screen translate-x-[3px] hue-rotate-[-18deg] blur-[0.4px]"
+                className="object-contain opacity-[0.12] mix-blend-screen translate-x-[2px] hue-rotate-[-18deg] blur-[0.8px]"
                 priority
                 aria-hidden
               />
               <Image
-                src="/logo.jpg"
+                src="/logo.webp"
                 alt=""
                 fill
-                className="object-contain opacity-[0.14] mix-blend-screen -translate-x-[3px] hue-rotate-[18deg] blur-[0.4px]"
+                className="object-contain opacity-[0.12] mix-blend-screen -translate-x-[2px] hue-rotate-[18deg] blur-[0.8px]"
                 priority
                 aria-hidden
               />
               {/* main halftone logo */}
               <Image
-                src="/logo.jpg"
+                src="/logo.webp"
                 alt=""
                 fill
-                className="halftone-logo object-contain opacity-80"
+                className="halftone-logo object-contain opacity-[0.78] blur-[0.7px]"
                 priority
                 aria-hidden
               />
             </div>
           </div>
         </div>
-
-        {/* scattered pixel dust — left / right, faded as in reference */}
-        <div
-          className="pixel-dust absolute -left-24 top-[4%] hidden h-[520px] w-[520px] opacity-[0.14] sm:block"
-          style={{
-            WebkitMaskImage:
-              "radial-gradient(ellipse 70% 60% at 50% 50%, black 35%, transparent 72%)",
-            maskImage:
-              "radial-gradient(ellipse 70% 60% at 50% 50%, black 35%, transparent 72%)",
-          }}
-        />
-        <div
-          className="pixel-dust absolute -right-20 bottom-[6%] hidden h-[440px] w-[560px] opacity-[0.11] sm:block"
-          style={{
-            WebkitMaskImage:
-              "radial-gradient(ellipse 65% 58% at 50% 50%, black 30%, transparent 70%)",
-            maskImage:
-              "radial-gradient(ellipse 65% 58% at 50% 50%, black 30%, transparent 70%)",
-          }}
-        />
-        {/* small accent pixel cluster — top edge like reference dots */}
-        <div className="absolute left-[18%] top-[7%] hidden h-20 w-40 opacity-20 sm:block">
-          <div
-            className="h-full w-full"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle, rgba(255,255,255,0.55) 1px, transparent 1.5px)",
-              backgroundSize: "10px 10px",
-            }}
-          />
-        </div>
       </div>
 
       <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-10 px-4 pb-20 pt-16 text-center sm:px-6 sm:pb-28 sm:pt-24">
-        <div className="flex items-center gap-3">
-          <span className="inline-block h-2.5 w-2.5 rotate-45 bg-accent" />
-          <p className="text-sm font-medium uppercase tracking-[0.25em] text-muted">
+        <div className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.07] px-4 py-1.5 backdrop-blur-sm">
+          <span className="inline-block h-2 w-2 rotate-45 bg-accent" />
+          <p className="text-xs font-medium uppercase tracking-[0.22em] text-foreground/85">
             {site.edition} · {site.year}
           </p>
         </div>
