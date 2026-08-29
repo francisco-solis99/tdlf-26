@@ -51,34 +51,16 @@ export function HeroPixels() {
     function initDots() {
       dots = [];
       const isMobile = w < 640;
-      const gap = isMobile ? 20 : 18;
+      const gap = isMobile ? 32 : 28;
       const cols = Math.ceil(w / gap);
       const rows = Math.ceil(h / gap);
-      // donut mask — keep center clear (where logo / title sits)
-      const cx = w * 0.5;
-      const cy = h * 0.46;
-      const rx = w * 0.31;
-      const ry = h * 0.26;
-      const rxInnerFade = rx * 1.15;
 
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
-          const px = x * gap + (y % 2 ? gap / 2 : 0) + (Math.random() - 0.5) * 4;
-          const py = y * gap + (Math.random() - 0.5) * 4;
+          const px = x * gap + (y % 2 ? gap / 2 : 0) + (Math.random() - 0.5) * 3;
+          const py = y * gap + (Math.random() - 0.5) * 3;
 
-          // donut: skip dots inside inner ellipse (transparent hole)
-          const dx = (px - cx) / rxInnerFade;
-          const dy = (py - cy) / (ry * 1.1);
-          const distEllipse = dx * dx + dy * dy;
-
-          // also skip outside outer ellipse (so pixels stay around the hero, not full bleed to corners)
-          const dxOuter = (px - cx) / (w * 0.62);
-          const dyOuter = (py - cy) / (h * 0.58);
-          const outer = dxOuter * dxOuter + dyOuter * dyOuter;
-
-          if (distEllipse < 1) continue;
-          if (outer > 1) continue;
-          // jittered opacity/size
+          // uniform edge-to-edge — no donut/outer filters
           dots.push({
             ox: px,
             oy: py,
@@ -88,7 +70,7 @@ export function HeroPixels() {
             vy: 0,
             rot: (Math.random() - 0.5) * 0.4,
             vr: 0,
-            r: Math.random() > 0.85 ? 1.6 : 1.15,
+            r: Math.random() > 0.88 ? 1.45 : 1.05,
           });
         }
       }
@@ -141,14 +123,13 @@ export function HeroPixels() {
         d.y += d.vy;
         d.rot += d.vr;
 
-        // draw — small square so rotation is visible (pixel look)
+        // draw — small square so rotation is visible (pixel look), lightweight
         if (!ctx) return;
         const s = d.r * 2;
         ctx.save();
         ctx.translate(d.x, d.y);
         ctx.rotate(d.rot);
-        ctx.fillStyle = "rgba(255,77,61,0.95)";
-        // subtle opacity falloff near cursor is already via displacement
+        ctx.fillStyle = "rgba(255,77,61,0.55)";
         ctx.fillRect(-s / 2, -s / 2, s, s);
         ctx.restore();
       }
@@ -174,7 +155,7 @@ export function HeroPixels() {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className="absolute inset-0 h-full w-full opacity-[0.95]"
+      className="absolute inset-0 h-full w-full opacity-[0.7]"
     />
   );
 }
