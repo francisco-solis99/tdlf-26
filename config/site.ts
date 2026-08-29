@@ -72,9 +72,9 @@ export const site = {
     ],
     courts: {
       count: null as number | null, // TODO(tbd): courts available on event day
-      ball: null as string | null, // TODO(tbd): official tournament ball brand/model
+      ball: "Head Pre-Olimpica", // TODO(tbd): official tournament ball brand/model
       ballNote:
-        "Se pedirá a cada pareja llevar una pelota para el arranque del partido.",
+        "Se pedirá a cada pareja llevar una pelota por si acaso hay alguna circustancia.",
     },
   },
 
@@ -87,9 +87,9 @@ export const site = {
       "La pareja ganadora funge como juez en el partido siguiente.",
     ],
     advancement: [
-      "Fase de grupos seguida de eliminatoria directa (mata-mata).", // assumption: single elimination — confirm format details
-      "Avanzan las dos primeras parejas de cada grupo a la siguiente ronda.", // assumption: top 2 per group — confirm
+      "Fase de grupos seguida de eliminatoria directa.", // assumption: single elimination — confirm format details
       "La clasificación se define por partidos ganados y, en empate, por puntos anotados.",
+      "Avanzan las dos primeras parejas de cada grupo a la siguiente ronda.", // assumption: top 2 per group — confirm
     ],
     tips: [
       "Uniforme: playera del mismo color o similar entre pareja.",
