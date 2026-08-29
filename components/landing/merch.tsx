@@ -17,13 +17,13 @@ export function Merch() {
             delayMs={i * 80}
             className="group border border-line bg-surface"
           >
-            <div className="grain relative flex h-56 items-center justify-center overflow-hidden border-b border-line bg-background sm:h-72">
+            <div className="grain relative flex h-[420px] items-center justify-center overflow-hidden border-b border-line bg-background p-4 sm:h-[520px]">
               {product.imageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={product.imageUrl}
                   alt={product.name}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-contain"
                 />
               ) : (
                 <span className="font-display text-6xl uppercase text-line transition-colors group-hover:text-accent/30">
