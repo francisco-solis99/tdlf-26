@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Countdown } from "@/components/countdown";
-import { HeroPixels } from "@/components/landing/hero-pixels";
+import { GravityPixels } from "@/components/gravity-pixels";
 import { site } from "@/config/site";
 
 export function Hero() {
@@ -15,7 +15,7 @@ export function Hero() {
         <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-accent/15 blur-3xl" />
 
         {/* interactive red pixels — gravity/rotate on cursor move */}
-        <HeroPixels />
+        <GravityPixels targetId="top" />
 
         {/* large organic halftone blob behind the title — keeps pink shape */}
         <div className="absolute left-1/2 top-[46%] h-[760px] w-[860px] max-w-[150vw] -translate-x-1/2 -translate-y-1/2">
