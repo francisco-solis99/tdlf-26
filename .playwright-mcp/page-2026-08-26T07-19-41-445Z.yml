@@ -1,0 +1,245 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "TDLF·26" [ref=e4] [cursor=pointer]:
+        - /url: "#top"
+      - navigation "Navegación principal" [ref=e5]:
+        - link "Info" [ref=e6] [cursor=pointer]:
+          - /url: "#info"
+        - link "Reglas" [ref=e7] [cursor=pointer]:
+          - /url: "#reglas"
+        - link "Premios" [ref=e8] [cursor=pointer]:
+          - /url: "#premios"
+        - link "Agenda" [ref=e9] [cursor=pointer]:
+          - /url: "#agenda"
+        - link "Merch" [ref=e10] [cursor=pointer]:
+          - /url: "#merch"
+        - link "Patrocinadores" [ref=e11] [cursor=pointer]:
+          - /url: "#patrocinadores"
+      - link "Instagram del torneo" [ref=e12] [cursor=pointer]:
+        - /url: "#"
+  - main [ref=e17]:
+    - generic [ref=e19]:
+      - paragraph [ref=e22]: Cuarta edición · 2026
+      - heading "Torneo de las Fresas" [level=1] [ref=e23]: Torneo delas Fresas
+      - paragraph [ref=e24]: "El frontenis amateur de Irapuato se junta un año más: cancha, sol y fresas."
+      - timer "Cuenta regresiva para el torneo" [ref=e25]:
+        - generic [ref=e26]:
+          - generic [ref=e27]: "32"
+          - generic [ref=e28]: Días
+        - generic [ref=e29]:
+          - generic [ref=e30]: "06"
+          - generic [ref=e31]: Hrs
+        - generic [ref=e32]:
+          - generic [ref=e33]: "40"
+          - generic [ref=e34]: Min
+        - generic [ref=e35]:
+          - generic [ref=e36]: "18"
+          - generic [ref=e37]: Seg
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - paragraph [ref=e40]: ¿Cuándo?
+          - paragraph [ref=e41]:
+            - text: 27 de Septiembre
+            - generic [ref=e42]: · Domingo
+        - generic [ref=e43]:
+          - paragraph [ref=e44]: ¿Dónde?
+          - link "Deportiva Norte, Irapuato, Gto." [ref=e45] [cursor=pointer]:
+            - /url: https://www.google.com/maps/search/?api=1&query=Deportiva+Norte%2C+Irapuato%2C+Guanajuato
+          - paragraph [ref=e49]: Mostrar en el mapa
+    - generic [ref=e51]:
+      - generic [ref=e52]:
+        - paragraph [ref=e55]: Antes de jugar
+        - heading "Lo que necesitas saber" [level=2] [ref=e56]
+        - paragraph [ref=e57]: Todo lo esencial antes de pisar la cancha. Los detalles operativos pueden moverse un poco conforme se acerque la fecha.
+      - generic [ref=e59]:
+        - generic [ref=e60]:
+          - heading "Categorías" [level=3] [ref=e61]
+          - list [ref=e62]:
+            - listitem [ref=e63]:
+              - generic [ref=e64]: Libre
+              - generic [ref=e65]: Categoría abierta
+            - listitem [ref=e66]:
+              - generic [ref=e67]: Másters 50+
+              - generic [ref=e68]: 50 años o más
+        - generic [ref=e69]:
+          - heading "Inscripción" [level=3] [ref=e70]
+          - paragraph [ref=e71]: Por confirmar
+          - paragraph [ref=e72]: El costo de inscripción se confirmará próximamente.
+        - generic [ref=e73]:
+          - heading "Grupos y parejas proyectadas" [level=3] [ref=e74]
+          - list [ref=e75]:
+            - listitem [ref=e76]:
+              - paragraph [ref=e77]: Libre
+              - paragraph [ref=e78]: 24 parejas · 6 grupos de 4 (proyectado)
+            - listitem [ref=e79]:
+              - paragraph [ref=e80]: Másters 50+
+              - paragraph [ref=e81]: 12 parejas · 4 grupos de 3 (proyectado)
+        - generic [ref=e82]:
+          - heading "Canchas y pelota" [level=3] [ref=e83]
+          - list [ref=e84]:
+            - listitem [ref=e85]: "Canchas: por confirmar"
+            - listitem [ref=e86]: "Pelota oficial: por confirmar"
+            - listitem [ref=e87]: Se pedirá a cada pareja llevar una pelota para el arranque del partido.
+    - generic [ref=e89]:
+      - generic [ref=e90]:
+        - paragraph [ref=e93]: Así se jugará
+        - heading "Reglas claras, competencia intensa" [level=2] [ref=e94]
+      - generic [ref=e96]:
+        - generic [ref=e97]:
+          - generic [ref=e98]:
+            - generic [ref=e99]: "01"
+            - heading "El partido" [level=3] [ref=e100]
+          - list [ref=e101]:
+            - listitem [ref=e102]: Los partidos se juegan a 10 puntos o 20 minutos.
+            - listitem [ref=e104]: Al terminar el tiempo gana quien tenga ventaja en el marcador.
+            - listitem [ref=e106]: Un punto define quién saca al inicio del partido.
+            - listitem [ref=e108]: Si una pareja no se presenta en 5 minutos, pierde por default.
+            - listitem [ref=e110]: La pareja ganadora funge como juez en el partido siguiente.
+        - generic [ref=e112]:
+          - generic [ref=e113]:
+            - generic [ref=e114]:
+              - generic [ref=e115]: "02"
+              - heading "Cómo se avanza" [level=3] [ref=e116]
+            - list [ref=e117]:
+              - listitem [ref=e118]: Fase de grupos seguida de eliminatoria directa (mata-mata).
+              - listitem [ref=e120]: Avanzan las dos primeras parejas de cada grupo a la siguiente ronda.
+              - listitem [ref=e122]: La clasificación se define por partidos ganados y, en empate, por puntos anotados.
+          - generic [ref=e124]:
+            - generic [ref=e125]:
+              - generic [ref=e126]: "03"
+              - heading "Prepárate" [level=3] [ref=e127]
+            - list [ref=e128]:
+              - listitem [ref=e129]: "Uniforme: playera del mismo color o similar entre pareja."
+              - listitem [ref=e131]: Lentes de protección recomendados (no obligatorios).
+              - listitem [ref=e133]: "Gorra y bloqueador: el sol de septiembre no perdona."
+              - listitem [ref=e135]: Lleva toalla y mantente hidratado entre partidos.
+    - generic [ref=e138]:
+      - generic [ref=e139]:
+        - paragraph [ref=e142]: Gracias a ellos
+        - heading "Patrocinadores" [level=2] [ref=e143]
+        - paragraph [ref=e144]: Agradecemos a las marcas que hacen posible el torneo. La lista de patrocinadores 2026 se anunciará próximamente.
+      - generic [ref=e148]:
+        - generic [ref=e149]:
+          - generic [ref=e150]: Tu marca aquí ·
+          - generic [ref=e151]: Tu logo ·
+          - generic [ref=e152]: Tu empresa ·
+        - generic [ref=e153]:
+          - generic [ref=e154]: Tu marca aquí ·
+          - generic [ref=e155]: Tu logo ·
+          - generic [ref=e156]: Tu empresa ·
+    - generic [ref=e158]:
+      - generic [ref=e159]:
+        - paragraph [ref=e162]: La recompensa
+        - heading "Premios" [level=2] [ref=e163]
+        - paragraph [ref=e164]: Reconocimiento a quienes dejen todo en la cancha. El breakdown por categoría se anunciará próximamente.
+      - generic [ref=e166]:
+        - generic [ref=e167]:
+          - heading "Libre" [level=3] [ref=e169]
+          - list [ref=e171]:
+            - listitem [ref=e172]:
+              - generic [ref=e173]: 1er lugar
+              - generic [ref=e174]: Por anunciar
+            - listitem [ref=e175]:
+              - generic [ref=e176]: 2do lugar
+              - generic [ref=e177]: Por anunciar
+            - listitem [ref=e178]:
+              - generic [ref=e179]: 3er lugar
+              - generic [ref=e180]: Por anunciar
+            - listitem [ref=e181]:
+              - generic [ref=e182]: 4to lugar
+              - generic [ref=e183]: Por anunciar
+        - generic [ref=e184]:
+          - heading "Másters 50+" [level=3] [ref=e186]
+          - list [ref=e188]:
+            - listitem [ref=e189]:
+              - generic [ref=e190]: 1er lugar
+              - generic [ref=e191]: Por anunciar
+            - listitem [ref=e192]:
+              - generic [ref=e193]: 2do lugar
+              - generic [ref=e194]: Por anunciar
+            - listitem [ref=e195]:
+              - generic [ref=e196]: 3er lugar
+              - generic [ref=e197]: Por anunciar
+    - generic [ref=e199]:
+      - generic [ref=e200]:
+        - paragraph [ref=e203]: El día del torneo
+        - heading "Agenda" [level=2] [ref=e204]
+        - paragraph [ref=e205]: Domingo 27 de Septiembre de 2026
+      - generic [ref=e206]:
+        - list [ref=e207]:
+          - listitem [ref=e209]:
+            - generic [ref=e211]:
+              - generic [ref=e212]: "--:--"
+              - generic [ref=e213]:
+                - heading "Recepción de parejas" [level=3] [ref=e214]
+                - paragraph [ref=e215]: Registro y bienvenida.
+          - listitem [ref=e217]:
+            - generic [ref=e219]:
+              - generic [ref=e220]: "--:--"
+              - generic [ref=e221]:
+                - heading "Inauguración" [level=3] [ref=e222]
+                - paragraph [ref=e223]: Ceremonia e indicaciones generales.
+          - listitem [ref=e225]:
+            - generic [ref=e227]:
+              - generic [ref=e228]: "--:--"
+              - generic [ref=e229]:
+                - heading "Fase de grupos" [level=3] [ref=e230]
+                - paragraph [ref=e231]: Arranca la etapa clasificatoria.
+          - listitem [ref=e233]:
+            - generic [ref=e235]:
+              - generic [ref=e236]: "--:--"
+              - generic [ref=e237]:
+                - heading "Fase eliminatoria" [level=3] [ref=e238]
+                - paragraph [ref=e239]: Octavos, cuartos y semifinales.
+          - listitem [ref=e241]:
+            - generic [ref=e243]:
+              - generic [ref=e244]: "--:--"
+              - generic [ref=e245]:
+                - heading "Gran final" [level=3] [ref=e246]
+                - paragraph [ref=e247]: La última bola del día.
+        - paragraph [ref=e248]: Horarios por confirmar · Hora de Irapuato (CDMX)
+    - generic [ref=e250]:
+      - generic [ref=e251]:
+        - paragraph [ref=e254]: Luce los colores
+        - heading "Merch oficial" [level=2] [ref=e255]
+        - paragraph [ref=e256]: Playeras y gorras diseñadas para la cuarta edición. El catálogo completo estará disponible próximamente.
+      - generic [ref=e258]:
+        - generic [ref=e259]:
+          - generic [ref=e260]: TDLF·26
+          - generic [ref=e262]:
+            - heading "Playera TDLF-26" [level=3] [ref=e263]
+            - paragraph [ref=e264]: Diseño conmemorativo de la cuarta edición.
+        - generic [ref=e265]:
+          - generic [ref=e266]: TDLF·26
+          - generic [ref=e268]:
+            - heading "Gorra TDLF-26" [level=3] [ref=e269]
+            - paragraph [ref=e270]: Edición limitada del torneo.
+    - generic [ref=e272]:
+      - generic [ref=e273]:
+        - paragraph [ref=e276]: Ediciones pasadas
+        - heading "Galería" [level=2] [ref=e277]
+        - paragraph [ref=e278]: Recuerdos de ediciones pasadas. Las fotos oficiales de 2026 llegarán después del torneo.
+      - generic [ref=e280]:
+        - img "Foto pendiente de la edición 1" [ref=e282]:
+          - generic [ref=e283]: "01"
+        - img "Foto pendiente de la edición 2" [ref=e285]:
+          - generic [ref=e286]: "02"
+        - img "Foto pendiente de la edición 3" [ref=e288]:
+          - generic [ref=e289]: "03"
+        - img "Foto pendiente de la edición 4" [ref=e291]:
+          - generic [ref=e292]: "04"
+        - img "Foto pendiente de la edición 5" [ref=e294]:
+          - generic [ref=e295]: "05"
+        - img "Foto pendiente de la edición 6" [ref=e297]:
+          - generic [ref=e298]: "06"
+  - contentinfo [ref=e299]:
+    - generic [ref=e300]:
+      - generic [ref=e301]:
+        - paragraph [ref=e302]: TDLF·26
+        - paragraph [ref=e303]: Domingo 27 de Septiembre de 2026 · Deportiva Norte, Irapuato, Gto.
+      - generic [ref=e304]:
+        - link "Instagram del torneo" [ref=e305] [cursor=pointer]:
+          - /url: "#"
+        - generic [ref=e310]: "@torneodelasfresas"
+  - alert [ref=e311]
