@@ -135,18 +135,30 @@ export const site = {
     products: [
       {
         name: "Playera TDLF-26",
-        blurb: "Diseño conmemorativo de la cuarta edición.", // TODO(tbd): product descriptions + images
-        imageUrl: null as string | null,
+        blurb: "Diseño conmemorativo de la cuarta edición.",
+        imageUrl: "/merch-shirt.webp",
       },
       {
         name: "Gorra TDLF-26",
         blurb: "Edición limitada del torneo.",
-        imageUrl: null as string | null,
+        imageUrl: "/merch-cap.webp",
       },
     ],
   },
 
-  sponsors: [] as Array<{ name: string; url?: string }>, // TODO(tbd): sponsor list — empty renders placeholder tiles
+  sponsors: [
+    { name: "Auto Clutch", image: "/auto-clutch.webp" },
+    { name: "BBS", image: "/bbs.webp" },
+    { name: "Comudaj", image: "/comudaj.webp" },
+    { name: "Crys Pura Ice", image: "/cryspuraice.webp" },
+    { name: "Deep", image: "/deep.webp" },
+    { name: "Duo", image: "/duo.webp" },
+    { name: "Fenix", image: "/fenix.webp" },
+    { name: "Frutero", image: "/frutero.webp" },
+    { name: "Lavander", image: "/lavander.webp" },
+    { name: "Servicom", image: "/servicom.webp" },
+    { name: "Showtime", image: "/showtime.webp" },
+  ] as Array<{ name: string; image: string; url?: string }>,
 
   gallery: {
     note: "Recuerdos de ediciones pasadas. Las fotos oficiales de 2026 llegarán después del torneo.", // photos TBD
