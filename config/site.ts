@@ -28,10 +28,17 @@ export const site = {
       "https://www.google.com/maps/place/Unidad+Deportiva+Mario+Vazquez+Ra%C3%B1a/@20.6944313,-101.3764419,15z/data=!4m6!3m5!1s0x842c7f9746cdae27:0x6d070463c2cb0140!8m2!3d20.6944313!4d-101.3764419!16s%2Fg%2F119tgd4jz?entry=ttu&g_ep=EgoyMDI1MDMwMi4wIKXMDSoASAFQAw%3D%3D",
   },
 
+  cierreInscripcion: "25 de Septiembre",
+
   contact: {
     instagram: {
       url: "https://www.instagram.com/torneodelasfresas/",
       handle: "@torneodelasfresas",
+    },
+    whatsapp: {
+      url: "https://wa.me/524622883931?text=Hola%2C%20quisiera%20inscribirme%20al%20Torneo%20de%20las%20Fresas%202026",
+      number: "4622883931",
+      display: "462 288 3931",
     },
   },
 
@@ -49,11 +56,18 @@ export const site = {
       "Todo lo esencial antes de pisar la cancha. Los detalles operativos pueden moverse un poco conforme se acerque la fecha.",
     categories: [
       { id: "libre", name: "Libre", detail: "Categoría abierta" },
-      { id: "masters", name: "Másters 50+", detail: "50 años o más" },
+      { id: "femenil", name: "Femenil", detail: "Categoría femenil" },
+      { id: "masters", name: "Masters +50", detail: "50 años o más" },
     ],
     registration: {
-      priceLabel: null as string | null, // TODO(tbd): registration cost per pair/person
-      note: "El costo de inscripción se confirmará próximamente.",
+      priceLabel: "$800 por pareja",
+      note: "Su inscripción incluye:",
+      includes: [
+        "Zona de hidratación",
+        "Comida para los jugadores",
+        "Pelotas del torneo",
+        "Refrigerios",
+      ] as const,
     },
     groups: [
       // Group counts are placeholders based on last edition — confirm before finalizing.
@@ -64,7 +78,13 @@ export const site = {
         groupSize: 4,
       },
       {
-        category: "Másters 50+",
+        category: "Femenil",
+        pairs: 12,
+        groups: 4,
+        groupSize: 3,
+      },
+      {
+        category: "Masters +50",
         pairs: 12,
         groups: 4,
         groupSize: 3,
@@ -99,25 +119,41 @@ export const site = {
     ],
   },
 
-  awards: [
-    {
-      category: "Libre",
-      places: [
-        { place: "1er lugar", prize: null }, // TODO(tbd): prize amounts
-        { place: "2do lugar", prize: null },
-        { place: "3er lugar", prize: null },
-        { place: "4to lugar", prize: null },
-      ],
-    },
-    {
-      category: "Másters 50+",
-      places: [
-        { place: "1er lugar", prize: null },
-        { place: "2do lugar", prize: null },
-        { place: "3er lugar", prize: null },
-      ],
-    },
-  ],
+  awards: {
+    total: "$30,000",
+    categories: [
+      {
+        category: "Libre",
+        bolsa: "$20,000",
+        places: [
+          { place: "1er lugar", prize: "$10,000" },
+          { place: "2do lugar", prize: "$5,000" },
+          { place: "3er lugar", prize: "$3,000" },
+          { place: "4to lugar", prize: "$2,000" },
+        ],
+      },
+      {
+        category: "Femenil",
+        bolsa: "$7,500",
+        places: [
+          { place: "1er lugar", prize: "$4,000" },
+          { place: "2do lugar", prize: "$2,000" },
+          { place: "3er lugar", prize: "$1,000" },
+          { place: "4to lugar", prize: "$500" },
+        ],
+      },
+      {
+        category: "Masters +50",
+        bolsa: "$7,500",
+        places: [
+          { place: "1er lugar", prize: "$4,000" },
+          { place: "2do lugar", prize: "$2,000" },
+          { place: "3er lugar", prize: "$1,000" },
+          { place: "4to lugar", prize: "$500" },
+        ],
+      },
+    ],
+  },
 
   agenda: {
     dateLabel: "Domingo 27 de Septiembre de 2026",

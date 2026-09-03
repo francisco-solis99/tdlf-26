@@ -29,10 +29,23 @@ export function Info() {
 
         <Reveal delayMs={60} className="bg-background p-6 sm:p-8">
           <CardTitle>Inscripción</CardTitle>
-          <p className="font-display mt-4 text-4xl uppercase text-accent">
+          <p className="font-display mt-4 text-3xl uppercase text-accent sm:text-4xl">
             {registration.priceLabel ?? "Por confirmar"}
           </p>
           <p className="mt-2 text-sm text-muted">{registration.note}</p>
+          {"includes" in registration && Array.isArray(registration.includes) ? (
+            <ul className="mt-3 space-y-1.5">
+              {(registration.includes as readonly string[]).map((item) => (
+                <li key={item} className="flex gap-2 text-sm">
+                  <span
+                    aria-hidden="true"
+                    className="mt-1.5 h-1.5 w-1.5 shrink-0 rotate-45 bg-accent"
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </Reveal>
 
         <Reveal delayMs={120} className="bg-background p-6 sm:p-8">
@@ -42,8 +55,9 @@ export function Info() {
               <li key={g.category}>
                 <p className="font-semibold">{g.category}</p>
                 <p className="text-sm text-muted">
-                  {g.pairs} parejas · {g.groups} grupos de {g.groupSize}{" "}
-                  (proyectado)
+                  {g.pairs !== null && g.groups !== null && g.groupSize !== null
+                    ? `${g.pairs} parejas · ${g.groups} grupos de ${g.groupSize} (proyectado)`
+                    : "Por confirmar"}
                 </p>
               </li>
             ))}
