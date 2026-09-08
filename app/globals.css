@@ -156,6 +156,16 @@ body {
   mask-repeat: repeat;
 }
 
+.sponsor-logo {
+  filter: grayscale(1) contrast(1.15) brightness(1.25);
+  mix-blend-mode: lighten;
+}
+
+.sponsor-logo:hover {
+  filter: grayscale(0) contrast(1) brightness(1);
+  mix-blend-mode: normal;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .halftone-blob {
     transform: none;

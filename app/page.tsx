@@ -1,6 +1,7 @@
 import { Agenda } from "@/components/landing/agenda";
 import { Awards } from "@/components/landing/awards";
 import { Footer } from "@/components/landing/footer";
+import { Gallery } from "@/components/landing/gallery";
 import { Header } from "@/components/landing/header";
 import { Hero } from "@/components/landing/hero";
 import { Info } from "@/components/landing/info";
@@ -20,6 +21,7 @@ export default function Home() {
         <Awards />
         <Agenda />
         <Merch />
+        <Gallery />
       </main>
       <Footer />
     </>
