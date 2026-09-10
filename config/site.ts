@@ -197,7 +197,7 @@ export const site = {
   ] as Array<{ name: string; image: string; url?: string }>,
 
   gallery: {
-    note: "Recuerdos de ediciones pasadas. Arrastra la raqueta para ver las fotos.", // photos TBD
+    note: "Recuerdos de ediciones pasadas. Toca la raqueta para ver las fotos.", // photos TBD
     placeholderCount: 12,
   },
 } as const;

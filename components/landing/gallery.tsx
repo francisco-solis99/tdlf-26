@@ -72,34 +72,64 @@ export function Gallery() {
               className="pointer-events-none absolute inset-x-6 bottom-6 h-px bg-line/60"
             />
 
-            {/* racquet — tilted like reference */}
+            {/* racquet — upright like reference */}
             <div
               className="relative"
               style={{
                 transform: swinging
-                  ? "rotate(-40deg) translateX(10px) scale(1.02)"
-                  : "rotate(-28deg) translateX(0) scale(1)",
+                  ? "rotate(-14deg) translateX(6px) scale(1.02)"
+                  : "rotate(0deg) translateX(0) scale(1)",
                 transition: swinging
                   ? "transform 180ms cubic-bezier(0.34,1.56,0.64,1)"
                   : "transform 420ms cubic-bezier(0.22,1,0.36,1)",
               }}
             >
               <div className="relative flex flex-col items-center drop-shadow-xl">
-                {/* head */}
-                <div className="relative h-[198px] w-[142px] rounded-[50%/58%] border-[7px] border-zinc-900 bg-zinc-950 shadow-lg sm:h-[218px] sm:w-[158px]">
+                {/* head — black frame fading to red at the bottom */}
+                <div className="relative h-[210px] w-[150px] sm:h-[230px] sm:w-[164px]">
+                  <svg
+                    viewBox="0 0 150 210"
+                    className="absolute inset-0 h-full w-full"
+                    aria-hidden="true"
+                  >
+                    <defs>
+                      <linearGradient
+                        id="tdlf-frame"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop offset="0%" stopColor="#0d0d11" />
+                        <stop offset="55%" stopColor="#131317" />
+                        <stop offset="76%" stopColor="#7d0e0e" />
+                        <stop offset="100%" stopColor="#c41616" />
+                      </linearGradient>
+                    </defs>
+                    <ellipse
+                      cx="75"
+                      cy="96"
+                      rx="64"
+                      ry="84"
+                      fill="none"
+                      stroke="url(#tdlf-frame)"
+                      strokeWidth="9"
+                    />
+                  </svg>
                   {/* outer rim highlight */}
                   <div
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 rounded-[50%/58%] opacity-40"
+                    className="pointer-events-none absolute inset-0 opacity-40"
                     style={{
                       background:
                         "linear-gradient(115deg, transparent 42%, rgba(255,255,255,0.14) 50%, transparent 58%)",
+                      borderRadius: "50% / 55%",
                     }}
                   />
                   {/* strings */}
                   <div
                     aria-hidden="true"
-                    className="absolute inset-[9px] rounded-[50%/58%] opacity-[0.96]"
+                    className="absolute bottom-[26px] left-[16px] right-[16px] top-[16px] rounded-[50%/55%] opacity-[0.96]"
                     style={{
                       backgroundImage:
                         "linear-gradient(to right, rgba(255,255,255,0.92) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.92) 1px, transparent 1px)",
@@ -109,12 +139,8 @@ export function Gallery() {
                   {/* Head H — pixel stepped like reference */}
                   <div
                     aria-hidden="true"
-                    className="pointer-events-none absolute left-1/2 top-[51%] h-[42px] w-[44px] -translate-x-1/2 -translate-y-1/2 opacity-[0.92]"
-                    style={{
-                      backgroundImage: `linear-gradient(#0a0a0a,#0a0a0a), linear-gradient(#0a0a0a,#0a0a0a), linear-gradient(#0a0a0a,#0a0a0a), linear-gradient(#0a0a0a,#0a0a0a), linear-gradient(#0a0a0a,#0a0a0a)`,
-                    }}
+                    className="pointer-events-none absolute left-1/2 top-[46%] h-[42px] w-[44px] -translate-x-1/2 -translate-y-1/2 opacity-[0.92]"
                   >
-                    {/* crude H with stepped pixels — use box shadows */}
                     <div className="absolute left-[6px] top-[4px] h-[34px] w-[3px] bg-black" />
                     <div className="absolute right-[6px] top-[4px] h-[34px] w-[3px] bg-black" />
                     <div className="absolute left-[6px] top-[18px] h-[3px] w-[32px] bg-black" />
@@ -125,34 +151,19 @@ export function Gallery() {
                     <div className="absolute left-[2px] bottom-[2px] h-[3px] w-[8px] bg-black" />
                     <div className="absolute right-[2px] bottom-[2px] h-[3px] w-[8px] bg-black" />
                   </div>
-                  {/* frame text — top */}
-                  <span className="pointer-events-none absolute right-[18px] top-[10px] rotate-[14deg] text-[5px] font-bold tracking-[0.18em] text-white/80">
-                    TITANIUM TENNIS
-                  </span>
                   {/* frame text — side */}
-                  <span className="pointer-events-none absolute bottom-[34%] right-[-1px] rotate-90 text-[6.5px] font-black tracking-widest text-white/90">
+                  <span className="pointer-events-none absolute bottom-[30%] right-[6px] rotate-90 text-[6.5px] font-black tracking-widest text-white/90">
                     HEAD
                   </span>
-                  <span className="pointer-events-none absolute bottom-[22%] right-[-1px] rotate-90 text-[4px] tracking-[0.16em] text-white/55">
-                    95
-                  </span>
                 </div>
-                {/* throat — Y */}
-                <div className="relative -mt-[2px] flex h-7 w-[58px] justify-center">
-                  <div className="absolute left-[3px] top-0 h-7 w-[22px] origin-bottom -rotate-[18deg] rounded-sm bg-gradient-to-b from-zinc-100 via-zinc-300 to-zinc-400 shadow-sm" />
-                  <div className="absolute right-[3px] top-0 h-7 w-[22px] origin-bottom rotate-[18deg] rounded-sm bg-gradient-to-b from-zinc-100 via-zinc-300 to-zinc-400 shadow-sm" />
-                  {/* carbon patch top of throat */}
-                  <div className="absolute left-1/2 top-[-1px] h-[7px] w-[14px] -translate-x-1/2 rounded-sm bg-[radial-gradient(circle,rgba(0,0,0,0.45)_1px,transparent_1px)] bg-zinc-600 opacity-80" style={{ backgroundSize: "3px 3px" }} />
+                {/* throat — silver Y */}
+                <div className="relative -mt-[2px] flex h-7 w-[50px] justify-center">
+                  <div className="absolute left-[3px] top-0 h-7 w-[20px] origin-bottom -rotate-[13deg] rounded-sm bg-gradient-to-b from-zinc-100 via-zinc-300 to-zinc-400 shadow-sm" />
+                  <div className="absolute right-[3px] top-0 h-7 w-[20px] origin-bottom rotate-[13deg] rounded-sm bg-gradient-to-b from-zinc-100 via-zinc-300 to-zinc-400 shadow-sm" />
                   <div className="absolute bottom-0 h-2 w-6 bg-zinc-900" />
                 </div>
-                {/* handle — black grip with orange HEAD label */}
+                {/* handle — plain black grip like reference */}
                 <div className="relative h-[104px] w-[23px] overflow-hidden rounded-b-[9px] bg-zinc-900 shadow-inner">
-                  {/* orange band */}
-                  <div className="absolute left-0 right-0 top-[14px] flex h-[54px] items-center justify-center bg-[#ff7a00]">
-                    <span className="rotate-90 whitespace-nowrap text-[12px] font-black tracking-[0.14em] text-white">
-                      HEAD
-                    </span>
-                  </div>
                   {/* grip texture lines */}
                   <div
                     aria-hidden="true"
