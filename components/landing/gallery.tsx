@@ -157,13 +157,13 @@ export function Gallery() {
                   </span>
                 </div>
                 {/* throat — silver Y */}
-                <div className="relative -mt-[2px] flex h-7 w-[50px] justify-center">
-                  <div className="absolute left-[3px] top-0 h-7 w-[20px] origin-bottom -rotate-[13deg] rounded-sm bg-gradient-to-b from-zinc-100 via-zinc-300 to-zinc-400 shadow-sm" />
-                  <div className="absolute right-[3px] top-0 h-7 w-[20px] origin-bottom rotate-[13deg] rounded-sm bg-gradient-to-b from-zinc-100 via-zinc-300 to-zinc-400 shadow-sm" />
-                  <div className="absolute bottom-0 h-2 w-6 bg-zinc-900" />
+                <div className="relative -mt-[2px] flex h-7 w-[42px] justify-center">
+                  <div className="absolute left-[3px] top-0 h-7 w-[14px] origin-bottom -rotate-[13deg] rounded-sm bg-gradient-to-b from-zinc-100 via-zinc-300 to-zinc-400 shadow-sm" />
+                  <div className="absolute right-[3px] top-0 h-7 w-[14px] origin-bottom rotate-[13deg] rounded-sm bg-gradient-to-b from-zinc-100 via-zinc-300 to-zinc-400 shadow-sm" />
+                  <div className="absolute bottom-0 h-2 w-5 bg-zinc-900" />
                 </div>
                 {/* handle — plain black grip like reference */}
-                <div className="relative h-[104px] w-[23px] overflow-hidden rounded-b-[9px] bg-zinc-900 shadow-inner">
+                <div className="relative h-[104px] w-[18px] overflow-hidden rounded-b-[9px] bg-zinc-900 shadow-inner">
                   {/* grip texture lines */}
                   <div
                     aria-hidden="true"
@@ -176,7 +176,7 @@ export function Gallery() {
                   {/* head logo on grip bottom */}
                   <div className="absolute bottom-[10px] left-1/2 h-3 w-3 -translate-x-1/2 rounded-full border border-white/40" />
                 </div>
-                <div className="h-[5px] w-[25px] rounded-b-md bg-black/70" />
+                <div className="h-[5px] w-[20px] rounded-b-md bg-black/70" />
               </div>
 
               <span className="pointer-events-none absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-background/90 px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-muted shadow transition-opacity group-hover:bg-accent group-hover:text-white">
