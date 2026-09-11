@@ -200,8 +200,23 @@ export const site = {
   ] as Array<{ name: string; image: string; url?: string }>,
 
   gallery: {
-    note: "Recuerdos de ediciones pasadas. Toca la raqueta para ver las fotos.", // photos TBD
-    placeholderCount: 12,
+    note: "Recuerdos de ediciones pasadas. Toca la raqueta para ver las fotos.",
+    photos: [
+      "/gallery/1000020194.webp",
+      "/gallery/1000037636.webp",
+      "/gallery/1000037639.webp",
+      "/gallery/1000037657.webp",
+      "/gallery/1000037888.webp",
+      "/gallery/1000037924.webp",
+      "/gallery/1000037993.webp",
+      "/gallery/1000038095.webp",
+      "/gallery/1000038283.webp",
+      "/gallery/1000038307.webp",
+      "/gallery/1000038322.webp",
+      "/gallery/1000038331.webp",
+      "/gallery/1000038352.webp",
+      "/gallery/1000038364.webp",
+    ],
   },
 } as const;
 

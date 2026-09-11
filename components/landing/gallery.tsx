@@ -1,12 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { Section } from "@/components/landing/section";
 import { Reveal } from "@/components/reveal";
 import { site } from "@/config/site";
 
 export function Gallery() {
-  const total = site.gallery.placeholderCount;
+  const photos = site.gallery.photos;
+  const total = photos.length;
   const [index, setIndex] = useState(0);
   const [hitDir, setHitDir] = useState<1 | -1>(1);
   const [hitting, setHitting] = useState(false);
@@ -215,7 +217,7 @@ export function Gallery() {
             <div className="relative overflow-hidden rounded-xl border border-line bg-surface">
               <div
                 key={index}
-                className={`relative flex aspect-[4/3] items-center justify-center overflow-hidden bg-background ${
+                className={`relative aspect-[4/3] overflow-hidden bg-background ${
                   hitting
                     ? hitDir === 1
                       ? "animate-[hitInRight_420ms_cubic-bezier(0.22,1,0.36,1)]"
@@ -223,10 +225,15 @@ export function Gallery() {
                     : ""
                 }`}
               >
-                <span className="font-display text-6xl uppercase text-line sm:text-7xl">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="pointer-events-none absolute bottom-3 right-4 text-xs uppercase tracking-[0.18em] text-muted">
+                <Image
+                  src={photos[index]}
+                  alt={`Foto ${index + 1} del Torneo de las Fresas`}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 58vw"
+                  className="object-cover"
+                  priority={index === 0}
+                />
+                <span className="pointer-events-none absolute bottom-3 right-4 rounded-sm bg-background/70 px-2 py-0.5 text-xs uppercase tracking-[0.18em] text-muted backdrop-blur-sm">
                   TDLF · {site.year}
                 </span>
                 {hitting && (
