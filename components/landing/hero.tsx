@@ -33,7 +33,7 @@ export function Hero() {
             <div className="relative h-[360px] w-[360px] sm:h-[440px] sm:w-[440px] blur-[0.6px]">
               {/* glitch layers — chromatic offset */}
               <Image
-                src="/logo.webp"
+                src="/sponsors/logo.webp"
                 alt=""
                 fill
                 className="object-contain opacity-[0.12] mix-blend-screen translate-x-[2px] hue-rotate-[-18deg] blur-[0.8px]"
@@ -41,7 +41,7 @@ export function Hero() {
                 aria-hidden
               />
               <Image
-                src="/logo.webp"
+                src="/sponsors/logo.webp"
                 alt=""
                 fill
                 className="object-contain opacity-[0.12] mix-blend-screen -translate-x-[2px] hue-rotate-[18deg] blur-[0.8px]"
@@ -50,7 +50,7 @@ export function Hero() {
               />
               {/* main halftone logo */}
               <Image
-                src="/logo.webp"
+                src="/sponsors/logo.webp"
                 alt=""
                 fill
                 className="halftone-logo object-contain opacity-[0.78] blur-[0.7px]"

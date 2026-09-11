@@ -42,7 +42,7 @@ export function Footer() {
         <div>
           <div className="flex items-center gap-2.5">
             <Image
-              src="/logo.webp"
+              src="/sponsors/logo.webp"
               alt="Torneo de las Fresas"
               width={28}
               height={28}
