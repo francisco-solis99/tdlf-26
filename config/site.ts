@@ -201,6 +201,7 @@ export const site = {
 
   gallery: {
     note: "Recuerdos de ediciones pasadas. Toca la raqueta para ver las fotos.",
+    caption: "Revive cada punto como si estuvieras en la cancha.",
     photos: [
       "/gallery/1000020194.webp",
       "/gallery/1000037636.webp",

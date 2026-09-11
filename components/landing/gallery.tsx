@@ -232,6 +232,7 @@ export function Gallery() {
                   sizes="(max-width: 1024px) 100vw, 58vw"
                   className="object-cover"
                   priority={index === 0}
+                  loading={index === 0 ? undefined : "lazy"}
                 />
                 <span className="pointer-events-none absolute bottom-3 right-4 rounded-sm bg-background/70 px-2 py-0.5 text-xs uppercase tracking-[0.18em] text-muted backdrop-blur-sm">
                   TDLF · {site.year}
@@ -242,7 +243,7 @@ export function Gallery() {
               </div>
             </div>
             <p className="mt-3 hidden text-center text-xs uppercase tracking-[0.18em] text-muted lg:block">
-              La tarjeta entra como si la raqueta la golpeara
+              {site.gallery.caption}
             </p>
           </Reveal>
 
