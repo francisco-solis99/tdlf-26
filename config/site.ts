@@ -200,7 +200,7 @@ export const site = {
   ] as Array<{ name: string; image: string; url?: string }>,
 
   gallery: {
-    note: "Recuerdos de ediciones pasadas. Toca la raqueta para ver las fotos.",
+    note: "Recuerdos de ediciones pasadas. Toca la raqueta para ver las fotos o navega por la galeria.",
     caption: "Revive cada punto como si estuvieras en la cancha.",
     photos: [
       "/gallery/1000020194.webp",

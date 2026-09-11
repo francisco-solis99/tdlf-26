@@ -56,6 +56,9 @@ export function Footer() {
             {site.date.weekday} {site.date.label} de {site.year} ·{" "}
             {site.venue.name}, {site.venue.city}
           </p>
+          <p className="mt-2 text-xs text-muted">
+            Construido por Francisco Solis 🚀🧑‍💻
+          </p>
         </div>
 
         <div className="flex flex-col items-start gap-2 sm:items-end">

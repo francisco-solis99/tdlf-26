@@ -56,25 +56,26 @@ export function Gallery() {
           <button
             type="button"
             onClick={handleTap}
-            className="group relative flex h-[360px] w-full items-center justify-center overflow-hidden rounded-xl border border-accent/20 bg-gradient-to-br from-accent/[0.09] via-surface to-background shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-colors hover:border-accent/30 lg:h-[420px]"
+            className="group relative flex h-[380px] w-full items-center justify-center overflow-hidden rounded-xl border border-accent/25 bg-gradient-to-br from-[#3d0a06] via-[#200503] to-background shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-colors hover:border-accent/40 sm:h-[400px] lg:h-[420px]"
             aria-label="Toca la raqueta para ver la siguiente foto"
           >
             {/* contrast backdrop pattern */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-0 opacity-[0.07]"
+              className="pointer-events-none absolute inset-0 opacity-10"
               style={{
                 backgroundImage:
-                  "radial-gradient(circle, rgba(255,77,61,0.9) 1px, transparent 1.6px)",
+                  "radial-gradient(circle, rgba(255,120,100,0.9) 1px, transparent 1.6px)",
                 backgroundSize: "14px 14px",
               }}
             />
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-x-6 bottom-6 h-px bg-line/60"
+              className="pointer-events-none absolute inset-x-6 bottom-6 h-px bg-white/10"
             />
 
-            {/* racquet — upright like reference */}
+            {/* racquet — upright like reference, scaled to fit on mobile */}
+            <div className="origin-center scale-[0.78] sm:scale-90 lg:scale-100">
             <div
               className="relative"
               style={{
@@ -181,10 +182,12 @@ export function Gallery() {
                 <div className="h-[5px] w-[20px] rounded-b-md bg-black/70" />
               </div>
 
-              <span className="pointer-events-none absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-background/90 px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-muted shadow transition-opacity group-hover:bg-accent group-hover:text-white">
-                toca para golpear →
-              </span>
+              </div>
             </div>
+
+            <span className="pointer-events-none absolute bottom-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/10 bg-background/90 px-4 py-1.5 text-[11px] uppercase tracking-[0.16em] text-foreground/90 shadow-lg transition-colors group-hover:border-accent group-hover:bg-accent group-hover:text-white">
+              toca para golpear →
+            </span>
           </button>
 
           {/* a11y controls */}
