@@ -172,12 +172,12 @@ export const site = {
       {
         name: "Playera TDLF-26",
         blurb: "Diseño conmemorativo de la cuarta edición.",
-        imageUrl: "/sponsors/merch-shirt.webp",
+        imageUrl: "/merch-shirt.webp",
       },
       {
         name: "Gorra TDLF-26",
         blurb: "Edición limitada del torneo.",
-        imageUrl: "/sponsors/merch-cap.webp",
+        imageUrl: "/merch-cap.webp",
       },
     ],
   },
@@ -187,13 +187,16 @@ export const site = {
     { name: "BBS", image: "/sponsors/bbs.webp" },
     { name: "Comudaj", image: "/sponsors/comudaj.webp" },
     { name: "Crys Pura Ice", image: "/sponsors/cryspuraice.webp" },
+    { name: "Cub", image: "/sponsors/cub.webp" },
     { name: "Deep", image: "/sponsors/deep.webp" },
+    { name: "Don Nacho", image: "/sponsors/donnacho.webp" },
     { name: "Duo", image: "/sponsors/duo.webp" },
     { name: "Fenix", image: "/sponsors/fenix.webp" },
     { name: "Frutero", image: "/sponsors/frutero.webp" },
     { name: "Lavander", image: "/sponsors/lavander.webp" },
     { name: "Servicom", image: "/sponsors/servicom.webp" },
     { name: "Showtime", image: "/sponsors/showtime.webp" },
+    { name: "Tortagus", image: "/sponsors/tortagus.webp" },
   ] as Array<{ name: string; image: string; url?: string }>,
 
   gallery: {
