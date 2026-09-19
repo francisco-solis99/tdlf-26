@@ -260,25 +260,25 @@ export default function LiveScorePage() {
           : "En pausa — el reloj está congelado. Detener para reconfigurar.";
 
   return (
-    <main className="grain relative flex min-h-full flex-1 flex-col bg-background text-foreground">
-      <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-6 sm:px-6 sm:py-10">
+    <main className="grain relative flex min-h-dvh flex-1 flex-col bg-background text-foreground lg:min-h-full">
+      <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-3 py-2 sm:px-6 sm:py-10">
         {/* Encabezado */}
         <div className="flex items-center justify-between gap-4">
           <Link
             href="/"
-            className="text-sm text-muted underline-offset-4 hover:text-foreground hover:underline"
+            className="text-xs text-muted underline-offset-4 hover:text-foreground hover:underline sm:text-sm"
           >
             ← Volver al inicio
           </Link>
-          <p className="font-display text-xs uppercase tracking-[0.2em] text-muted">
+          <p className="font-display text-[10px] uppercase tracking-[0.2em] text-muted sm:text-xs">
             Marcador en vivo
           </p>
         </div>
 
-        <h1 className="mt-4 text-center font-display text-3xl uppercase tracking-wide sm:text-5xl">
+        <h1 className="mt-1 text-center font-display text-xl uppercase tracking-wide sm:mt-4 sm:text-5xl">
           Partido <span className="text-accent">en juego</span>
         </h1>
-        <p className="mt-2 text-center text-sm text-muted">
+        <p className="mt-1 hidden text-center text-sm text-muted sm:mt-2 sm:block">
           Gana la pareja que llegue a {winPoints} puntos o tenga ventaja al
           terminar el tiempo.
         </p>
@@ -286,11 +286,11 @@ export default function LiveScorePage() {
         {/* Configuración del partido: editable solo antes de iniciar */}
         <section
           aria-label="Configuración del partido"
-          className="mt-6 border border-line bg-surface px-4 py-4 sm:px-6"
+          className="mt-2 border border-line bg-surface px-2 py-2 sm:mt-6 sm:px-6 sm:py-4"
         >
-          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-            <div className="flex items-center gap-2">
-              <span className="font-display text-xs uppercase tracking-[0.2em] text-muted">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 sm:gap-x-10 sm:gap-y-4">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className="font-display text-[10px] uppercase tracking-[0.2em] text-muted sm:text-xs">
                 Duración
               </span>
               <input
@@ -304,9 +304,9 @@ export default function LiveScorePage() {
                 }
                 onBlur={normalizeDrafts}
                 aria-label="Minutos por partido"
-                className="w-16 border border-line bg-background px-2 py-1.5 text-center font-display text-2xl tabular-nums outline-none focus:border-accent read-only:cursor-not-allowed read-only:opacity-60"
+                className="w-12 border border-line bg-background px-1 py-1 text-center font-display text-lg tabular-nums outline-none focus:border-accent read-only:cursor-not-allowed read-only:opacity-60 sm:w-16 sm:px-2 sm:py-1.5 sm:text-2xl"
               />
-              <span aria-hidden="true" className="font-display text-2xl text-muted">
+              <span aria-hidden="true" className="font-display text-lg text-muted sm:text-2xl">
                 :
               </span>
               <input
@@ -320,11 +320,11 @@ export default function LiveScorePage() {
                 }
                 onBlur={normalizeDrafts}
                 aria-label="Segundos por partido"
-                className="w-16 border border-line bg-background px-2 py-1.5 text-center font-display text-2xl tabular-nums outline-none focus:border-accent read-only:cursor-not-allowed read-only:opacity-60"
+                className="w-12 border border-line bg-background px-1 py-1 text-center font-display text-lg tabular-nums outline-none focus:border-accent read-only:cursor-not-allowed read-only:opacity-60 sm:w-16 sm:px-2 sm:py-1.5 sm:text-2xl"
               />
             </div>
-            <div className="flex items-center gap-2">
-              <span className="font-display text-xs uppercase tracking-[0.2em] text-muted">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className="font-display text-[10px] uppercase tracking-[0.2em] text-muted sm:text-xs">
                 Puntos para ganar
               </span>
               <input
@@ -336,27 +336,29 @@ export default function LiveScorePage() {
                 onChange={(e) => handleWinDraftChange(e.target.value)}
                 onBlur={normalizeDrafts}
                 aria-label="Puntos para ganar el partido"
-                className="w-16 border border-line bg-background px-2 py-1.5 text-center font-display text-2xl tabular-nums outline-none focus:border-accent read-only:cursor-not-allowed read-only:opacity-60"
+                className="w-12 border border-line bg-background px-1 py-1 text-center font-display text-lg tabular-nums outline-none focus:border-accent read-only:cursor-not-allowed read-only:opacity-60 sm:w-16 sm:px-2 sm:py-1.5 sm:text-2xl"
               />
             </div>
           </div>
-          <p className="mt-3 min-h-4 text-center text-xs text-muted">
+          <p className="mt-2 hidden min-h-4 text-center text-xs text-muted sm:block sm:mt-3">
             {locked
               ? "Bloqueado durante el partido (en juego o en pausa)."
               : "Editable antes de iniciar el partido."}
           </p>
         </section>
 
-        {/* Banner visual de fin de partido (solo UI, sin lógica de registro) */}
-        <div aria-live="polite" className="mt-6 min-h-14">
+        {/* Banner visual de fin de partido (solo UI, sin lógica de registro).
+            Sin altura reservada en móvil para no robar viewport; solo ocupa
+            espacio cuando hay ganador. */}
+        <div aria-live="polite" className="mt-2 min-h-0 sm:mt-6 lg:min-h-14">
           {winner !== null && (
-            <div className="border border-accent/50 bg-accent/10 px-4 py-3 text-center">
-              <p className="font-display text-lg uppercase tracking-wide text-accent sm:text-xl">
+            <div className="border border-accent/50 bg-accent/10 px-3 py-2 text-center sm:px-4 sm:py-3">
+              <p className="font-display text-sm uppercase tracking-wide text-accent sm:text-xl">
                 {winner === "tie"
                   ? `Empate a ${winPoints} — punto de oro`
                   : `¡Partido terminado! Gana ${PAIRS[winner].tag}`}
               </p>
-              <p className="mt-1 text-sm text-muted">
+              <p className="mt-0.5 hidden text-sm text-muted sm:mt-1 sm:block">
                 {winner === "tie"
                   ? "El siguiente punto define al ganador."
                   : `${PAIRS[winner].players[0]} y ${PAIRS[winner].players[1]} llegan a ${winPoints} puntos.`}
@@ -365,8 +367,9 @@ export default function LiveScorePage() {
           )}
         </div>
 
-        {/* Cancha: dos lados + reloj al centro */}
-        <div className="mt-6 grid flex-1 gap-4 lg:grid-cols-[1fr_auto_1fr] lg:items-stretch">
+        {/* Cancha: dos lados + reloj al centro.
+            En móvil todo queda en una columna compacta para caber en 100dvh. */}
+        <div className="mt-2 grid flex-1 content-start gap-2 sm:mt-6 sm:gap-4 lg:grid-cols-[1fr_auto_1fr] lg:content-stretch lg:items-stretch">
           <PairPanel
             side="A"
             score={scores.A}
@@ -380,56 +383,67 @@ export default function LiveScorePage() {
           {/* Reloj central: mismas cajas en todas las fases, sin cambios de tamaño */}
           <section
             aria-label="Reloj del partido"
-            className="flex flex-col items-center justify-center gap-4 border border-line bg-surface px-6 py-6 sm:px-10"
+            className="flex flex-row items-center justify-between gap-2 border border-line bg-surface px-3 py-2 sm:gap-4 sm:px-6 sm:py-6 lg:flex-col lg:items-center lg:justify-center lg:px-10"
           >
-            <p className="font-display text-xs uppercase tracking-[0.25em] text-muted">
-              Tiempo restante
-            </p>
-
-            <div className="flex items-center gap-2">
-              <label className="flex flex-col items-center gap-1">
-                <span className="text-[11px] uppercase tracking-widest text-muted">
-                  Min
+            <div className="flex min-w-0 flex-col items-start gap-0.5 lg:items-center">
+              <p className="font-display text-[10px] uppercase tracking-[0.25em] text-muted sm:text-xs">
+                <span className="sm:hidden">Tiempo</span>
+                <span className="hidden sm:inline">Tiempo restante</span>
+              </p>
+              {/* Móvil: una sola línea compacta para ahorrar alto */}
+              <p
+                aria-label={`Tiempo restante: ${clock.m} minutos ${clock.s} segundos`}
+                className="font-display text-3xl leading-none tabular-nums sm:hidden"
+              >
+                {clock.m}:{clock.s}
+              </p>
+              {/* sm+: cajas Min/Seg originales */}
+              <div className="hidden items-center gap-2 sm:flex">
+                <label className="flex flex-col items-center gap-1">
+                  <span className="text-[11px] uppercase tracking-widest text-muted">
+                    Min
+                  </span>
+                  <input
+                    value={clock.m}
+                    readOnly
+                    tabIndex={-1}
+                    aria-label="Minutos restantes"
+                    className="w-24 cursor-default border border-line bg-background px-2 py-2 text-center font-display text-4xl tabular-nums outline-none sm:w-28 sm:text-5xl"
+                  />
+                </label>
+                <span aria-hidden="true" className="font-display text-4xl text-muted sm:text-5xl">
+                  :
                 </span>
-                <input
-                  value={clock.m}
-                  readOnly
-                  tabIndex={-1}
-                  aria-label="Minutos restantes"
-                  className="w-24 cursor-default border border-line bg-background px-2 py-2 text-center font-display text-4xl tabular-nums outline-none sm:w-28 sm:text-5xl"
-                />
-              </label>
-              <span aria-hidden="true" className="font-display text-4xl text-muted sm:text-5xl">
-                :
-              </span>
-              <label className="flex flex-col items-center gap-1">
-                <span className="text-[11px] uppercase tracking-widest text-muted">
-                  Seg
-                </span>
-                <input
-                  value={clock.s}
-                  readOnly
-                  tabIndex={-1}
-                  aria-label="Segundos restantes"
-                  className="w-24 cursor-default border border-line bg-background px-2 py-2 text-center font-display text-4xl tabular-nums outline-none sm:w-28 sm:text-5xl"
-                />
-              </label>
+                <label className="flex flex-col items-center gap-1">
+                  <span className="text-[11px] uppercase tracking-widest text-muted">
+                    Seg
+                  </span>
+                  <input
+                    value={clock.s}
+                    readOnly
+                    tabIndex={-1}
+                    aria-label="Segundos restantes"
+                    className="w-24 cursor-default border border-line bg-background px-2 py-2 text-center font-display text-4xl tabular-nums outline-none sm:w-28 sm:text-5xl"
+                  />
+                </label>
+              </div>
             </div>
 
-            {/* Altura fija para 2 líneas: el texto cambia por fase sin mover nada */}
+            {/* Altura fija para 2 líneas en sm+: el texto cambia por fase sin mover nada.
+                Oculto en móvil para caber en el viewport inicial. */}
             <p
-              className={`flex min-h-8 items-center justify-center text-center text-xs ${timeUp ? "text-accent" : "text-muted"}`}
+              className={`hidden min-h-8 items-center justify-center text-center text-xs sm:flex ${timeUp ? "text-accent" : "text-muted"}`}
             >
               {statusText}
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-2">
+            <div className="flex items-center justify-end gap-1.5 sm:flex-wrap sm:justify-center sm:gap-2">
               {!clockRunning ? (
                 <button
                   type="button"
                   onClick={handlePlay}
                   disabled={phase === "idle" && idleTotal <= 0}
-                  className="inline-flex min-h-11 w-36 items-center justify-center gap-2 bg-accent px-5 py-2.5 font-display text-sm uppercase tracking-widest text-white transition hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-40"
+                  className="inline-flex min-h-10 items-center justify-center gap-1.5 bg-accent px-3 py-2 font-display text-xs uppercase tracking-widest text-white transition hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-40 sm:min-h-11 sm:w-36 sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm"
                 >
                   <PlayIcon />
                   Jugar
@@ -438,7 +452,7 @@ export default function LiveScorePage() {
                 <button
                   type="button"
                   onClick={handlePause}
-                  className="inline-flex min-h-11 w-36 items-center justify-center gap-2 bg-accent px-5 py-2.5 font-display text-sm uppercase tracking-widest text-white transition hover:bg-accent-strong"
+                  className="inline-flex min-h-10 items-center justify-center gap-1.5 bg-accent px-3 py-2 font-display text-xs uppercase tracking-widest text-white transition hover:bg-accent-strong sm:min-h-11 sm:w-36 sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm"
                 >
                   <PauseIcon />
                   Pausar
@@ -447,7 +461,7 @@ export default function LiveScorePage() {
               <button
                 type="button"
                 onClick={handleStop}
-                className="inline-flex min-h-11 items-center gap-2 border border-line px-5 py-2.5 font-display text-sm uppercase tracking-widest text-foreground transition hover:border-accent hover:text-accent"
+                className="inline-flex min-h-10 items-center gap-1.5 border border-line px-3 py-2 font-display text-xs uppercase tracking-widest text-foreground transition hover:border-accent hover:text-accent sm:min-h-11 sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm"
               >
                 <StopIcon />
                 Detener
@@ -467,11 +481,11 @@ export default function LiveScorePage() {
         </div>
 
         {/* Acciones secundarias */}
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-2 flex flex-wrap items-center justify-center gap-2 sm:mt-6 sm:gap-3">
           <button
             type="button"
             onClick={resetScores}
-            className="inline-flex min-h-11 items-center gap-2 border border-line px-5 py-2.5 font-display text-sm uppercase tracking-widest text-foreground transition hover:border-accent hover:text-accent"
+            className="inline-flex min-h-10 items-center gap-2 border border-line px-3 py-2 font-display text-xs uppercase tracking-widest text-foreground transition hover:border-accent hover:text-accent sm:min-h-11 sm:px-5 sm:py-2.5 sm:text-sm"
           >
             <ResetIcon />
             Reiniciar puntos
@@ -485,14 +499,14 @@ export default function LiveScorePage() {
                 ? "Revisar y registrar el resultado"
                 : "Anota al menos un punto para registrar"
             }
-            className="inline-flex min-h-11 items-center gap-2 bg-accent px-6 py-2.5 font-display text-sm uppercase tracking-widest text-white transition hover:bg-accent-strong active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-accent disabled:active:scale-100"
+            className="inline-flex min-h-10 items-center gap-2 bg-accent px-4 py-2 font-display text-xs uppercase tracking-widest text-white transition hover:bg-accent-strong active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-accent disabled:active:scale-100 sm:min-h-11 sm:px-6 sm:py-2.5 sm:text-sm"
           >
             <RegisterIcon />
             Registrar resultado
           </button>
         </div>
         {!canRegister && !confirmOpen && (
-          <p className="mt-2 text-center text-xs text-muted">
+          <p className="mt-1 hidden text-center text-xs text-muted sm:mt-2 sm:block">
             Anota al menos un punto para poder registrar el resultado.
           </p>
         )}
@@ -725,12 +739,12 @@ function PairPanel({
   return (
     <section
       aria-label={pair.tag}
-      className={`flex flex-col border bg-surface p-6 transition-colors sm:p-8 ${
+      className={`flex flex-col border bg-surface p-3 transition-colors sm:p-8 lg:p-8 ${
         pulsing ? "pair-pulsing border-line" : "border-line"
       } ${isWinner ? "border-accent/60" : ""} ${accentSide}`}
     >
       <div className={`flex items-center justify-between gap-3 ${side === "B" ? "lg:flex-row-reverse" : ""}`}>
-        <p className="font-display text-xs uppercase tracking-[0.25em] text-muted">
+        <p className="font-display text-[10px] uppercase tracking-[0.25em] text-muted sm:text-xs">
           {pair.tag}
         </p>
         {isWinner && (
@@ -740,48 +754,54 @@ function PairPanel({
         )}
       </div>
 
-      <ul className="mt-3 space-y-1">
-        {pair.players.map((player) => (
-          <li
-            key={player}
-            className="font-display text-xl uppercase tracking-wide sm:text-2xl"
+      {/* Móvil: fila compacta [marcador | jugadores | botones] para caber en 100dvh.
+          lg: vuelve al diseño vertical original centrado. */}
+      <div className="mt-1.5 flex items-center gap-3 sm:mt-3 lg:mt-0 lg:flex-col lg:gap-0">
+        <p
+          aria-live="polite"
+          aria-label={`Puntos de ${pair.tag}: ${score}`}
+          className="countdown-num min-w-14 text-center font-display text-6xl leading-none tabular-nums sm:text-8xl lg:mb-0 lg:mt-6 lg:min-w-0 lg:text-9xl"
+        >
+          <span key={`${side}-${score}-${pulseKey}`} className={pulsing ? "score-digit-pop" : undefined}>
+            {score}
+          </span>
+        </p>
+
+        <div className="min-w-0 flex-1 lg:mt-2 lg:flex lg:flex-col lg:items-center">
+          <ul className="space-y-0 truncate sm:space-y-1 lg:text-center">
+            {pair.players.map((player) => (
+              <li
+                key={player}
+                className="truncate font-display text-sm uppercase tracking-wide sm:text-xl lg:text-2xl"
+              >
+                {player}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-0.5 text-[10px] uppercase tracking-[0.25em] text-muted sm:text-xs lg:mt-2 lg:text-center">
+            Puntos
+          </p>
+        </div>
+
+        <div className="grid w-28 shrink-0 grid-cols-1 gap-1.5 sm:gap-2 lg:mt-6 lg:w-full">
+          <button
+            type="button"
+            onClick={onAdd}
+            aria-label={`Sumar un punto a ${pair.tag}`}
+            className="min-h-11 bg-accent font-display text-base uppercase tracking-widest text-white transition hover:bg-accent-strong active:scale-[0.98] sm:text-2xl lg:min-h-16"
           >
-            {player}
-          </li>
-        ))}
-      </ul>
-
-      <p
-        aria-live="polite"
-        aria-label={`Puntos de ${pair.tag}: ${score}`}
-        className="countdown-num mt-6 text-center font-display text-8xl leading-none tabular-nums sm:text-9xl"
-      >
-        <span key={`${side}-${score}-${pulseKey}`} className={pulsing ? "score-digit-pop" : undefined}>
-          {score}
-        </span>
-      </p>
-      <p className="mt-2 text-center text-xs uppercase tracking-[0.25em] text-muted">
-        Puntos
-      </p>
-
-      <div className="mt-6 grid grid-cols-1 gap-2">
-        <button
-          type="button"
-          onClick={onAdd}
-          aria-label={`Sumar un punto a ${pair.tag}`}
-          className="min-h-16 bg-accent font-display text-2xl uppercase tracking-widest text-white transition hover:bg-accent-strong active:scale-[0.98]"
-        >
-          + 1 punto
-        </button>
-        <button
-          type="button"
-          onClick={onRemove}
-          disabled={score <= 0}
-          aria-label={`Restar un punto a ${pair.tag}`}
-          className="min-h-12 border border-line font-display text-lg uppercase tracking-widest text-foreground transition hover:border-accent hover:text-accent active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-line disabled:hover:text-foreground"
-        >
-          − 1 punto
-        </button>
+            + 1
+          </button>
+          <button
+            type="button"
+            onClick={onRemove}
+            disabled={score <= 0}
+            aria-label={`Restar un punto a ${pair.tag}`}
+            className="min-h-8 border border-line font-display text-sm uppercase tracking-widest text-foreground transition hover:border-accent hover:text-accent active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-line disabled:hover:text-foreground sm:text-lg lg:min-h-12"
+          >
+            − 1
+          </button>
+        </div>
       </div>
     </section>
   );
