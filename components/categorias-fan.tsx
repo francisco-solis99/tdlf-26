@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -9,38 +9,87 @@ import { Card } from "@/components/ui/card";
 import { listCategorias } from "@/config/categorias";
 import { cn } from "@/lib/utils";
 
+// Posición del fan superpuesto (solo desktop): desplazamiento + rotación.
+// El overlap se logra con transform (GPU), así abrir/cerrar el fan anima suave.
+const FAN = [
+  { x: "72px", rot: "-6deg" },
+  { x: "0px", rot: "0deg" },
+  { x: "-72px", rot: "6deg" },
+] as const;
+
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia(query);
+    const onChange = () => setMatches(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, [query]);
+  return matches;
+}
+
 export function CategoriasFan() {
   const cats = listCategorias();
   const [selected, setSelected] = useState(cats[0]?.slug ?? "libre");
+  const [hovered, setHovered] = useState<string | null>(null);
+  const desktop = useMediaQuery("(min-width: 640px)");
+  const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const active = cats.find((c) => c.slug === selected) ?? cats[0];
+  // El fan solo anima en desktop con movimiento permitido; si no, cartas quietas.
+  const animate = desktop && !reduceMotion;
+  const fanning = animate && hovered !== null;
 
   return (
     <div>
-      {/* Cartas separadas con gap: stack en móvil, grilla de 3 en desktop */}
+      {/* Fan superpuesto en desktop (gap constante, overlap con transform);
+          stack separado en móvil */}
       <div
         role="group"
         aria-label="Categorías del torneo"
-        className="grid gap-4 sm:grid-cols-3 sm:gap-5 lg:gap-6"
+        className="grid gap-4 sm:flex sm:items-stretch sm:justify-center sm:gap-5"
       >
-        {cats.map((cat) => {
+        {cats.map((cat, i) => {
           const Icon = cat.icono;
           const isActive = cat.slug === selected;
+          const isHovered = hovered === cat.slug;
+          const fan = FAN[i % FAN.length];
+          // Sin hover: fan cerrado (overlap). Con hover en una carta: todas se
+          // enderezan y separan, la activa se eleva. Todo vía transform.
+          const transform = !animate
+            ? undefined
+            : fanning
+              ? isHovered
+                ? "translateY(-8px)"
+                : "none"
+              : `translateX(${fan.x}) rotate(${fan.rot})${isActive ? " translateY(-8px)" : ""}`;
+          const zIndex = !animate
+            ? undefined
+            : fanning
+              ? isHovered
+                ? 20
+                : 1
+              : i === 1
+                ? 10
+                : 1;
           return (
             <button
               key={cat.slug}
               type="button"
               onClick={() => setSelected(cat.slug)}
+              onMouseEnter={() => setHovered(cat.slug)}
+              onMouseLeave={() => setHovered(null)}
+              onFocus={() => setHovered(cat.slug)}
+              onBlur={() => setHovered(null)}
               aria-pressed={isActive}
               aria-label={`Seleccionar categoría ${cat.nombre}`}
               className={cn(
-                "group relative w-full cursor-pointer rounded-xl border bg-surface text-left outline-none transition-transform duration-500 ease-out will-change-transform focus-visible:ring-2 focus-visible:ring-[var(--cat)]",
-                "border-line",
-                // hover/foco: elevación sutil, sin escala para evitar saltos
-                "motion-safe:hover:-translate-y-2 motion-safe:focus-visible:-translate-y-2",
-                isActive && "motion-safe:-translate-y-2",
+                "group relative w-full cursor-pointer rounded-xl border bg-surface text-left outline-none transition-[transform,opacity] duration-500 ease-out will-change-transform focus-visible:ring-2 focus-visible:ring-[var(--cat)]",
+                "border-line sm:w-60 sm:shrink-0 lg:w-64",
+                isActive || isHovered ? "opacity-100" : "opacity-80",
               )}
               // CSS var por carta para el anillo de foco
-              style={{ "--cat": cat.color } as CSSProperties}
+              style={{ "--cat": cat.color, transform, zIndex } as CSSProperties}
             >
               <span
                 aria-hidden="true"
