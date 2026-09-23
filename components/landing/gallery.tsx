@@ -87,99 +87,113 @@ export function Gallery() {
                   : "transform 420ms cubic-bezier(0.22,1,0.36,1)",
               }}
             >
-              <div className="relative flex flex-col items-center drop-shadow-xl">
-                {/* head — black frame fading to red at the bottom */}
-                <div className="relative h-[210px] w-[150px] sm:h-[230px] sm:w-[164px]">
-                  <svg
-                    viewBox="0 0 150 210"
-                    className="absolute inset-0 h-full w-full"
-                    aria-hidden="true"
+              <div className="relative flex flex-col items-center text-[#f3ede1] drop-shadow-xl">
+                {/* hand-drawn racquet — matches reference line-art */}
+                <svg
+                  viewBox="0 0 160 360"
+                  className="h-[320px] w-auto sm:h-[340px]"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <defs>
+                    <clipPath id="tdlf-strings">
+                      <ellipse cx="80" cy="108" rx="51" ry="82" />
+                    </clipPath>
+                  </defs>
+
+                  {/* strings — dense hand-drawn crosshatch */}
+                  <g
+                    clipPath="url(#tdlf-strings)"
+                    strokeWidth="1.3"
+                    opacity="0.95"
                   >
-                    <defs>
-                      <linearGradient
-                        id="tdlf-frame"
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                      >
-                        <stop offset="0%" stopColor="#0d0d11" />
-                        <stop offset="55%" stopColor="#131317" />
-                        <stop offset="76%" stopColor="#7d0e0e" />
-                        <stop offset="100%" stopColor="#c41616" />
-                      </linearGradient>
-                    </defs>
-                    <ellipse
-                      cx="75"
-                      cy="96"
-                      rx="64"
-                      ry="84"
-                      fill="none"
-                      stroke="url(#tdlf-frame)"
-                      strokeWidth="9"
-                    />
-                  </svg>
-                  {/* outer rim highlight */}
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 opacity-40"
-                    style={{
-                      background:
-                        "linear-gradient(115deg, transparent 42%, rgba(255,255,255,0.14) 50%, transparent 58%)",
-                      borderRadius: "50% / 55%",
-                    }}
+                    {[
+                      33, 39, 45, 51, 57, 62, 68, 74, 80, 86, 92, 98, 103,
+                      109, 115, 121, 127,
+                    ].map((x) => (
+                      <line key={`v-${x}`} x1={x} y1="22" x2={x - 3} y2="194" />
+                    ))}
+                    {[
+                      30, 37, 44, 51, 58, 65, 72, 79, 86, 93, 100, 107, 114,
+                      121, 128, 135, 142, 149, 156, 163, 170, 177, 184,
+                    ].map((y) => (
+                      <line key={`h-${y}`} x1="24" y1={y} x2="136" y2={y + 1.5} />
+                    ))}
+                  </g>
+
+                  {/* head — inner hoop (thick, like reference) */}
+                  <ellipse
+                    cx="80"
+                    cy="108"
+                    rx="55"
+                    ry="86"
+                    strokeWidth="6"
                   />
-                  {/* strings */}
-                  <div
-                    aria-hidden="true"
-                    className="absolute bottom-[26px] left-[16px] right-[16px] top-[16px] rounded-[50%/55%] opacity-[0.96]"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(to right, rgba(255,255,255,0.92) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.92) 1px, transparent 1px)",
-                      backgroundSize: "10.5px 10.5px",
-                    }}
+                  {/* head — outer rim (thin double line) */}
+                  <ellipse
+                    cx="80"
+                    cy="108"
+                    rx="62"
+                    ry="93"
+                    strokeWidth="3"
                   />
-                  {/* Head H — pixel stepped like reference */}
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute left-1/2 top-[46%] h-[42px] w-[44px] -translate-x-1/2 -translate-y-1/2 opacity-[0.92]"
-                  >
-                    <div className="absolute left-[6px] top-[4px] h-[34px] w-[3px] bg-black" />
-                    <div className="absolute right-[6px] top-[4px] h-[34px] w-[3px] bg-black" />
-                    <div className="absolute left-[6px] top-[18px] h-[3px] w-[32px] bg-black" />
-                    <div className="absolute left-1/2 top-[18px] h-[3px] w-[10px] -translate-x-1/2 bg-black" />
-                    {/* stepped corners */}
-                    <div className="absolute left-[2px] top-[2px] h-[3px] w-[8px] bg-black" />
-                    <div className="absolute right-[2px] top-[2px] h-[3px] w-[8px] bg-black" />
-                    <div className="absolute left-[2px] bottom-[2px] h-[3px] w-[8px] bg-black" />
-                    <div className="absolute right-[2px] bottom-[2px] h-[3px] w-[8px] bg-black" />
-                  </div>
-                  {/* frame text — side */}
-                  <span className="pointer-events-none absolute bottom-[30%] right-[6px] rotate-90 text-[6.5px] font-black tracking-widest text-white/90">
-                    HEAD
-                  </span>
-                </div>
-                {/* throat — silver Y */}
-                <div className="relative -mt-[2px] flex h-7 w-[42px] justify-center">
-                  <div className="absolute left-[3px] top-0 h-7 w-[14px] origin-bottom -rotate-[13deg] rounded-sm bg-gradient-to-b from-zinc-100 via-zinc-300 to-zinc-400 shadow-sm" />
-                  <div className="absolute right-[3px] top-0 h-7 w-[14px] origin-bottom rotate-[13deg] rounded-sm bg-gradient-to-b from-zinc-100 via-zinc-300 to-zinc-400 shadow-sm" />
-                  <div className="absolute bottom-0 h-2 w-5 bg-zinc-900" />
-                </div>
-                {/* handle — plain black grip like reference */}
-                <div className="relative h-[104px] w-[18px] overflow-hidden rounded-b-[9px] bg-zinc-900 shadow-inner">
-                  {/* grip texture lines */}
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 opacity-20"
-                    style={{
-                      backgroundImage:
-                        "repeating-linear-gradient(0deg, transparent 0 5px, rgba(255,255,255,0.06) 5px 6px)",
-                    }}
+                  {/* string-bed bottom curve */}
+                  <path
+                    d="M30 168 Q80 198 130 168"
+                    strokeWidth="3.5"
                   />
-                  {/* head logo on grip bottom */}
-                  <div className="absolute bottom-[10px] left-1/2 h-3 w-3 -translate-x-1/2 rounded-full border border-white/40" />
-                </div>
-                <div className="h-[5px] w-[20px] rounded-b-md bg-black/70" />
+
+                  {/* throat — outer frame continuing down */}
+                  <path
+                    d="M28 148 C38 178 62 210 70 252"
+                    strokeWidth="3.5"
+                  />
+                  <path
+                    d="M132 148 C122 178 98 210 90 252"
+                    strokeWidth="3.5"
+                  />
+                  {/* throat — inner double line */}
+                  <path
+                    d="M40 162 C50 186 64 212 72 246"
+                    strokeWidth="2.5"
+                  />
+                  <path
+                    d="M120 162 C110 186 96 212 88 246"
+                    strokeWidth="2.5"
+                  />
+
+                  {/* handle — shaft sides (double-stroke like sketch) */}
+                  <path d="M70 250 L68 322" strokeWidth="3.5" />
+                  <path d="M73.5 250 L71.5 320" strokeWidth="1.6" opacity="0.85" />
+                  <path d="M90 250 L92 322" strokeWidth="3.5" />
+                  <path d="M86.5 250 L88.5 320" strokeWidth="1.6" opacity="0.85" />
+                  {/* handle top */}
+                  <path d="M70 250 L90 250" strokeWidth="3" />
+
+                  {/* grip tape — diagonal wraps */}
+                  <g strokeWidth="2.6">
+                    <path d="M69 262 L89 256" />
+                    <path d="M69 272 L89 265" />
+                    <path d="M68.5 282 L88.5 275" />
+                    <path d="M68.5 292 L88.5 284" />
+                    <path d="M68.5 302 L88.5 294" />
+                    <path d="M68.5 311 L88.5 303" />
+                    <path d="M68.5 320 L88.5 311" />
+                  </g>
+
+                  {/* butt cap — flared like reference */}
+                  <path
+                    d="M68 322 L63 340 Q80 348 97 340 L92 322"
+                    strokeWidth="3.5"
+                  />
+                  <path
+                    d="M66 335 Q80 341 94 335"
+                    strokeWidth="2.2"
+                  />
+                </svg>
               </div>
 
               </div>
