@@ -13,6 +13,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { ParejaAvatars } from "@/components/pareja-avatars";
 import { getCategoria, listCategorias } from "@/config/categorias";
 import { listGrupos } from "@/config/grupos";
 
@@ -180,16 +181,11 @@ export default async function CategoriaDetailPage({
                           className="flex items-center gap-3 rounded-xl border border-line bg-background px-3 py-2.5"
                         >
                           <span className="flex shrink-0" aria-hidden="true">
-                            <Avatar
-                              nombre={pareja.jugador1}
+                            <ParejaAvatars
+                              jugador1={pareja.jugador1}
+                              jugador2={pareja.jugador2}
                               color={cat.color}
                               colorSoft={cat.colorSoft}
-                            />
-                            <Avatar
-                              nombre={pareja.jugador2}
-                              color={cat.color}
-                              colorSoft={cat.colorSoft}
-                              overlap
                             />
                           </span>
                           <span className="min-w-0 text-sm leading-snug">
@@ -201,6 +197,13 @@ export default async function CategoriaDetailPage({
                       ))}
                     </ul>
                   </ScrollArea>
+                  <Link
+                    href={`/categorias/${slug}/matches/${grupo.letra.toLowerCase()}`}
+                    className="mt-1 inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-muted underline-offset-4 transition-colors hover:text-accent hover:underline"
+                  >
+                    Ver partidos del {grupo.nombre}
+                    <span aria-hidden="true">→</span>
+                  </Link>
                 </AccordionContent>
               </AccordionItem>
             ))}
@@ -209,35 +212,5 @@ export default async function CategoriaDetailPage({
       </div>
       </main>
     </>
-  );
-}
-
-function iniciales(nombre: string) {
-  const partes = nombre.split(" ").filter(Boolean);
-  const primera = partes[0]?.[0] ?? "";
-  const ultima = partes.length > 1 ? (partes[partes.length - 1]?.[0] ?? "") : "";
-  return `${primera}${ultima}`.toUpperCase();
-}
-
-function Avatar({
-  nombre,
-  color,
-  colorSoft,
-  overlap = false,
-}: {
-  nombre: string;
-  color: string;
-  colorSoft: string;
-  overlap?: boolean;
-}) {
-  return (
-    <span
-      aria-hidden="true"
-      title={nombre}
-      style={{ backgroundColor: colorSoft, color }}
-      className={`flex h-9 w-9 items-center justify-center rounded-full text-[11px] font-semibold ring-1 ring-line ${overlap ? "-ml-3" : ""}`}
-    >
-      {iniciales(nombre)}
-    </span>
   );
 }
