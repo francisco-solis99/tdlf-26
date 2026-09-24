@@ -1,11 +1,19 @@
 import Image from "next/image";
 import { site } from "@/config/site";
 
-export function Header() {
+export function Header({
+  logoHref = "#top",
+  navBasePath = "",
+  showNav = true,
+}: {
+  logoHref?: string;
+  navBasePath?: string;
+  showNav?: boolean;
+}) {
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-background/85 backdrop-blur-sm">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <a href="#top" className="flex items-center gap-2.5">
+        <a href={logoHref} className="flex items-center gap-2.5">
           <Image
             src="/sponsors/logo.webp"
             alt="Torneo de las Fresas"
@@ -19,20 +27,22 @@ export function Header() {
           </span>
         </a>
 
-        <nav
-          aria-label="Navegación principal"
-          className="hidden items-center gap-6 md:flex"
-        >
-          {site.nav.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="text-sm uppercase tracking-widest text-muted transition-colors hover:text-foreground"
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
+        {showNav && (
+          <nav
+            aria-label="Navegación principal"
+            className="hidden items-center gap-6 md:flex"
+          >
+            {site.nav.map((item) => (
+              <a
+                key={item.href}
+                href={`${navBasePath}${item.href}`}
+                className="text-sm uppercase tracking-widest text-muted transition-colors hover:text-foreground"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        )}
 
         <a
           href={site.contact.instagram.url}
