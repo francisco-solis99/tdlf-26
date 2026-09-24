@@ -8,7 +8,9 @@ import {
   LogOut,
   PanelLeftClose,
   PanelLeftOpen,
+  Swords,
   Trophy,
+  UserRound,
   Users,
   X,
   type LucideIcon,
@@ -26,7 +28,9 @@ type Item = {
 const ITEMS: Item[] = [
   { href: "/dashboard", label: "Inicio", icono: House },
   { href: "/dashboard/categorias", label: "Categorías", icono: Trophy },
-  { href: "/dashboard/jugadores", label: "Jugadores", icono: Users },
+  { href: "/dashboard/jugadores", label: "Jugadores", icono: UserRound },
+  { href: "/dashboard/parejas", label: "Parejas", icono: Users },
+  { href: "/dashboard/partidos", label: "Partidos", icono: Swords },
 ];
 
 function isActivo(pathname: string, href: string) {
