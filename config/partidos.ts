@@ -3,6 +3,20 @@
 // Round-robin simple: cada pareja enfrenta una vez a cada rival
 // (4 parejas → 6 partidos, 3 parejas → 3 partidos).
 import { listGrupos, type Pareja } from "@/config/grupos";
+import { listCategorias } from "@/config/categorias";
+
+// Fases del torneo. El seed usa solo grupos; con DB se derivan de la
+// cantidad de grupos, parejas y partidos que haya.
+// TODO(db): generar fases dinámicamente.
+export const FASES = [
+  "Fase de grupos",
+  "Octavos",
+  "Cuartos",
+  "Semifinal",
+  "Final",
+] as const;
+
+export type Fase = (typeof FASES)[number];
 
 export type Partido = {
   id: string;
@@ -10,6 +24,7 @@ export type Partido = {
   parejaB: Pareja;
   scoreA: number | null;
   scoreB: number | null;
+  fase: Fase;
 };
 
 export function isJugado(p: Partido): boolean {
@@ -138,9 +153,32 @@ export function listPartidos(slug: string, letra: string): Partido[] {
         parejaB: (grupo as NonNullable<typeof grupo>).parejas[b],
         scoreA,
         scoreB,
+        fase: "Fase de grupos",
       };
     },
   );
   CACHE.set(key, partidos);
   return partidos;
+}
+
+export type PartidoAdmin = Partido & {
+  categoriaSlug: string;
+  grupoLetra: string;
+};
+
+// Todos los partidos del torneo (para el panel). Con DB será una query.
+export function listTodosPartidos(): PartidoAdmin[] {
+  const todos: PartidoAdmin[] = [];
+  for (const cat of listCategorias()) {
+    for (const grupo of listGrupos(cat.slug)) {
+      for (const p of listPartidos(cat.slug, grupo.letra)) {
+        todos.push({
+          ...p,
+          categoriaSlug: cat.slug,
+          grupoLetra: grupo.letra,
+        });
+      }
+    }
+  }
+  return todos;
 }
