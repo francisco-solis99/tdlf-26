@@ -103,11 +103,11 @@ export function JugadoresAdmin({
     const ciudadLimpia = ciudad.trim() === "" ? null : ciudad.trim();
     const result = editando
       ? await updatePlayer(editando.id, {
-          nombre: limpio,
-          edad: numEdad,
-          ciudad: ciudadLimpia,
+          name: limpio,
+          age: numEdad,
+          city: ciudadLimpia,
         })
-      : await createPlayer({ nombre: limpio, edad: numEdad, ciudad: ciudadLimpia });
+      : await createPlayer({ name: limpio, age: numEdad, city: ciudadLimpia });
     setGuardando(false);
     if (!result.ok) {
       setError(result.error);
