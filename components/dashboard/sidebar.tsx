@@ -8,6 +8,7 @@ import {
   LogOut,
   PanelLeftClose,
   PanelLeftOpen,
+  Shuffle,
   Swords,
   Trophy,
   UserRound,
@@ -32,6 +33,7 @@ const ITEMS: Item[] = [
   { href: "/dashboard/jugadores", label: "Jugadores", icono: UserRound },
   { href: "/dashboard/parejas", label: "Parejas", icono: Users },
   { href: "/dashboard/partidos", label: "Partidos", icono: Swords },
+  { href: "/dashboard/crear-grupos", label: "Crear grupos", icono: Shuffle },
 ];
 
 function isActivo(pathname: string, href: string) {
