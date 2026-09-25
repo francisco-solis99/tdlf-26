@@ -57,6 +57,21 @@ export async function getGroups(categoryId?: string): Promise<Group[]> {
 }
 
 // ---------------------------------------------------------------------------
+// Players (registration order)
+// ---------------------------------------------------------------------------
+
+export async function getPlayers(): Promise<Player[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("players")
+    .select("*")
+    .order("created_at");
+
+  if (error) throwQueryError("players", error.message);
+  return data;
+}
+
+// ---------------------------------------------------------------------------
 // Doubles with both players (optionally scoped by category and/or group)
 // ---------------------------------------------------------------------------
 
