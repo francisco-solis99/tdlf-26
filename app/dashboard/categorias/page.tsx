@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { CategoriasAdmin } from "@/components/dashboard/categorias-admin";
 import { requireAdmin } from "@/lib/actions/auth";
+import { getCategories } from "@/lib/actions/torneo";
 
 export const metadata: Metadata = {
   title: "Categorías — Panel TDLF 2026",
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 
 export default async function DashboardCategoriasPage() {
   await requireAdmin();
+  const categories = await getCategories();
   return (
     <div className="mx-auto w-full max-w-5xl">
       <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-accent">
@@ -23,7 +25,13 @@ export default async function DashboardCategoriasPage() {
       </p>
 
       <div className="mt-8">
-        <CategoriasAdmin />
+        <CategoriasAdmin
+          initial={categories.map((c) => ({
+            id: c.id,
+            nombre: c.name,
+            tagline: c.description ?? "",
+          }))}
+        />
       </div>
     </div>
   );

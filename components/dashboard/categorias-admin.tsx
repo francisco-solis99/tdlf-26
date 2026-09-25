@@ -1,7 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Pencil, Plus, Trash2, TriangleAlert, Trophy } from "lucide-react";
+import {
+  Crown,
+  Pencil,
+  Plus,
+  Sparkles,
+  Trash2,
+  TriangleAlert,
+  Trophy,
+  type LucideIcon,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -15,14 +24,48 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { listCategorias, type Categoria } from "@/config/categorias";
+import {
+  createCategory,
+  deleteCategory,
+  updateCategory,
+} from "@/lib/actions/admin";
+import { categorySlug } from "@/lib/torneo-view";
 
-// TODO(db): todo este estado en memoria se reemplaza por Supabase.
-// Solo importan slug, nombre y descripción; el resto es presentacional.
-type AdminCategoria = Pick<
-  Categoria,
-  "slug" | "nombre" | "tagline" | "color" | "colorSoft" | "icono"
->;
+export type CategoriaInicial = {
+  id: string;
+  nombre: string;
+  tagline: string;
+};
+
+type AdminCategoria = CategoriaInicial & {
+  slug: string;
+  color: string;
+  colorSoft: string;
+  icono: LucideIcon;
+};
+
+// Presentación fija para las categorías conocidas; el resto rota la paleta.
+// Color e icono viven solo en la UI: la DB guarda id/nombre/descripción.
+const CONOCIDAS: Record<
+  string,
+  { color: string; colorSoft: string; icono: LucideIcon }
+> = {
+  libre: {
+    color: "#ff4d3d",
+    colorSoft: "rgba(255, 77, 61, 0.12)",
+    icono: Trophy,
+  },
+  femenil: {
+    color: "#8b7cf6",
+    colorSoft: "rgba(139, 124, 246, 0.12)",
+    icono: Sparkles,
+  },
+  masters: {
+    color: "#d9a62e",
+    colorSoft: "rgba(217, 166, 46, 0.12)",
+    icono: Crown,
+  },
+};
 
 // Paleta rotativa para categorías nuevas (el form solo pide 2 campos).
 const PALETA = [
@@ -33,40 +76,38 @@ const PALETA = [
   { color: "#38bdf8", colorSoft: "rgba(56, 189, 248, 0.12)" },
 ];
 
-function slugify(nombre: string) {
-  return nombre
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "")
-    .slice(0, 32);
+function presentar(c: CategoriaInicial, indice: number): AdminCategoria {
+  const slug = categorySlug(c.nombre);
+  const conocida = CONOCIDAS[slug];
+  if (conocida) return { ...c, slug, ...conocida };
+  const paleta = PALETA[indice % PALETA.length];
+  return { ...c, slug, ...paleta, icono: Trophy };
 }
 
 const DESC_MAX = 120;
 
-export function CategoriasAdmin() {
-  // TODO(db): initial → fetch; mutaciones → queries.
+export function CategoriasAdmin({
+  initial,
+}: {
+  initial: CategoriaInicial[];
+}) {
   const [cats, setCats] = useState<AdminCategoria[]>(() =>
-    listCategorias().map((c) => ({
-      slug: c.slug,
-      nombre: c.nombre,
-      tagline: c.tagline,
-      color: c.color,
-      colorSoft: c.colorSoft,
-      icono: c.icono,
-    })),
+    initial.map((c, i) => presentar(c, i)),
   );
   const [formAbierto, setFormAbierto] = useState(false);
   const [editando, setEditando] = useState<AdminCategoria | null>(null);
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [guardando, setGuardando] = useState(false);
   const [porEliminar, setPorEliminar] = useState<AdminCategoria | null>(null);
+  const [eliminando, setEliminando] = useState(false);
 
   function abrirCrear() {
     setEditando(null);
     setNombre("");
     setDescripcion("");
+    setError(null);
     setFormAbierto(true);
   }
 
@@ -74,46 +115,55 @@ export function CategoriasAdmin() {
     setEditando(cat);
     setNombre(cat.nombre);
     setDescripcion(cat.tagline);
+    setError(null);
     setFormAbierto(true);
   }
 
-  function guardar(e: React.FormEvent) {
-    // Solo UI: sin DB todavía.
+  async function guardar(e: React.FormEvent) {
     e.preventDefault();
     const limpio = nombre.trim();
-    if (limpio.length < 3) return;
+    if (limpio.length < 3) {
+      setError("El nombre debe tener al menos 3 letras.");
+      return;
+    }
+    const descLimpia = descripcion.trim() === "" ? null : descripcion.trim();
+    setGuardando(true);
+    const result = editando
+      ? await updateCategory(editando.id, {
+          name: limpio,
+          description: descLimpia,
+        })
+      : await createCategory({ name: limpio, description: descLimpia });
+    setGuardando(false);
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+    const base = {
+      id: result.data.id,
+      nombre: result.data.name,
+      tagline: result.data.description ?? "",
+    };
     if (editando) {
       setCats((prev) =>
-        prev.map((c) =>
-          c.slug === editando.slug
-            ? { ...c, nombre: limpio, tagline: descripcion.trim() }
-            : c,
-        ),
+        prev.map((c, i) => (c.id === base.id ? presentar(base, i) : c)),
       );
     } else {
-      const base = slugify(limpio) || `categoria-${cats.length + 1}`;
-      let unico = base;
-      let n = 2;
-      while (cats.some((c) => c.slug === unico)) unico = `${base}-${n++}`;
-      const paleta = PALETA[cats.length % PALETA.length];
-      setCats((prev) => [
-        ...prev,
-        {
-          slug: unico,
-          nombre: limpio,
-          tagline: descripcion.trim(),
-          color: paleta.color,
-          colorSoft: paleta.colorSoft,
-          icono: Trophy,
-        },
-      ]);
+      setCats((prev) => [...prev, presentar(base, prev.length)]);
     }
     setFormAbierto(false);
   }
 
-  function eliminar() {
-    if (!porEliminar) return;
-    setCats((prev) => prev.filter((c) => c.slug !== porEliminar.slug));
+  async function eliminar() {
+    if (!porEliminar || eliminando) return;
+    setEliminando(true);
+    const result = await deleteCategory(porEliminar.id);
+    setEliminando(false);
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+    setCats((prev) => prev.filter((c) => c.id !== porEliminar.id));
     setPorEliminar(null);
   }
 
@@ -121,8 +171,7 @@ export function CategoriasAdmin() {
     <div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-muted">
-          {cats.length} {cats.length === 1 ? "categoría" : "categorías"} · Solo
-          UI, sin base de datos.
+          {cats.length} {cats.length === 1 ? "categoría" : "categorías"}
         </p>
         <Button
           type="button"
@@ -153,7 +202,7 @@ export function CategoriasAdmin() {
           {cats.map((cat) => {
             const Icon = cat.icono;
             return (
-              <Card key={cat.slug} className="overflow-hidden rounded-xl">
+              <Card key={cat.id} className="overflow-hidden rounded-xl">
                 <div
                   aria-hidden="true"
                   className="h-1.5 w-full"
@@ -196,7 +245,10 @@ export function CategoriasAdmin() {
                     <Button
                       type="button"
                       variant="ghost"
-                      onClick={() => setPorEliminar(cat)}
+                      onClick={() => {
+                        setError(null);
+                        setPorEliminar(cat);
+                      }}
                       aria-label={`Eliminar ${cat.nombre}`}
                       className="rounded-xl text-muted hover:text-accent"
                     >
@@ -227,7 +279,7 @@ export function CategoriasAdmin() {
             <DialogDescription>
               {editando
                 ? `Actualiza los datos de «${editando.nombre}».`
-                : "Se guardará solo en pantalla hasta conectar la base de datos."}
+                : "Nombre y descripción corta de la categoría."}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={guardar} className="flex flex-col gap-5">
@@ -242,6 +294,7 @@ export function CategoriasAdmin() {
                 minLength={3}
                 maxLength={40}
                 autoComplete="off"
+                disabled={guardando}
                 className="rounded-xl"
               />
             </div>
@@ -259,20 +312,27 @@ export function CategoriasAdmin() {
                 placeholder="p. ej. Abierta a parejas mixtas."
                 maxLength={DESC_MAX}
                 autoComplete="off"
+                disabled={guardando}
                 className="rounded-xl"
               />
             </div>
+            {error && (
+              <p role="alert" className="text-sm text-accent">
+                {error}
+              </p>
+            )}
             <DialogFooter>
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => setFormAbierto(false)}
+                disabled={guardando}
                 className="rounded-xl"
               >
                 Cancelar
               </Button>
-              <Button type="submit" className="rounded-xl">
-                Guardar
+              <Button type="submit" disabled={guardando} className="rounded-xl">
+                {guardando ? "Guardando…" : "Guardar"}
               </Button>
             </DialogFooter>
           </form>
@@ -297,11 +357,17 @@ export function CategoriasAdmin() {
               deshacer.
             </DialogDescription>
           </DialogHeader>
+          {error && (
+            <p role="alert" className="text-sm text-accent">
+              {error}
+            </p>
+          )}
           <DialogFooter>
             <Button
               type="button"
               variant="outline"
               onClick={() => setPorEliminar(null)}
+              disabled={eliminando}
               className="rounded-xl"
             >
               Cancelar
@@ -309,10 +375,11 @@ export function CategoriasAdmin() {
             <Button
               type="button"
               onClick={eliminar}
+              disabled={eliminando}
               className="rounded-xl"
             >
               <Trash2 aria-hidden="true" />
-              Eliminar
+              {eliminando ? "Eliminando…" : "Eliminar"}
             </Button>
           </DialogFooter>
         </DialogContent>
