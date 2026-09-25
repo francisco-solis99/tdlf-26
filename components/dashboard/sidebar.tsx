@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { signOut } from "@/lib/actions/auth";
 import { cn } from "@/lib/utils";
 
 type Item = {
@@ -155,20 +156,21 @@ export function Sidebar({
             </>
           )}
         </Button>
-        <Button
-          asChild
-          variant="ghost"
-          title={colapsado ? "Salir" : undefined}
-          className={cn(
-            "w-full justify-start rounded-xl normal-case tracking-normal text-muted hover:text-accent",
-            colapsado && "justify-center px-0",
-          )}
-        >
-          <Link href="/" onClick={onNavegar} aria-label="Salir al sitio">
+        <form action={signOut}>
+          <Button
+            type="submit"
+            variant="ghost"
+            title={colapsado ? "Salir" : undefined}
+            aria-label="Cerrar sesión"
+            className={cn(
+              "w-full justify-start rounded-xl normal-case tracking-normal text-muted hover:text-accent",
+              colapsado && "justify-center px-0",
+            )}
+          >
             <LogOut aria-hidden="true" />
             {!colapsado && "Salir"}
-          </Link>
-        </Button>
+          </Button>
+        </form>
       </div>
     </div>
   );

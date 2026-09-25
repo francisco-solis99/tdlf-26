@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 
 import { ParejasAdmin } from "@/components/dashboard/parejas-admin";
+import { requireAdmin } from "@/lib/actions/auth";
 
 export const metadata: Metadata = {
   title: "Parejas — Panel TDLF 2026",
   description: "Gestión de parejas del torneo.",
 };
 
-export default function DashboardParejasPage() {
+export default async function DashboardParejasPage() {
+  await requireAdmin();
   return (
     <div className="mx-auto w-full max-w-5xl">
       <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-accent">

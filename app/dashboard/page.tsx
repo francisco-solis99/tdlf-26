@@ -4,13 +4,15 @@ import { Resumen } from "@/components/dashboard/resumen";
 import { listCategorias } from "@/config/categorias";
 import { listGrupos } from "@/config/grupos";
 import { isJugado, listPartidos } from "@/config/partidos";
+import { requireAdmin } from "@/lib/actions/auth";
 
 export const metadata: Metadata = {
   title: "Panel — Torneo de las Fresas 2026",
   description: "Panel de administración del Torneo de las Fresas 2026.",
 };
 
-export default function DashboardHomePage() {
+export default async function DashboardHomePage() {
+  await requireAdmin();
   const categorias = listCategorias().map((cat) => {
     const grupos = listGrupos(cat.slug);
     let partidos = 0;

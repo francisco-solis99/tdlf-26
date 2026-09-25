@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowRight, Eye, EyeOff, Loader2, LockKeyhole, User } from "lucide-react";
+import { useActionState, useState } from "react";
+import { ArrowRight, Eye, EyeOff, Loader2, LockKeyhole, Mail } from "lucide-react";
+
+import { signInAdmin, type SignInState } from "@/lib/actions/auth";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,15 +18,10 @@ import { Label } from "@/components/ui/label";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const [pending, setPending] = useState(false);
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    // Solo UI: sin auth ni DB. Simulamos envío para mostrar el estado de carga.
-    e.preventDefault();
-    if (pending) return;
-    setPending(true);
-    setTimeout(() => setPending(false), 1200);
-  }
+  const [state, formAction, isPending] = useActionState<SignInState, FormData>(
+    signInAdmin,
+    { error: null },
+  );
 
   return (
     <Card className="relative w-full overflow-hidden rounded-xl shadow-[0_0_60px_rgba(255,77,61,0.12)]">
@@ -54,23 +51,22 @@ export function LoginForm() {
       </CardHeader>
 
       <CardContent className="pt-6">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+        <form action={formAction} className="flex flex-col gap-5">
           <div className="grid gap-2">
-            <Label htmlFor="username">Usuario</Label>
+            <Label htmlFor="email">Correo electrónico</Label>
             <div className="relative">
-              <User
+              <Mail
                 aria-hidden="true"
                 className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
               />
               <Input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                placeholder="p. ej. juez_cancha3"
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                placeholder="p. ej. admin@tlf.com"
                 required
-                minLength={3}
-                disabled={pending}
+                disabled={isPending}
                 className="rounded-xl pl-10"
               />
             </div>
@@ -91,13 +87,13 @@ export function LoginForm() {
                 placeholder="••••••••"
                 required
                 minLength={6}
-                disabled={pending}
+                disabled={isPending}
                 className="rounded-xl pl-10 pr-11"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((v) => !v)}
-                disabled={pending}
+                disabled={isPending}
                 aria-label={
                   showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
                 }
@@ -115,11 +111,11 @@ export function LoginForm() {
 
           <Button
             type="submit"
-            disabled={pending}
+            disabled={isPending}
             className="mt-1 w-full rounded-xl"
             size="lg"
           >
-            {pending ? (
+            {isPending ? (
               <>
                 <Loader2 aria-hidden="true" className="animate-spin" />
                 Entrando…
@@ -132,6 +128,12 @@ export function LoginForm() {
             )}
           </Button>
 
+          {state.error && (
+            <p role="alert" className="text-center text-sm text-accent">
+              {state.error}
+            </p>
+          )}
+
           <div className="flex items-center gap-3" aria-hidden="true">
             <span className="h-px flex-1 bg-line" />
             <span className="h-1.5 w-1.5 rotate-45 bg-accent/70" />
@@ -139,7 +141,7 @@ export function LoginForm() {
           </div>
 
           <p className="text-center text-xs leading-relaxed text-muted">
-            Solo UI — sin autenticación todavía.
+            Solo staff — las cuentas las crea el administrador en Supabase.
           </p>
         </form>
       </CardContent>
