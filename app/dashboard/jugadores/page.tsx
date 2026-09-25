@@ -23,6 +23,10 @@ export default async function DashboardJugadoresPage() {
     player1_id: d.player1_id,
     player2_id: d.player2_id,
   }));
+  const categoryOptions = categories.map((c) => ({
+    slug: catIdToSlug.get(c.id) ?? c.name.toLowerCase(),
+    nombre: c.name,
+  }));
   return (
     <div className="mx-auto w-full max-w-5xl">
       <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-accent">
@@ -36,7 +40,11 @@ export default async function DashboardJugadoresPage() {
       </p>
 
       <div className="mt-8">
-        <JugadoresAdmin initialPlayers={initialPlayers} doubles={pairRefs} />
+        <JugadoresAdmin
+          initialPlayers={initialPlayers}
+          doubles={pairRefs}
+          categories={categoryOptions}
+        />
       </div>
     </div>
   );

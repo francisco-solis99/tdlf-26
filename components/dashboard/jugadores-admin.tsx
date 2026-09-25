@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { Pencil, Plus, Trash2, TriangleAlert } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Pencil, Plus, Search, Trash2, TriangleAlert } from "lucide-react";
 
 import { CategoriaBadge } from "@/components/dashboard/categoria-badge";
 import { Avatar } from "@/components/pareja-avatars";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -33,12 +34,22 @@ export type JugadorPairRef = {
   player2_id: string;
 };
 
+export type JugadorCategoryOption = {
+  slug: string;
+  nombre: string;
+};
+
+const SELECT_CLASS =
+  "min-h-11 w-full cursor-pointer appearance-none rounded-xl border border-line bg-background px-3.5 py-2.5 text-sm text-foreground outline-none transition-colors focus-visible:border-accent disabled:cursor-not-allowed disabled:opacity-50";
+
 export function JugadoresAdmin({
   initialPlayers,
   doubles,
+  categories,
 }: {
   initialPlayers: PlayerRow[];
   doubles: JugadorPairRef[];
+  categories: JugadorCategoryOption[];
 }) {
   const [jugadores, setJugadores] = useState<PlayerRow[]>(initialPlayers);
   const [formAbierto, setFormAbierto] = useState(false);
@@ -50,6 +61,33 @@ export function JugadoresAdmin({
   const [guardando, setGuardando] = useState(false);
   const [porEliminar, setPorEliminar] = useState<PlayerRow | null>(null);
   const [eliminando, setEliminando] = useState(false);
+  const [filtro, setFiltro] = useState<string>("todas");
+  const [busqueda, setBusqueda] = useState("");
+  const [busquedaDeb, setBusquedaDeb] = useState("");
+
+  // Debounce del buscador para no filtrar en cada tecla.
+  useEffect(() => {
+    const t = setTimeout(() => setBusquedaDeb(busqueda), 250);
+    return () => clearTimeout(t);
+  }, [busqueda]);
+
+  function normaliza(s: string) {
+    return s
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  }
+
+  const visibles = jugadores.filter((j) => {
+    if (filtro === "sin-asignar") {
+      if (j.categoriaSlug !== "") return false;
+    } else if (filtro !== "todas" && j.categoriaSlug !== filtro) {
+      return false;
+    }
+    const q = normaliza(busquedaDeb.trim());
+    if (!q) return true;
+    return normaliza(j.nombre).includes(q);
+  });
 
   // Parejas conocidas (live) para bloquear borrados.
   function parejaDe(id: string): string | null {
@@ -147,7 +185,7 @@ export function JugadoresAdmin({
     <div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-muted">
-          {jugadores.length} {jugadores.length === 1 ? "jugador" : "jugadores"}
+          {visibles.length} {visibles.length === 1 ? "jugador" : "jugadores"}
         </p>
         <Button
           type="button"
@@ -160,6 +198,56 @@ export function JugadoresAdmin({
         </Button>
       </div>
 
+      <div className="mt-4 grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
+        <div className="grid gap-2">
+          <Label htmlFor="jug-buscar">Buscar por nombre</Label>
+          <span className="relative block">
+            <Search
+              aria-hidden="true"
+              className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
+            />
+            <input
+              id="jug-buscar"
+              type="search"
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+              placeholder="p. ej. Mendoza"
+              autoComplete="off"
+              className="min-h-11 w-full rounded-xl border border-line bg-background py-2.5 pl-10 pr-3.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted/70 focus-visible:border-accent [&::-webkit-search-cancel-button]:cursor-pointer"
+            />
+          </span>
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="jug-filtro">Categoría</Label>
+          <select
+            id="jug-filtro"
+            value={filtro}
+            onChange={(e) => setFiltro(e.target.value)}
+            className={`${SELECT_CLASS} sm:w-auto sm:min-w-44`}
+          >
+            <option value="todas">Todas las categorías</option>
+            {categories.map((c) => (
+              <option key={c.slug} value={c.slug}>
+                {c.nombre}
+              </option>
+            ))}
+            <option value="sin-asignar">Sin asignar</option>
+          </select>
+        </div>
+      </div>
+
+      {visibles.length === 0 ? (
+        <Card className="mt-6 rounded-xl p-10 text-center">
+          <p className="font-display text-xl uppercase tracking-wide">
+            Sin jugadores
+          </p>
+          <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
+            {jugadores.length === 0
+              ? "Aún no hay jugadores registrados."
+              : "No hay jugadores para este filtro."}
+          </p>
+        </Card>
+      ) : (
       <div className="mt-6">
         <Table className="min-w-[620px]">
           <caption className="sr-only">Jugadores registrados</caption>
@@ -173,7 +261,7 @@ export function JugadoresAdmin({
             </tr>
           </TableHeader>
           <TableBody>
-            {jugadores.map((j) => {
+            {visibles.map((j) => {
               const cat = getCategoria(j.categoriaSlug);
               return (
                 <TableRow key={j.id}>
@@ -235,6 +323,7 @@ export function JugadoresAdmin({
           </TableBody>
         </Table>
       </div>
+      )}
 
       {/* Modal crear / editar (sin categoría: se define en la pareja) */}
       <Dialog
