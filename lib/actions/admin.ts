@@ -4,12 +4,15 @@ import { createClient } from "@/lib/supabase/server";
 import { toReadableError } from "@/lib/supabase/db-errors";
 import type { Database } from "@/lib/database.types";
 import { requireAdmin } from "./auth";
+import { getDoublesWithPlayers, getGroups } from "./torneo";
+import type { DoubleWithPlayers, Group } from "./torneo";
 
 type Tables = Database["public"]["Tables"];
 
 export type Player = Tables["players"]["Row"];
 export type Double = Tables["doubles"]["Row"];
 export type Match = Tables["matches"]["Row"];
+export type Category = Tables["categories"]["Row"];
 
 export type ActionResult<T> =
   | { ok: true; data: T }
@@ -231,7 +234,7 @@ export async function updateDouble(
       .single();
     if (fetchError || !current) {
       return {
-        data: null,
+        ok: false,
         error: toReadableError("double", fetchError ?? { code: "PGRST116" }),
       };
     }
@@ -283,7 +286,7 @@ export async function deletePlayer(
   }
   if (pairs.length > 0) {
     return {
-      data: null,
+      ok: false,
       error: "Este jugador está en una pareja. Elimina la pareja primero.",
     };
   }
@@ -312,7 +315,7 @@ export async function deleteDouble(
   }
   if (matches.length > 0) {
     return {
-      data: null,
+      ok: false,
       error: "Esta pareja ya tiene partidos registrados y no se puede eliminar.",
     };
   }
@@ -332,5 +335,172 @@ export async function deleteMatch(
   const supabase = await createClient();
   const { error } = await supabase.from("matches").delete().eq("id", id);
   if (error) return { ok: false, error: toReadableError("match", error) };
+  return { ok: true, data: { id } };
+}
+
+// ---------------------------------------------------------------------------
+// Group creation — one RPC call runs everything atomically in the database
+// (create groups, shuffle + assign doubles, generate round-robin matches).
+// Afterwards the fresh groups + assigned doubles are refetched for display.
+// ---------------------------------------------------------------------------
+
+export type CreateGroupsInput = {
+  category_id: string;
+  group_count: number;
+};
+
+export type CreatedGroups = {
+  groups: Group[];
+  doubles: DoubleWithPlayers[];
+};
+
+const MAX_GROUPS = 16;
+
+function isValidGroupCount(n: number): boolean {
+  return Number.isInteger(n) && n >= 1 && n <= MAX_GROUPS && (n & (n - 1)) === 0;
+}
+
+export async function createGroupsForCategory(
+  input: CreateGroupsInput,
+): Promise<ActionResult<CreatedGroups>> {
+  await requireAdmin();
+
+  if (!input.category_id) {
+    return { ok: false, error: "Elige una categoría." };
+  }
+  if (!isValidGroupCount(input.group_count)) {
+    return {
+      ok: false,
+      error: `El número de grupos debe ser potencia de 2 (1, 2, 4, 8, 16…).`,
+    };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("create_groups_for_category", {
+    p_category_id: input.category_id,
+    p_group_count: input.group_count,
+  });
+  if (error) return { ok: false, error: toReadableError("groups", error) };
+
+  try {
+    const [groups, doubles] = await Promise.all([
+      getGroups(input.category_id),
+      getDoublesWithPlayers({ categoryId: input.category_id }),
+    ]);
+    return { ok: true, data: { groups, doubles } };
+  } catch {
+    return { ok: false, error: "Grupos creados, pero no se pudieron cargar para mostrar." };
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Categories — plain CRUD. Colors/icons stay presentational (UI-layer),
+// only id/name/description live in the database.
+// ---------------------------------------------------------------------------
+
+export type CreateCategoryInput = {
+  name: string;
+  description?: string | null;
+};
+
+export async function createCategory(
+  input: CreateCategoryInput,
+): Promise<ActionResult<Category>> {
+  await requireAdmin();
+
+  const name = input.name.trim();
+  if (name.length < 3) {
+    return { ok: false, error: "El nombre debe tener al menos 3 letras." };
+  }
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("categories")
+    .insert({ name, description: nullIfEmpty(input.description) })
+    .select()
+    .single();
+
+  if (error) {
+    if (error.code === "23505") {
+      return { ok: false, error: "Esa categoría ya existe." };
+    }
+    return { ok: false, error: toReadableError("groups", error) };
+  }
+  return { ok: true, data };
+}
+
+export type UpdateCategoryInput = {
+  name?: string;
+  description?: string | null;
+};
+
+export async function updateCategory(
+  id: string,
+  input: UpdateCategoryInput,
+): Promise<ActionResult<Category>> {
+  await requireAdmin();
+
+  const patch: Tables["categories"]["Update"] = {};
+  if (input.name !== undefined) {
+    const name = input.name.trim();
+    if (name.length < 3) {
+      return { ok: false, error: "El nombre debe tener al menos 3 letras." };
+    }
+    patch.name = name;
+  }
+  if (input.description !== undefined) {
+    patch.description = nullIfEmpty(input.description);
+  }
+
+  if (Object.keys(patch).length === 0) {
+    return { ok: false, error: "No hay cambios para guardar." };
+  }
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("categories")
+    .update(patch)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    if (error.code === "23505") {
+      return { ok: false, error: "Esa categoría ya existe." };
+    }
+    return { ok: false, error: toReadableError("groups", error) };
+  }
+  return { ok: true, data };
+}
+
+export async function deleteCategory(
+  id: string,
+): Promise<ActionResult<{ id: string }>> {
+  await requireAdmin();
+
+  const supabase = await createClient();
+
+  // Deleting a category cascades to its groups, doubles and matches, so
+  // block the delete while any of those exist instead of wiping them.
+  const [{ data: groups, error: groupsError }, { data: doubles, error: doublesError }] =
+    await Promise.all([
+      supabase.from("groups").select("id").eq("category_id", id).limit(1),
+      supabase.from("doubles").select("id").eq("category_id", id).limit(1),
+    ]);
+  if (groupsError) {
+    return { ok: false, error: toReadableError("groups", groupsError) };
+  }
+  if (doublesError) {
+    return { ok: false, error: toReadableError("groups", doublesError) };
+  }
+  if (groups.length > 0 || doubles.length > 0) {
+    return {
+      ok: false,
+      error: "Esta categoría tiene grupos o parejas y no se puede eliminar.",
+    };
+  }
+
+  const { error } = await supabase.from("categories").delete().eq("id", id);
+  if (error) return { ok: false, error: toReadableError("groups", error) };
   return { ok: true, data: { id } };
 }

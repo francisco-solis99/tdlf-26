@@ -8,7 +8,7 @@ export type DbErrorLike = {
 };
 
 export function toReadableError(
-  operation: "player" | "double" | "match",
+  operation: "player" | "double" | "match" | "groups",
   error: DbErrorLike,
 ): string {
   const message = error.message ?? "";
@@ -40,6 +40,22 @@ export function toReadableError(
   // Canonical ordering slipped through (should be normalized client-side).
   if (message.includes("canonical_")) {
     return "El orden de los jugadores o parejas no es válido.";
+  }
+
+  // create_groups_for_category validations.
+  if (message.includes("must be a power of 2")) {
+    return "El número de grupos debe ser potencia de 2 (1, 2, 4, 8, 16…).";
+  }
+  if (message.includes("already exist for this category")) {
+    return "Esta categoría ya tiene grupos creados — la creación solo se ejecuta una vez.";
+  }
+  if (message.includes("Not enough registered doubles")) {
+    return "No hay suficientes parejas registradas (mínimo 2 por grupo).";
+  }
+
+  // RPC function missing (migration not applied).
+  if (code === "PGRST202" || message.includes("Could not find the function")) {
+    return "La creación de grupos no está disponible en la base de datos.";
   }
 
   // Unique violation — e.g. the same pair inserted twice.
