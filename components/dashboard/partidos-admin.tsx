@@ -24,22 +24,26 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getCategoria, listCategorias } from "@/config/categorias";
+import { getCategoria } from "@/config/categorias";
+import { deleteMatch, updateMatchScore } from "@/lib/actions/admin";
 import {
-  FASES,
-  ganador,
-  isJugado,
-  listTodosPartidos,
-  type Fase,
-  type PartidoAdmin,
-} from "@/config/partidos";
+  ganadorRow,
+  isJugadoRow,
+  type MatchRow,
+} from "@/lib/torneo-view";
+
+export type PartidoCategoryOption = {
+  slug: string;
+  nombre: string;
+};
+
+export type PartidoGroupOption = {
+  id: string;
+  nombre: string;
+};
 
 const SELECT_CLASS =
   "min-h-11 w-full cursor-pointer appearance-none rounded-xl border border-line bg-background px-3.5 py-2.5 text-sm text-foreground outline-none transition-colors focus-visible:border-accent";
-
-function nombrePareja(p: { jugador1: string; jugador2: string }) {
-  return `${p.jugador1} / ${p.jugador2}`;
-}
 
 function parseScore(v: string): number | null | "invalido" {
   if (v.trim() === "") return null;
@@ -48,18 +52,25 @@ function parseScore(v: string): number | null | "invalido" {
   return n;
 }
 
-export function PartidosAdmin() {
-  // TODO(db): partidos llegan de Supabase; mutaciones = queries.
-  const [partidos, setPartidos] = useState<PartidoAdmin[]>(() =>
-    listTodosPartidos(),
-  );
+export function PartidosAdmin({
+  initialPartidos,
+  categories,
+  groups,
+}: {
+  initialPartidos: MatchRow[];
+  categories: PartidoCategoryOption[];
+  groups: PartidoGroupOption[];
+}) {
+  const [partidos, setPartidos] = useState<MatchRow[]>(initialPartidos);
   const [filtro, setFiltro] = useState<string>("todas");
-  const [editando, setEditando] = useState<PartidoAdmin | null>(null);
+  const [filtroGrupo, setFiltroGrupo] = useState<string>("todos");
+  const [editando, setEditando] = useState<MatchRow | null>(null);
   const [scoreA, setScoreA] = useState("");
   const [scoreB, setScoreB] = useState("");
-  const [fase, setFase] = useState<Fase>("Fase de grupos");
   const [error, setError] = useState<string | null>(null);
-  const [porEliminar, setPorEliminar] = useState<PartidoAdmin | null>(null);
+  const [guardando, setGuardando] = useState(false);
+  const [porEliminar, setPorEliminar] = useState<MatchRow | null>(null);
+  const [eliminando, setEliminando] = useState(false);
   const [busqueda, setBusqueda] = useState("");
   const [busquedaDeb, setBusquedaDeb] = useState("");
 
@@ -73,35 +84,30 @@ export function PartidosAdmin() {
     return s
       .toLowerCase()
       .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
+      .replace(/[̀-ͯ]/g, "");
   }
 
-  function nombresPartido(p: PartidoAdmin) {
-    return [
-      p.parejaA.jugador1,
-      p.parejaA.jugador2,
-      p.parejaB.jugador1,
-      p.parejaB.jugador2,
-    ].join(" ");
+  function nombresPartido(p: MatchRow) {
+    return `${p.nombreA} ${p.nombreB}`;
   }
 
   const visibles = partidos.filter((p) => {
     if (filtro !== "todas" && p.categoriaSlug !== filtro) return false;
+    if (filtroGrupo !== "todos" && p.groupId !== filtroGrupo) return false;
     const q = normaliza(busquedaDeb.trim());
     if (!q) return true;
     return normaliza(nombresPartido(p)).includes(q);
   });
 
-  function abrirEditar(p: PartidoAdmin) {
+  function abrirEditar(p: MatchRow) {
     setEditando(p);
     setScoreA(p.scoreA === null ? "" : String(p.scoreA));
     setScoreB(p.scoreB === null ? "" : String(p.scoreB));
-    setFase(p.fase);
     setError(null);
   }
 
-  function guardar(e: React.FormEvent) {
-    // Solo UI: sin DB todavía. Vaciar ambos = pendiente.
+  async function guardar(e: React.FormEvent) {
+    // Vaciar ambos = pendiente (el trigger limpia ganador y fecha).
     e.preventDefault();
     if (!editando) return;
     const a = parseScore(scoreA);
@@ -118,16 +124,32 @@ export function PartidosAdmin() {
       setError("Sin empates: un lado debe ganar.");
       return;
     }
+    setGuardando(true);
+    const result = await updateMatchScore(editando.id, { score1: a, score2: b });
+    setGuardando(false);
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
     setPartidos((prev) =>
       prev.map((p) =>
-        p.id === editando.id ? { ...p, scoreA: a, scoreB: b, fase } : p,
+        p.id === editando.id
+          ? { ...p, scoreA: result.data.score1, scoreB: result.data.score2 }
+          : p,
       ),
     );
     setEditando(null);
   }
 
-  function eliminar() {
-    if (!porEliminar) return;
+  async function eliminar() {
+    if (!porEliminar || eliminando) return;
+    setEliminando(true);
+    const result = await deleteMatch(porEliminar.id);
+    setEliminando(false);
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
     setPartidos((prev) => prev.filter((p) => p.id !== porEliminar.id));
     setPorEliminar(null);
   }
@@ -136,8 +158,7 @@ export function PartidosAdmin() {
     <div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-muted">
-          {visibles.length} {visibles.length === 1 ? "partido" : "partidos"} ·
-          Solo UI, sin base de datos.
+          {visibles.length} {visibles.length === 1 ? "partido" : "partidos"}
         </p>
         <div className="grid gap-4 sm:grid-cols-[1fr_auto_auto] sm:items-end">
           <div className="grid gap-2">
@@ -167,7 +188,7 @@ export function PartidosAdmin() {
               className={`${SELECT_CLASS} sm:w-auto sm:min-w-44`}
             >
               <option value="todas">Todas las categorías</option>
-              {listCategorias().map((c) => (
+              {categories.map((c) => (
                 <option key={c.slug} value={c.slug}>
                   {c.nombre}
                 </option>
@@ -178,18 +199,17 @@ export function PartidosAdmin() {
             <Label htmlFor="part-grupo">Grupo</Label>
             <select
               id="part-grupo"
-              disabled
-              value=""
-              onChange={() => {}}
-              title="Se activa cuando los partidos tengan grupo asignado"
-              aria-describedby="part-grupo-ayuda"
+              value={filtroGrupo}
+              onChange={(e) => setFiltroGrupo(e.target.value)}
               className={`${SELECT_CLASS} sm:w-auto sm:min-w-44`}
             >
-              <option value="">Todos los grupos</option>
+              <option value="todos">Todos los grupos</option>
+              {groups.map((g) => (
+                <option key={g.id} value={g.id}>
+                  {g.nombre}
+                </option>
+              ))}
             </select>
-            <span id="part-grupo-ayuda" className="sr-only">
-              Filtro inactivo hasta que los partidos tengan grupo.
-            </span>
           </div>
         </div>
       </div>
@@ -200,7 +220,9 @@ export function PartidosAdmin() {
             Sin partidos
           </p>
           <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
-            No hay partidos para este filtro.
+            {partidos.length === 0
+              ? "Aún no hay cruces: se generan al armar los grupos de cada categoría."
+              : "No hay partidos para este filtro."}
           </p>
         </Card>
       ) : (
@@ -221,8 +243,8 @@ export function PartidosAdmin() {
             </TableHeader>
             <TableBody>
               {visibles.map((p) => {
-                const win = ganador(p);
-                const jugado = isJugado(p);
+                const win = ganadorRow(p);
+                const jugado = isJugadoRow(p);
                 const cat = getCategoria(p.categoriaSlug);
                 const color = cat?.color ?? "#ff4d3d";
                 return (
@@ -238,7 +260,7 @@ export function PartidosAdmin() {
                         className="text-sm leading-snug"
                         style={win === "A" ? { color } : undefined}
                       >
-                        {nombrePareja(p.parejaA)}
+                        {p.nombreA}
                       </span>
                     </TableCell>
                     <TableCell
@@ -260,7 +282,7 @@ export function PartidosAdmin() {
                         className="text-sm leading-snug"
                         style={win === "B" ? { color } : undefined}
                       >
-                        {nombrePareja(p.parejaB)}
+                        {p.nombreB}
                       </span>
                     </TableCell>
                     <TableCell
@@ -277,7 +299,9 @@ export function PartidosAdmin() {
                       </span>
                     </TableCell>
                     <TableCell>
-                      <span className="text-sm text-muted">Sin asignar</span>
+                      <span className="text-sm text-muted">
+                        {p.grupo ?? "Sin asignar"}
+                      </span>
                     </TableCell>
                     <TableCell>
                       <CategoriaBadge slug={p.categoriaSlug} />
@@ -290,7 +314,7 @@ export function PartidosAdmin() {
                           size="icon"
                           title="Editar"
                           onClick={() => abrirEditar(p)}
-                          aria-label={`Editar partido ${nombrePareja(p.parejaA)} contra ${nombrePareja(p.parejaB)}`}
+                          aria-label={`Editar partido ${p.nombreA} contra ${p.nombreB}`}
                           className="rounded-xl"
                         >
                           <Pencil aria-hidden="true" />
@@ -300,8 +324,11 @@ export function PartidosAdmin() {
                           variant="ghost"
                           size="icon"
                           title="Eliminar"
-                          onClick={() => setPorEliminar(p)}
-                          aria-label={`Eliminar partido ${nombrePareja(p.parejaA)} contra ${nombrePareja(p.parejaB)}`}
+                          onClick={() => {
+                            setError(null);
+                            setPorEliminar(p);
+                          }}
+                          aria-label={`Eliminar partido ${p.nombreA} contra ${p.nombreB}`}
                           className="rounded-xl text-muted hover:text-accent"
                         >
                           <Trash2 aria-hidden="true" />
@@ -316,7 +343,7 @@ export function PartidosAdmin() {
         </div>
       )}
 
-      {/* Modal editar: solo marcador y fase */}
+      {/* Modal editar: solo marcador */}
       <Dialog
         open={editando !== null}
         onOpenChange={(v) => !v && setEditando(null)}
@@ -328,7 +355,7 @@ export function PartidosAdmin() {
             </DialogTitle>
             <DialogDescription>
               {editando &&
-                `${nombrePareja(editando.parejaA)} contra ${nombrePareja(editando.parejaB)}. Vacía ambos para dejarlo pendiente.`}
+                `${editando.nombreA} contra ${editando.nombreB}. Vacía ambos para dejarlo pendiente.`}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={guardar} className="flex flex-col gap-5">
@@ -346,6 +373,7 @@ export function PartidosAdmin() {
                   placeholder="–"
                   min={0}
                   max={30}
+                  disabled={guardando}
                   className="rounded-xl"
                 />
               </div>
@@ -362,24 +390,10 @@ export function PartidosAdmin() {
                   placeholder="–"
                   min={0}
                   max={30}
+                  disabled={guardando}
                   className="rounded-xl"
                 />
               </div>
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="part-fase">Fase</Label>
-              <select
-                id="part-fase"
-                value={fase}
-                onChange={(e) => setFase(e.target.value as Fase)}
-                className={SELECT_CLASS}
-              >
-                {FASES.map((f) => (
-                  <option key={f} value={f}>
-                    {f}
-                  </option>
-                ))}
-              </select>
             </div>
             {error && (
               <p role="alert" className="text-sm text-accent">
@@ -391,12 +405,13 @@ export function PartidosAdmin() {
                 type="button"
                 variant="outline"
                 onClick={() => setEditando(null)}
+                disabled={guardando}
                 className="rounded-xl"
               >
                 Cancelar
               </Button>
-              <Button type="submit" className="rounded-xl">
-                Guardar
+              <Button type="submit" disabled={guardando} className="rounded-xl">
+                {guardando ? "Guardando…" : "Guardar"}
               </Button>
             </DialogFooter>
           </form>
@@ -421,21 +436,32 @@ export function PartidosAdmin() {
             </DialogTitle>
             <DialogDescription>
               {porEliminar &&
-                `¿Eliminar «${nombrePareja(porEliminar.parejaA)} contra ${nombrePareja(porEliminar.parejaB)}»? Esta acción no se puede deshacer.`}
+                `¿Eliminar «${porEliminar.nombreA} contra ${porEliminar.nombreB}»? Esta acción no se puede deshacer.`}
             </DialogDescription>
           </DialogHeader>
+          {error && (
+            <p role="alert" className="text-sm text-accent">
+              {error}
+            </p>
+          )}
           <DialogFooter>
             <Button
               type="button"
               variant="outline"
               onClick={() => setPorEliminar(null)}
+              disabled={eliminando}
               className="rounded-xl"
             >
               Cancelar
             </Button>
-            <Button type="button" onClick={eliminar} className="rounded-xl">
+            <Button
+              type="button"
+              onClick={eliminar}
+              disabled={eliminando}
+              className="rounded-xl"
+            >
               <Trash2 aria-hidden="true" />
-              Eliminar
+              {eliminando ? "Eliminando…" : "Eliminar"}
             </Button>
           </DialogFooter>
         </DialogContent>

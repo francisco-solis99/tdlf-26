@@ -25,41 +25,40 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getCategoria } from "@/config/categorias";
-import {
-  JUGADORES_SEED,
-  PAREJAS_SEED,
-  type Jugador,
-} from "@/config/jugadores";
+import { createPlayer, deletePlayer, updatePlayer } from "@/lib/actions/admin";
+import type { PlayerRow } from "@/lib/torneo-view";
 
-function slugify(nombre: string) {
-  return nombre
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "")
-    .slice(0, 32);
-}
+export type JugadorPairRef = {
+  player1_id: string;
+  player2_id: string;
+};
 
-export function JugadoresAdmin() {
-  // TODO(db): jugadores llegan de Supabase; mutaciones = queries.
-  // Sin categoría al crear: se define al armar la pareja.
-  const [jugadores, setJugadores] = useState<Jugador[]>(JUGADORES_SEED);
+export function JugadoresAdmin({
+  initialPlayers,
+  doubles,
+}: {
+  initialPlayers: PlayerRow[];
+  doubles: JugadorPairRef[];
+}) {
+  const [jugadores, setJugadores] = useState<PlayerRow[]>(initialPlayers);
   const [formAbierto, setFormAbierto] = useState(false);
-  const [editando, setEditando] = useState<Jugador | null>(null);
+  const [editando, setEditando] = useState<PlayerRow | null>(null);
   const [nombre, setNombre] = useState("");
   const [edad, setEdad] = useState("");
   const [ciudad, setCiudad] = useState("");
-  const [porEliminar, setPorEliminar] = useState<Jugador | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [guardando, setGuardando] = useState(false);
+  const [porEliminar, setPorEliminar] = useState<PlayerRow | null>(null);
+  const [eliminando, setEliminando] = useState(false);
 
-  // Parejas conocidas (seed) para bloquear borrados. Con DB será query.
+  // Parejas conocidas (live) para bloquear borrados.
   function parejaDe(id: string): string | null {
-    const p = PAREJAS_SEED.find(
-      (x) => x.jugador1Id === id || x.jugador2Id === id,
+    const p = doubles.find(
+      (x) => x.player1_id === id || x.player2_id === id,
     );
     if (!p) return null;
-    const a = jugadores.find((j) => j.id === p.jugador1Id)?.nombre ?? "?";
-    const b = jugadores.find((j) => j.id === p.jugador2Id)?.nombre ?? "?";
+    const a = jugadores.find((j) => j.id === p.player1_id)?.nombre ?? "?";
+    const b = jugadores.find((j) => j.id === p.player2_id)?.nombre ?? "?";
     return `${a} / ${b}`;
   }
 
@@ -68,53 +67,76 @@ export function JugadoresAdmin() {
     setNombre("");
     setEdad("");
     setCiudad("");
+    setError(null);
     setFormAbierto(true);
   }
 
-  function abrirEditar(j: Jugador) {
+  function abrirEditar(j: PlayerRow) {
     setEditando(j);
     setNombre(j.nombre);
-    setEdad(String(j.edad));
-    setCiudad(j.ciudad);
+    setEdad(j.edad === null ? "" : String(j.edad));
+    setCiudad(j.ciudad ?? "");
+    setError(null);
     setFormAbierto(true);
   }
 
-  function guardar(e: React.FormEvent) {
-    // Solo UI: sin DB todavía.
+  function parseEdad(v: string): number | null | "invalido" {
+    if (v.trim() === "") return null;
+    const n = Number(v);
+    if (!Number.isInteger(n) || n <= 0 || n >= 120) return "invalido";
+    return n;
+  }
+
+  async function guardar(e: React.FormEvent) {
     e.preventDefault();
     const limpio = nombre.trim();
-    const numEdad = Number(edad);
-    if (limpio.length < 3 || !ciudad.trim()) return;
-    if (!Number.isInteger(numEdad) || numEdad < 5 || numEdad > 100) return;
-    if (editando) {
-      setJugadores((prev) =>
-        prev.map((j) =>
-          j.id === editando.id
-            ? { ...j, nombre: limpio, edad: numEdad, ciudad: ciudad.trim() }
-            : j,
-        ),
-      );
-    } else {
-      const base = slugify(limpio) || `jugador-${jugadores.length + 1}`;
-      let id = `j-${base}`;
-      let n = 2;
-      while (jugadores.some((j) => j.id === id)) id = `j-${base}-${n++}`;
-      setJugadores((prev) => [
-        ...prev,
-        {
-          id,
+    if (limpio.length < 3) {
+      setError("El nombre debe tener al menos 3 letras.");
+      return;
+    }
+    const numEdad = parseEdad(edad);
+    if (numEdad === "invalido") {
+      setError("La edad debe ser un número entero entre 1 y 119.");
+      return;
+    }
+    setGuardando(true);
+    const ciudadLimpia = ciudad.trim() === "" ? null : ciudad.trim();
+    const result = editando
+      ? await updatePlayer(editando.id, {
           nombre: limpio,
           edad: numEdad,
-          ciudad: ciudad.trim(),
-          categoriaSlug: "",
-        },
-      ]);
+          ciudad: ciudadLimpia,
+        })
+      : await createPlayer({ nombre: limpio, edad: numEdad, ciudad: ciudadLimpia });
+    setGuardando(false);
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+    const row: PlayerRow = {
+      id: result.data.id,
+      nombre: result.data.name,
+      edad: result.data.age,
+      ciudad: result.data.city,
+      categoriaSlug: editando?.categoriaSlug ?? "",
+    };
+    if (editando) {
+      setJugadores((prev) => prev.map((j) => (j.id === row.id ? row : j)));
+    } else {
+      setJugadores((prev) => [...prev, row]);
     }
     setFormAbierto(false);
   }
 
-  function eliminar() {
-    if (!porEliminar || parejaDe(porEliminar.id)) return;
+  async function eliminar() {
+    if (!porEliminar || parejaDe(porEliminar.id) || eliminando) return;
+    setEliminando(true);
+    const result = await deletePlayer(porEliminar.id);
+    setEliminando(false);
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
     setJugadores((prev) => prev.filter((j) => j.id !== porEliminar.id));
     setPorEliminar(null);
   }
@@ -125,8 +147,7 @@ export function JugadoresAdmin() {
     <div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-muted">
-          {jugadores.length} {jugadores.length === 1 ? "jugador" : "jugadores"}{" "}
-          · Solo UI, sin base de datos.
+          {jugadores.length} {jugadores.length === 1 ? "jugador" : "jugadores"}
         </p>
         <Button
           type="button"
@@ -167,11 +188,17 @@ export function JugadoresAdmin() {
                     </span>
                   </TableCell>
                   <TableCell className="countdown-num text-center tabular-nums">
-                    {j.edad}
+                    {j.edad ?? "–"}
                   </TableCell>
-                  <TableCell className="text-muted">{j.ciudad}</TableCell>
+                  <TableCell className="text-muted">
+                    {j.ciudad ?? "–"}
+                  </TableCell>
                   <TableCell>
-                    <CategoriaBadge slug={j.categoriaSlug} />
+                    {j.categoriaSlug ? (
+                      <CategoriaBadge slug={j.categoriaSlug} />
+                    ) : (
+                      <span className="text-sm text-muted">Sin asignar</span>
+                    )}
                   </TableCell>
                   <TableCell>
                     <span className="flex items-center justify-end gap-1">
@@ -191,7 +218,10 @@ export function JugadoresAdmin() {
                         variant="ghost"
                         size="icon"
                         title="Eliminar"
-                        onClick={() => setPorEliminar(j)}
+                        onClick={() => {
+                          setError(null);
+                          setPorEliminar(j);
+                        }}
                         aria-label={`Eliminar ${j.nombre}`}
                         className="rounded-xl text-muted hover:text-accent"
                       >
@@ -221,7 +251,7 @@ export function JugadoresAdmin() {
               <span className="text-accent">jugador</span>
             </DialogTitle>
             <DialogDescription>
-              Se guarda solo en pantalla hasta conectar la base de datos.
+              La categoría se define al armar su pareja.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={guardar} className="flex flex-col gap-5">
@@ -236,49 +266,56 @@ export function JugadoresAdmin() {
                 minLength={3}
                 maxLength={60}
                 autoComplete="off"
+                disabled={guardando}
                 className="rounded-xl"
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="jug-edad">Edad</Label>
+                <Label htmlFor="jug-edad">Edad (opcional)</Label>
                 <Input
                   id="jug-edad"
                   type="number"
                   value={edad}
                   onChange={(e) => setEdad(e.target.value)}
                   placeholder="28"
-                  required
-                  min={5}
-                  max={100}
+                  min={1}
+                  max={119}
+                  disabled={guardando}
                   className="rounded-xl"
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="jug-ciudad">Ciudad</Label>
+                <Label htmlFor="jug-ciudad">Ciudad (opcional)</Label>
                 <Input
                   id="jug-ciudad"
                   value={ciudad}
                   onChange={(e) => setCiudad(e.target.value)}
                   placeholder="p. ej. Irapuato"
-                  required
                   maxLength={40}
                   autoComplete="off"
+                  disabled={guardando}
                   className="rounded-xl"
                 />
               </div>
             </div>
+            {error && (
+              <p role="alert" className="text-sm text-accent">
+                {error}
+              </p>
+            )}
             <DialogFooter>
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => setFormAbierto(false)}
+                disabled={guardando}
                 className="rounded-xl"
               >
                 Cancelar
               </Button>
-              <Button type="submit" className="rounded-xl">
-                Guardar
+              <Button type="submit" disabled={guardando} className="rounded-xl">
+                {guardando ? "Guardando…" : "Guardar"}
               </Button>
             </DialogFooter>
           </form>
@@ -307,6 +344,11 @@ export function JugadoresAdmin() {
                 : `¿Eliminar a «${porEliminar?.nombre}»? Esta acción no se puede deshacer.`}
             </DialogDescription>
           </DialogHeader>
+          {!bloqueado && error && (
+            <p role="alert" className="text-sm text-accent">
+              {error}
+            </p>
+          )}
           <DialogFooter>
             {bloqueado ? (
               <Button
@@ -322,6 +364,7 @@ export function JugadoresAdmin() {
                   type="button"
                   variant="outline"
                   onClick={() => setPorEliminar(null)}
+                  disabled={eliminando}
                   className="rounded-xl"
                 >
                   Cancelar
@@ -329,10 +372,11 @@ export function JugadoresAdmin() {
                 <Button
                   type="button"
                   onClick={eliminar}
+                  disabled={eliminando}
                   className="rounded-xl"
                 >
                   <Trash2 aria-hidden="true" />
-                  Eliminar
+                  {eliminando ? "Eliminando…" : "Eliminar"}
                 </Button>
               </>
             )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Eye, Pencil, Plus, Trash2, TriangleAlert } from "lucide-react";
 
@@ -26,40 +26,68 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { listCategorias, getCategoria } from "@/config/categorias";
+import { getCategoria } from "@/config/categorias";
 import {
-  JUGADORES_SEED,
-  PAREJAS_SEED,
-  getJugador,
-  type ParejaAdmin,
-} from "@/config/jugadores";
+  createDouble,
+  deleteDouble,
+  updateDouble,
+} from "@/lib/actions/admin";
+import type { DoubleRow } from "@/lib/torneo-view";
+
+export type ParejaPlayerOption = {
+  id: string;
+  nombre: string;
+  edad: number | null;
+  ciudad: string | null;
+};
+
+export type ParejaCategoryOption = {
+  id: string;
+  nombre: string;
+  slug: string;
+};
 
 const SELECT_CLASS =
   "min-h-11 w-full cursor-pointer appearance-none rounded-xl border border-line bg-background px-3.5 py-2.5 text-sm text-foreground outline-none transition-colors focus-visible:border-accent disabled:cursor-not-allowed disabled:opacity-50";
 
-export function ParejasAdmin() {
-  // TODO(db): jugadores y parejas llegan de Supabase; mutaciones = queries.
-  const [jugadores] = useState(JUGADORES_SEED);
-  const [parejas, setParejas] = useState<ParejaAdmin[]>(PAREJAS_SEED);
+export function ParejasAdmin({
+  initialParejas,
+  players,
+  categories,
+}: {
+  initialParejas: DoubleRow[];
+  players: ParejaPlayerOption[];
+  categories: ParejaCategoryOption[];
+}) {
+  const [parejas, setParejas] = useState<DoubleRow[]>(initialParejas);
   const [formAbierto, setFormAbierto] = useState(false);
-  const [editando, setEditando] = useState<ParejaAdmin | null>(null);
+  const [editando, setEditando] = useState<DoubleRow | null>(null);
   const [j1, setJ1] = useState("");
   const [j2, setJ2] = useState("");
-  const [categoria, setCategoria] = useState(listCategorias()[0]?.slug ?? "");
+  const [categoria, setCategoria] = useState(categories[0]?.slug ?? "");
   const [error, setError] = useState<string | null>(null);
-  const [porEliminar, setPorEliminar] = useState<ParejaAdmin | null>(null);
-  const seq = useRef(PAREJAS_SEED.length + 1);
+  const [guardando, setGuardando] = useState(false);
+  const [porEliminar, setPorEliminar] = useState<DoubleRow | null>(null);
+  const [eliminando, setEliminando] = useState(false);
+
+  function getJugador(id: string): ParejaPlayerOption | undefined {
+    return players.find((j) => j.id === id);
+  }
+
+  function categoryId(slug: string): string | undefined {
+    return categories.find((c) => c.slug === slug)?.id;
+  }
 
   function abrirCrear() {
     setEditando(null);
     setJ1("");
     setJ2("");
-    setCategoria(listCategorias()[0]?.slug ?? "");
+    setCategoria(categories[0]?.slug ?? "");
     setError(null);
     setFormAbierto(true);
   }
 
-  function abrirEditar(p: ParejaAdmin) {
+  function abrirEditar(p: DoubleRow) {
     setEditando(p);
     setJ1(p.jugador1Id);
     setJ2(p.jugador2Id);
@@ -68,8 +96,21 @@ export function ParejasAdmin() {
     setFormAbierto(true);
   }
 
-  function guardar(e: React.FormEvent) {
-    // Solo UI: sin DB todavía.
+  function toRow(
+    d: { id: string; player1_id: string; player2_id: string; category_id: string },
+    slug: string,
+    grupo: string | null,
+  ): DoubleRow {
+    return {
+      id: d.id,
+      jugador1Id: d.player1_id,
+      jugador2Id: d.player2_id,
+      categoriaSlug: slug,
+      grupo,
+    };
+  }
+
+  async function guardar(e: React.FormEvent) {
     e.preventDefault();
     if (!j1 || !j2) {
       setError("Elige a los dos jugadores.");
@@ -79,51 +120,67 @@ export function ParejasAdmin() {
       setError("Son dos jugadores distintos por pareja.");
       return;
     }
-    if (!categoria) {
+    const category_id = categoryId(categoria);
+    if (!category_id) {
       setError("Elige una categoría.");
       return;
     }
+    setGuardando(true);
+    const result = editando
+      ? await updateDouble(editando.id, {
+          category_id,
+          player1_id: j1,
+          player2_id: j2,
+        })
+      : await createDouble({ category_id, player1_id: j1, player2_id: j2 });
+    setGuardando(false);
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+    const row = toRow(
+      result.data,
+      categoria,
+      editando?.grupo ?? null,
+    );
     if (editando) {
-      setParejas((prev) =>
-        prev.map((p) =>
-          p.id === editando.id
-            ? { ...p, jugador1Id: j1, jugador2Id: j2, categoriaSlug: categoria }
-            : p,
-        ),
-      );
+      setParejas((prev) => prev.map((p) => (p.id === row.id ? row : p)));
     } else {
-      setParejas((prev) => [
-        ...prev,
-        {
-          id: `p-nueva-${seq.current++}`,
-          jugador1Id: j1,
-          jugador2Id: j2,
-          categoriaSlug: categoria,
-          grupo: null,
-        },
-      ]);
+      setParejas((prev) => [...prev, row]);
     }
     setFormAbierto(false);
   }
 
-  function eliminar() {
-    if (!porEliminar) return;
+  async function eliminar() {
+    if (!porEliminar || eliminando) return;
+    setEliminando(true);
+    const result = await deleteDouble(porEliminar.id);
+    setEliminando(false);
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
     setParejas((prev) => prev.filter((p) => p.id !== porEliminar.id));
     setPorEliminar(null);
   }
 
-  function nombrePareja(p: ParejaAdmin) {
-    const a = getJugador(jugadores, p.jugador1Id);
-    const b = getJugador(jugadores, p.jugador2Id);
+  function nombrePareja(p: DoubleRow) {
+    const a = getJugador(p.jugador1Id);
+    const b = getJugador(p.jugador2Id);
     return `${a?.nombre ?? "?"} / ${b?.nombre ?? "?"}`;
+  }
+
+  function hint(j: ParejaPlayerOption): string {
+    const edad = j.edad === null ? "–" : `${j.edad} años`;
+    const ciudad = j.ciudad ?? "–";
+    return `${edad} · ${ciudad}`;
   }
 
   return (
     <div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-muted">
-          {parejas.length} {parejas.length === 1 ? "pareja" : "parejas"} · Solo
-          UI, sin base de datos.
+          {parejas.length} {parejas.length === 1 ? "pareja" : "parejas"}
         </p>
         <Button
           type="button"
@@ -164,25 +221,21 @@ export function ParejasAdmin() {
             </TableHeader>
             <TableBody>
               {parejas.map((p) => {
-                const a = getJugador(jugadores, p.jugador1Id);
-                const b = getJugador(jugadores, p.jugador2Id);
+                const a = getJugador(p.jugador1Id);
+                const b = getJugador(p.jugador2Id);
                 return (
                   <TableRow key={p.id}>
                     <TableCell>
                       <JugadorCelda
                         nombre={a?.nombre ?? "?"}
-                        detalle={
-                          a ? `${a.edad} años · ${a.ciudad}` : undefined
-                        }
+                        detalle={a ? hint(a) : undefined}
                         colorSlug={p.categoriaSlug}
                       />
                     </TableCell>
                     <TableCell>
                       <JugadorCelda
                         nombre={b?.nombre ?? "?"}
-                        detalle={
-                          b ? `${b.edad} años · ${b.ciudad}` : undefined
-                        }
+                        detalle={b ? hint(b) : undefined}
                         colorSlug={p.categoriaSlug}
                       />
                     </TableCell>
@@ -226,7 +279,10 @@ export function ParejasAdmin() {
                           variant="ghost"
                           size="icon"
                           title="Eliminar"
-                          onClick={() => setPorEliminar(p)}
+                          onClick={() => {
+                            setError(null);
+                            setPorEliminar(p);
+                          }}
                           aria-label={`Eliminar ${nombrePareja(p)}`}
                           className="rounded-xl text-muted hover:text-accent"
                         >
@@ -257,8 +313,8 @@ export function ParejasAdmin() {
               <span className="text-accent">pareja</span>
             </DialogTitle>
             <DialogDescription>
-              Elige dos jugadores existentes y su categoría. Se guarda solo en
-              pantalla hasta conectar la base de datos.
+              Elige dos jugadores existentes y su categoría. Sin grupo: se
+              asigna al armar los grupos.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={guardar} className="flex flex-col gap-5">
@@ -272,10 +328,10 @@ export function ParejasAdmin() {
                   setJ1(v);
                   setError(null);
                 }}
-                options={jugadores.map((j) => ({
+                options={players.map((j) => ({
                   value: j.id,
                   label: j.nombre,
-                  hint: `${j.edad} años · ${j.ciudad}`,
+                  hint: hint(j),
                   disabled: j.id === j2,
                 }))}
               />
@@ -290,10 +346,10 @@ export function ParejasAdmin() {
                   setJ2(v);
                   setError(null);
                 }}
-                options={jugadores.map((j) => ({
+                options={players.map((j) => ({
                   value: j.id,
                   label: j.nombre,
-                  hint: `${j.edad} años · ${j.ciudad}`,
+                  hint: hint(j),
                   disabled: j.id === j1,
                 }))}
               />
@@ -305,10 +361,11 @@ export function ParejasAdmin() {
                 value={categoria}
                 onChange={(e) => setCategoria(e.target.value)}
                 required
+                disabled={guardando}
                 className={SELECT_CLASS}
               >
                 <option value="">Selecciona categoría…</option>
-                {listCategorias().map((c) => (
+                {categories.map((c) => (
                   <option key={c.slug} value={c.slug}>
                     {c.nombre}
                   </option>
@@ -325,12 +382,13 @@ export function ParejasAdmin() {
                 type="button"
                 variant="outline"
                 onClick={() => setFormAbierto(false)}
+                disabled={guardando}
                 className="rounded-xl"
               >
                 Cancelar
               </Button>
-              <Button type="submit" className="rounded-xl">
-                Guardar
+              <Button type="submit" disabled={guardando} className="rounded-xl">
+                {guardando ? "Guardando…" : "Guardar"}
               </Button>
             </DialogFooter>
           </form>
@@ -358,18 +416,29 @@ export function ParejasAdmin() {
                 `¿Eliminar «${nombrePareja(porEliminar)}»? Esta acción no se puede deshacer.`}
             </DialogDescription>
           </DialogHeader>
+          {error && (
+            <p role="alert" className="text-sm text-accent">
+              {error}
+            </p>
+          )}
           <DialogFooter>
             <Button
               type="button"
               variant="outline"
               onClick={() => setPorEliminar(null)}
+              disabled={eliminando}
               className="rounded-xl"
             >
               Cancelar
             </Button>
-            <Button type="button" onClick={eliminar} className="rounded-xl">
+            <Button
+              type="button"
+              onClick={eliminar}
+              disabled={eliminando}
+              className="rounded-xl"
+            >
               <Trash2 aria-hidden="true" />
-              Eliminar
+              {eliminando ? "Eliminando…" : "Eliminar"}
             </Button>
           </DialogFooter>
         </DialogContent>
