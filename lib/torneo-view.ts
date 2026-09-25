@@ -27,6 +27,30 @@ export function categoryIdToSlug(
   return new Map(categories.map((c) => [c.id, categorySlug(c.name)]));
 }
 
+// Public group URLs use positional letters (a, b, c…) instead of ids:
+// letter = index in numeric-aware name order ('Grupo 2' < 'Grupo 10').
+// Link generation and resolution share these helpers so they always agree.
+export function ordenarGrupos<T extends Pick<DbGroup, "id" | "name">>(
+  groups: T[],
+): T[] {
+  return [...groups].sort((a, b) =>
+    a.name.localeCompare(b.name, "es", { numeric: true }),
+  );
+}
+
+export function letraDeGrupo(indice: number): string {
+  return String.fromCharCode(97 + indice);
+}
+
+export function grupoPorLetra<T extends Pick<DbGroup, "id" | "name">>(
+  groups: T[],
+  letra: string,
+): T | undefined {
+  const i = letra.toLowerCase().charCodeAt(0) - 97;
+  if (!Number.isInteger(i) || i < 0) return undefined;
+  return ordenarGrupos(groups)[i];
+}
+
 // A player's category comes from their double (players carry no category).
 export function playerCategorySlug(
   playerId: string,

@@ -2,6 +2,14 @@ import type { Metadata } from "next";
 
 import { CategoriasFan } from "@/components/categorias-fan";
 import { Header } from "@/components/landing/header";
+import {
+  getCategories,
+  getDoublesWithPlayers,
+  getGroups,
+} from "@/lib/actions/torneo";
+import { categorySlug } from "@/lib/torneo-view";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Categorías — Torneo de las Fresas 2026",
@@ -9,7 +17,23 @@ export const metadata: Metadata = {
     "Categorías del Torneo de las Fresas 2026: Libre, Femenil y Masters +50.",
 };
 
-export default function CategoriasPage() {
+export default async function CategoriasPage() {
+  const [categories, groups, doubles] = await Promise.all([
+    getCategories(),
+    getGroups(),
+    getDoublesWithPlayers(),
+  ]);
+  const categorias = categories.map((c) => {
+    const parejas = doubles.filter((d) => d.category_id === c.id).length;
+    return {
+      slug: categorySlug(c.name),
+      nombre: c.name,
+      descripcion: c.description ?? "",
+      grupos: groups.filter((g) => g.category_id === c.id).length,
+      parejas,
+      jugadores: parejas * 2,
+    };
+  });
   return (
     <>
       <Header logoHref="/" navBasePath="/" showNav={false} />
@@ -49,7 +73,7 @@ export default function CategoriasPage() {
         </div>
 
         <div className="mt-10 sm:mt-14">
-          <CategoriasFan />
+          <CategoriasFan categorias={categorias} />
         </div>
       </div>
       </main>

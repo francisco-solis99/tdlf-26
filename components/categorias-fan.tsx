@@ -2,12 +2,54 @@
 
 import { useEffect, useState, type CSSProperties } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  Crown,
+  Sparkles,
+  Trophy,
+  type LucideIcon,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { listCategorias } from "@/config/categorias";
 import { cn } from "@/lib/utils";
+
+// Presentación por slug (color e icono viven en la UI; la DB da los datos).
+const PRESENTACION: Record<
+  string,
+  { color: string; colorSoft: string; icono: LucideIcon }
+> = {
+  libre: {
+    color: "#ff4d3d",
+    colorSoft: "rgba(255, 77, 61, 0.12)",
+    icono: Trophy,
+  },
+  femenil: {
+    color: "#8b7cf6",
+    colorSoft: "rgba(139, 124, 246, 0.12)",
+    icono: Sparkles,
+  },
+  masters: {
+    color: "#d9a62e",
+    colorSoft: "rgba(217, 166, 46, 0.12)",
+    icono: Crown,
+  },
+};
+
+const PRESENTACION_FALLBACK = {
+  color: "#9b9b96",
+  colorSoft: "rgba(155,155,150,0.15)",
+  icono: Trophy,
+};
+
+export type FanCategoria = {
+  slug: string;
+  nombre: string;
+  descripcion: string;
+  grupos: number;
+  parejas: number;
+  jugadores: number;
+};
 
 // Posición del fan superpuesto (solo desktop): desplazamiento + rotación.
 // El overlap se logra con transform (GPU), así abrir/cerrar el fan anima suave.
@@ -29,9 +71,17 @@ function useMediaQuery(query: string) {
   return matches;
 }
 
-export function CategoriasFan() {
-  const cats = listCategorias();
-  const [selected, setSelected] = useState(cats[0]?.slug ?? "libre");
+export function CategoriasFan({
+  categorias,
+}: {
+  categorias: FanCategoria[];
+}) {
+  const cats = categorias.map((c) => ({
+    ...c,
+    tagline: c.descripcion,
+    ...(PRESENTACION[c.slug] ?? PRESENTACION_FALLBACK),
+  }));
+  const [selected, setSelected] = useState(cats[0]?.slug ?? "");
   const [hovered, setHovered] = useState<string | null>(null);
   const desktop = useMediaQuery("(min-width: 640px)");
   const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
@@ -39,6 +89,14 @@ export function CategoriasFan() {
   // El fan solo anima en desktop con movimiento permitido; si no, cartas quietas.
   const animate = desktop && !reduceMotion;
   const fanning = animate && hovered !== null;
+
+  if (cats.length === 0) {
+    return (
+      <p className="mx-auto max-w-xl text-center text-sm leading-relaxed text-muted">
+        Las categorías están por publicarse. Vuelve pronto.
+      </p>
+    );
+  }
 
   return (
     <div>
@@ -195,7 +253,7 @@ export function CategoriasFan() {
             </Link>
           </Button>
           <p className="mt-3 text-xs text-muted">
-            Datos de ejemplo — se leerán de la base de datos.
+            Grupos, parejas y resultados en vivo durante el torneo.
           </p>
         </Card>
       )}

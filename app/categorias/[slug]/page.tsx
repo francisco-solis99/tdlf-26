@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import {
+  ArrowLeft,
+  Crown,
+  Sparkles,
+  Trophy,
+  type LucideIcon,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -14,11 +20,57 @@ import {
 } from "@/components/ui/accordion";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ParejaAvatars } from "@/components/pareja-avatars";
-import { getCategoria, listCategorias } from "@/config/categorias";
-import { listGrupos } from "@/config/grupos";
+import {
+  getCategories,
+  getDoublesWithPlayers,
+  getGroups,
+} from "@/lib/actions/torneo";
+import {
+  categorySlug,
+  letraDeGrupo,
+  ordenarGrupos,
+} from "@/lib/torneo-view";
 
-export function generateStaticParams() {
-  return listCategorias().map((c) => ({ slug: c.slug }));
+export const dynamic = "force-dynamic";
+
+// Presentación por slug (color e icono viven en la UI; la DB da los datos).
+const PRESENTACION: Record<
+  string,
+  { color: string; colorSoft: string; icono: LucideIcon }
+> = {
+  libre: {
+    color: "#ff4d3d",
+    colorSoft: "rgba(255, 77, 61, 0.12)",
+    icono: Trophy,
+  },
+  femenil: {
+    color: "#8b7cf6",
+    colorSoft: "rgba(139, 124, 246, 0.12)",
+    icono: Sparkles,
+  },
+  masters: {
+    color: "#d9a62e",
+    colorSoft: "rgba(217, 166, 46, 0.12)",
+    icono: Crown,
+  },
+};
+
+const PRESENTACION_FALLBACK = {
+  color: "#9b9b96",
+  colorSoft: "rgba(155,155,150,0.15)",
+  icono: Trophy,
+};
+
+async function loadCategoria(slug: string) {
+  const categories = await getCategories();
+  const row = categories.find((c) => categorySlug(c.name) === slug);
+  if (!row) return null;
+  const [groups, doubles] = await Promise.all([
+    getGroups(row.id),
+    getDoublesWithPlayers({ categoryId: row.id }),
+  ]);
+  const presentacion = PRESENTACION[slug] ?? PRESENTACION_FALLBACK;
+  return { row, groups: ordenarGrupos(groups), doubles, ...presentacion };
 }
 
 export async function generateMetadata({
@@ -27,11 +79,11 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const cat = getCategoria(slug);
+  const cat = await loadCategoria(slug);
   if (!cat) return { title: "Categoría no encontrada" };
   return {
-    title: `${cat.nombre} — Torneo de las Fresas 2026`,
-    description: cat.descripcion,
+    title: `${cat.row.name} — Torneo de las Fresas 2026`,
+    description: cat.row.description ?? undefined,
   };
 }
 
@@ -41,11 +93,11 @@ export default async function CategoriaDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const cat = getCategoria(slug);
+  const cat = await loadCategoria(slug);
   if (!cat) notFound();
 
   const Icon = cat.icono;
-  const grupos = listGrupos(slug);
+  const parejas = cat.doubles.length;
 
   return (
     <>
@@ -92,20 +144,20 @@ export default async function CategoriaDetailPage({
                   Categoría
                 </p>
                 <h1 className="font-display text-3xl uppercase tracking-wide sm:text-5xl">
-                  {cat.nombre}
+                  {cat.row.name}
                 </h1>
               </div>
             </div>
 
             <p className="mt-5 text-sm leading-relaxed text-muted sm:text-base">
-              {cat.descripcion}
+              {cat.row.description ?? "Sin descripción."}
             </p>
 
             <dl className="mt-6 grid grid-cols-3 gap-3">
               {[
-                { label: "Grupos", value: cat.grupos },
-                { label: "Parejas", value: cat.parejas },
-                { label: "Jugadores", value: cat.jugadores },
+                { label: "Grupos", value: cat.groups.length },
+                { label: "Parejas", value: parejas },
+                { label: "Jugadores", value: parejas * 2 },
               ].map((stat) => (
                 <div
                   key={stat.label}
@@ -131,14 +183,10 @@ export default async function CategoriaDetailPage({
                 <Link href="/categorias">Cambiar de categoría</Link>
               </Button>
             </div>
-            <p className="mt-3 text-xs text-muted">
-              Datos de ejemplo — grupos y partidos se leerán de la base de
-              datos.
-            </p>
           </div>
         </Card>
 
-        <section id="grupos" aria-label={`Grupos de ${cat.nombre}`} className="mt-12 scroll-mt-20">
+        <section id="grupos" aria-label={`Grupos de ${cat.row.name}`} className="mt-12 scroll-mt-20">
           <p
             className="text-[11px] font-medium uppercase tracking-[0.25em]"
             style={{ color: cat.color }}
@@ -146,18 +194,34 @@ export default async function CategoriaDetailPage({
             Fase de grupos
           </p>
           <h2 className="mt-2 font-display text-2xl uppercase tracking-wide sm:text-3xl">
-            Grupos de {cat.nombre}
+            Grupos de {cat.row.name}
           </h2>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
             Toca un grupo para ver sus parejas. Puedes tener varios abiertos a
             la vez.
           </p>
 
+          {cat.groups.length === 0 ? (
+            <Card className="mt-6 rounded-xl p-10 text-center">
+              <p className="font-display text-xl uppercase tracking-wide">
+                Grupos por armarse
+              </p>
+              <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
+                Aún no hay grupos en esta categoría. Vuelve cuando arranque el
+                torneo.
+              </p>
+            </Card>
+          ) : (
           <Accordion
             type="multiple"
             className="mt-6 grid items-start gap-4 sm:grid-cols-2 xl:grid-cols-3"
           >
-            {grupos.map((grupo) => (
+            {cat.groups.map((grupo, i) => {
+              const letra = letraDeGrupo(i);
+              const parejasGrupo = cat.doubles.filter(
+                (d) => d.group_id === grupo.id,
+              );
+              return (
               <AccordionItem key={grupo.id} value={grupo.id}>
                 <AccordionTrigger>
                   <span className="flex items-center gap-2.5">
@@ -166,48 +230,50 @@ export default async function CategoriaDetailPage({
                       className="inline-block h-2 w-2 rotate-45"
                       style={{ backgroundColor: cat.color }}
                     />
-                    {grupo.nombre}
+                    {grupo.name}
                   </span>
                   <span className="rounded-full border border-line px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-[0.18em] text-muted">
-                    {grupo.parejas.length} parejas
+                    {parejasGrupo.length} parejas
                   </span>
                 </AccordionTrigger>
                 <AccordionContent>
                   <ScrollArea className="max-h-80 pr-3">
                     <ul className="flex flex-col gap-2 pb-6">
-                      {grupo.parejas.map((pareja) => (
+                      {parejasGrupo.map((pareja) => (
                         <li
-                          key={`${pareja.jugador1}-${pareja.jugador2}`}
+                          key={pareja.id}
                           className="flex items-center gap-3 rounded-xl border border-line bg-background px-3 py-2.5"
                         >
                           <span className="flex shrink-0" aria-hidden="true">
                             <ParejaAvatars
-                              jugador1={pareja.jugador1}
-                              jugador2={pareja.jugador2}
+                              jugador1={pareja.player1.name}
+                              jugador2={pareja.player2.name}
                               color={cat.color}
                               colorSoft={cat.colorSoft}
                             />
                           </span>
                           <span className="min-w-0 text-sm leading-snug">
-                            {pareja.jugador1}{" "}
+                            {pareja.player1.name}{" "}
                             <span className="text-muted">/</span>{" "}
-                            {pareja.jugador2}
+                            {pareja.player2.name}
                           </span>
                         </li>
                       ))}
                     </ul>
                   </ScrollArea>
                   <Link
-                    href={`/categorias/${slug}/matches/${grupo.letra.toLowerCase()}`}
+                    href={`/categorias/${slug}/matches/${letra}`}
                     className="mt-1 inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-muted underline-offset-4 transition-colors hover:text-accent hover:underline"
                   >
-                    Ver partidos del {grupo.nombre}
+                    Ver partidos del {grupo.name}
                     <span aria-hidden="true">→</span>
                   </Link>
                 </AccordionContent>
               </AccordionItem>
-            ))}
+              );
+            })}
           </Accordion>
+          )}
         </section>
       </div>
       </main>

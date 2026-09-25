@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Crown, Sparkles, Trophy, type LucideIcon } from "lucide-react";
 
 import { Header } from "@/components/landing/header";
 import { ParejaAvatars } from "@/components/pareja-avatars";
@@ -13,17 +13,69 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getCategoria, listCategorias } from "@/config/categorias";
-import { listGrupos } from "@/config/grupos";
-import { ganador, isJugado, listPartidos, computeStandings } from "@/config/partidos";
+import { Card } from "@/components/ui/card";
+import {
+  getCategories,
+  getDoublesWithPlayers,
+  getGroupStandings,
+  getGroups,
+  getMatches,
+  type DoubleWithPlayers,
+  type Match,
+} from "@/lib/actions/torneo";
+import {
+  categorySlug,
+  grupoPorLetra,
+  ordenarGrupos,
+} from "@/lib/torneo-view";
 
-export function generateStaticParams() {
-  return listCategorias().flatMap((c) =>
-    listGrupos(c.slug).map((g) => ({
-      slug: c.slug,
-      grupo: g.letra.toLowerCase(),
-    })),
+export const dynamic = "force-dynamic";
+
+// Presentación por slug (color e icono viven en la UI; la DB da los datos).
+const PRESENTACION: Record<
+  string,
+  { color: string; colorSoft: string; icono: LucideIcon }
+> = {
+  libre: {
+    color: "#ff4d3d",
+    colorSoft: "rgba(255, 77, 61, 0.12)",
+    icono: Trophy,
+  },
+  femenil: {
+    color: "#8b7cf6",
+    colorSoft: "rgba(139, 124, 246, 0.12)",
+    icono: Sparkles,
+  },
+  masters: {
+    color: "#d9a62e",
+    colorSoft: "rgba(217, 166, 46, 0.12)",
+    icono: Crown,
+  },
+};
+
+const PRESENTACION_FALLBACK = {
+  color: "#9b9b96",
+  colorSoft: "rgba(155,155,150,0.15)",
+  icono: Trophy,
+};
+
+async function loadGrupo(slug: string, letra: string) {
+  const categories = await getCategories();
+  const category = categories.find((c) => categorySlug(c.name) === slug);
+  if (!category) return null;
+  const [doubles, matches, groups] = await Promise.all([
+    getDoublesWithPlayers({ categoryId: category.id }),
+    getMatches(),
+    getGroups(category.id),
+  ]);
+  const grupo = grupoPorLetra(ordenarGrupos(groups), letra);
+  if (!grupo) return null;
+  const groupMatches = matches.filter((m) => m.group_id === grupo.id);
+  const standings = (await getGroupStandings(grupo.id)).filter(
+    (s) => s.group_id === grupo.id,
   );
+  const presentacion = PRESENTACION[slug] ?? PRESENTACION_FALLBACK;
+  return { category, grupo, doubles, groupMatches, standings, ...presentacion };
 }
 
 export async function generateMetadata({
@@ -31,32 +83,109 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string; grupo: string }>;
 }): Promise<Metadata> {
-  const { slug, grupo } = await params;
-  const cat = getCategoria(slug);
-  if (!cat) return { title: "Categoría no encontrada" };
+  const { slug, grupo: letra } = await params;
+  const data = await loadGrupo(slug, letra);
+  if (!data) return { title: "Grupo no encontrado" };
   return {
-    title: `Grupo ${grupo.toUpperCase()} ${cat.nombre} — Torneo de las Fresas 2026`,
-    description: `Partidos del grupo ${grupo.toUpperCase()} de ${cat.nombre}.`,
+    title: `${data.grupo.name} ${data.category.name} — Torneo de las Fresas 2026`,
+    description: `Partidos del ${data.grupo.name.toLowerCase()} de ${data.category.name}.`,
   };
 }
+
+type Lado = { nombre: string; score: number | null };
+type PartidoVista = {
+  id: string;
+  a: Lado;
+  b: Lado;
+  win: "A" | "B" | null;
+  jugado: boolean;
+};
+
+function nombreDoble(d: DoubleWithPlayers): string {
+  return `${d.player1.name} / ${d.player2.name}`;
+}
+
+function aVista(m: Match, porId: Map<string, DoubleWithPlayers>): PartidoVista {
+  const d1 = porId.get(m.double1_id);
+  const d2 = porId.get(m.double2_id);
+  const jugado = m.winner_double_id !== null;
+  const win =
+    !jugado || !d1 || !d2
+      ? null
+      : m.winner_double_id === d1.id
+        ? "A"
+        : "B";
+  return {
+    id: m.id,
+    a: { nombre: d1 ? nombreDoble(d1) : "?", score: m.score1 },
+    b: { nombre: d2 ? nombreDoble(d2) : "?", score: m.score2 },
+    win,
+    jugado,
+  };
+}
+
+type FilaPosicion = {
+  doubleId: string;
+  nombre: string;
+  pos: number;
+  pj: number;
+  pg: number;
+  pp: number;
+  pf: number;
+  pc: number;
+  dif: number;
+};
 
 export default async function GrupoMatchesPage({
   params,
 }: {
   params: Promise<{ slug: string; grupo: string }>;
 }) {
-  const { slug, grupo: grupoParam } = await params;
-  const cat = getCategoria(slug);
-  const grupo = listGrupos(slug).find(
-    (g) => g.letra.toUpperCase() === grupoParam.toUpperCase(),
-  );
-  if (!cat || !grupo) notFound();
+  const { slug, grupo: letra } = await params;
+  const data = await loadGrupo(slug, letra);
+  if (!data) notFound();
 
-  const Icon = cat.icono;
-  const partidos = listPartidos(slug, grupo.letra);
-  const jugados = partidos.filter(isJugado).length;
-  const posiciones = computeStandings(slug, grupo.letra);
+  const Icon = data.icono;
+  const porId = new Map(data.doubles.map((d) => [d.id, d]));
+  const partidos = data.groupMatches.map((m) => aVista(m, porId));
+  const jugados = partidos.filter((p) => p.jugado).length;
+
+  // Puntos en contra desde los partidos; el resto sale de group_standings
+  // (fuente de verdad del orden: victorias, luego puntos a favor).
+  const enContra = new Map<string, number>();
+  for (const m of data.groupMatches) {
+    if (m.winner_double_id === null) continue;
+    enContra.set(
+      m.double1_id,
+      (enContra.get(m.double1_id) ?? 0) + (m.score2 ?? 0),
+    );
+    enContra.set(
+      m.double2_id,
+      (enContra.get(m.double2_id) ?? 0) + (m.score1 ?? 0),
+    );
+  }
+  const posiciones: FilaPosicion[] = data.standings
+    .filter((s) => s.double_id !== null)
+    .map((s) => {
+      const d = porId.get(s.double_id as string);
+      const pg = s.wins ?? 0;
+      const pp = s.losses ?? 0;
+      const pf = s.points_scored ?? 0;
+      const pc = enContra.get(s.double_id as string) ?? 0;
+      return {
+        doubleId: s.double_id as string,
+        nombre: d ? nombreDoble(d) : "?",
+        pos: s.group_rank ?? 0,
+        pj: pg + pp,
+        pg,
+        pp,
+        pf,
+        pc,
+        dif: pf - pc,
+      };
+    });
   const podio = posiciones.slice(0, 3);
+  const letraMayus = letra.toUpperCase();
 
   return (
     <>
@@ -65,7 +194,7 @@ export default async function GrupoMatchesPage({
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           <div
             className="absolute -right-24 -top-24 h-96 w-96 rounded-full blur-3xl"
-            style={{ backgroundColor: cat.colorSoft }}
+            style={{ backgroundColor: data.colorSoft }}
           />
         </div>
 
@@ -76,7 +205,7 @@ export default async function GrupoMatchesPage({
               className="inline-flex items-center gap-1.5 text-sm text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
             >
               <ArrowLeft aria-hidden="true" className="h-4 w-4" />
-              {cat.nombre}
+              {data.category.name}
             </Link>
           </div>
 
@@ -84,44 +213,54 @@ export default async function GrupoMatchesPage({
             <span
               aria-hidden="true"
               className="pointer-events-none absolute -right-2 -top-10 hidden select-none font-display text-[11rem] uppercase leading-none sm:block"
-              style={{ color: cat.color, opacity: 0.12 }}
+              style={{ color: data.color, opacity: 0.12 }}
             >
-              {grupo.letra}
+              {letraMayus}
             </span>
             <div className="relative flex items-center gap-4">
               <span
                 aria-hidden="true"
                 className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl sm:h-20 sm:w-20"
-                style={{ backgroundColor: cat.colorSoft }}
+                style={{ backgroundColor: data.colorSoft }}
               >
                 <Icon
                   className="h-8 w-8 sm:h-10 sm:w-10"
-                  style={{ color: cat.color }}
+                  style={{ color: data.color }}
                   strokeWidth={1.5}
                 />
               </span>
               <div>
                 <p
                   className="text-[11px] font-medium uppercase tracking-[0.25em]"
-                  style={{ color: cat.color }}
+                  style={{ color: data.color }}
                 >
-                  {cat.nombre} · Fase de grupos
+                  {data.category.name} · {data.grupo.name}
                 </p>
                 <h1 className="font-display text-5xl uppercase leading-[0.95] tracking-tight sm:text-7xl">
                   Grupo{" "}
-                  <span style={{ color: cat.color }}>{grupo.letra}</span>
+                  <span style={{ color: data.color }}>{letraMayus}</span>
                 </h1>
               </div>
             </div>
           </div>
           <p className="mt-3 text-sm text-muted">
-            {partidos.length} partidos · {jugados} jugados · Datos de ejemplo.
+            {partidos.length} partidos · {jugados} jugados
           </p>
 
+          {partidos.length === 0 ? (
+            <Card className="mt-6 rounded-xl p-10 text-center">
+              <p className="font-display text-xl uppercase tracking-wide">
+                Sin partidos todavía
+              </p>
+              <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
+                Los cruces de este grupo aún no se generan.
+              </p>
+            </Card>
+          ) : (
           <div className="mt-6">
             <Table className="min-w-[620px]">
               <caption className="sr-only">
-                Partidos del {grupo.nombre} de {cat.nombre}
+                Partidos del {data.grupo.name} de {data.category.name}
               </caption>
               <TableHeader>
                 <tr>
@@ -132,48 +271,45 @@ export default async function GrupoMatchesPage({
               </TableHeader>
               <TableBody>
                 {partidos.map((partido, i) => {
-                  const win = ganador(partido);
-                  const jugado = isJugado(partido);
+                  const { win, jugado } = partido;
                   return (
                     <TableRow key={partido.id}>
                       <TableCell
                         style={
                           win === "A"
-                            ? { backgroundColor: cat.colorSoft }
+                            ? { backgroundColor: data.colorSoft }
                             : undefined
                         }
                       >
                         <span className="flex items-center gap-3">
                           <ParejaAvatars
-                            jugador1={partido.parejaA.jugador1}
-                            jugador2={partido.parejaA.jugador2}
-                            color={cat.color}
-                            colorSoft={cat.colorSoft}
+                            jugador1={partido.a.nombre.split(" / ")[0] ?? ""}
+                            jugador2={partido.a.nombre.split(" / ")[1] ?? ""}
+                            color={data.color}
+                            colorSoft={data.colorSoft}
                           />
                           <span
                             className="min-w-0 flex-1 text-sm leading-snug"
                             style={
-                              win === "A" ? { color: cat.color } : undefined
+                              win === "A" ? { color: data.color } : undefined
                             }
                           >
-                            {partido.parejaA.jugador1}{" "}
-                            <span className="text-muted">/</span>{" "}
-                            {partido.parejaA.jugador2}
+                            {partido.a.nombre}
                           </span>
                           <span
                             aria-label={
                               jugado
-                                ? `Puntos: ${partido.scoreA}`
+                                ? `Puntos: ${partido.a.score}`
                                 : "Partido por jugar"
                             }
                             className="countdown-num font-display text-2xl tabular-nums sm:text-3xl"
                             style={
                               win === "A"
-                                ? { color: cat.color }
+                                ? { color: data.color }
                                 : { color: "var(--muted)" }
                             }
                           >
-                            {jugado ? partido.scoreA : "–"}
+                            {jugado ? partido.a.score : "–"}
                           </span>
                         </span>
                         <span className="sr-only">
@@ -189,7 +325,7 @@ export default async function GrupoMatchesPage({
                       <TableCell
                         style={
                           win === "B"
-                            ? { backgroundColor: cat.colorSoft }
+                            ? { backgroundColor: data.colorSoft }
                             : undefined
                         }
                       >
@@ -197,33 +333,31 @@ export default async function GrupoMatchesPage({
                           <span
                             aria-label={
                               jugado
-                                ? `Puntos: ${partido.scoreB}`
+                                ? `Puntos: ${partido.b.score}`
                                 : "Partido por jugar"
                             }
                             className="countdown-num font-display text-2xl tabular-nums sm:text-3xl"
                             style={
                               win === "B"
-                                ? { color: cat.color }
+                                ? { color: data.color }
                                 : { color: "var(--muted)" }
                             }
                           >
-                            {jugado ? partido.scoreB : "–"}
+                            {jugado ? partido.b.score : "–"}
                           </span>
                           <span
                             className="min-w-0 flex-1 text-right text-sm leading-snug"
                             style={
-                              win === "B" ? { color: cat.color } : undefined
+                              win === "B" ? { color: data.color } : undefined
                             }
                           >
-                            {partido.parejaB.jugador1}{" "}
-                            <span className="text-muted">/</span>{" "}
-                            {partido.parejaB.jugador2}
+                            {partido.b.nombre}
                           </span>
                           <ParejaAvatars
-                            jugador1={partido.parejaB.jugador1}
-                            jugador2={partido.parejaB.jugador2}
-                            color={cat.color}
-                            colorSoft={cat.colorSoft}
+                            jugador1={partido.b.nombre.split(" / ")[0] ?? ""}
+                            jugador2={partido.b.nombre.split(" / ")[1] ?? ""}
+                            color={data.color}
+                            colorSoft={data.colorSoft}
                           />
                         </span>
                         <span className="sr-only">
@@ -236,11 +370,12 @@ export default async function GrupoMatchesPage({
               </TableBody>
             </Table>
           </div>
+          )}
 
           <section aria-label="Posiciones" className="mt-12">
             <p
               className="text-[11px] font-medium uppercase tracking-[0.25em]"
-              style={{ color: cat.color }}
+              style={{ color: data.color }}
             >
               Tabla general
             </p>
@@ -252,11 +387,20 @@ export default async function GrupoMatchesPage({
               dos primeras avanzan.
             </p>
 
+            {posiciones.length === 0 ? (
+              <Card className="mt-6 rounded-xl p-10 text-center">
+                <p className="mx-auto max-w-sm text-sm text-muted">
+                  Aún no hay posiciones: se calculan cuando se jueguen los
+                  partidos.
+                </p>
+              </Card>
+            ) : (
+              <>
             {/* Podio: 1º al centro en desktop, apilado en móvil */}
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
               {podio.map((fila) => (
                 <div
-                  key={`${fila.pareja.jugador1}-${fila.pareja.jugador2}`}
+                  key={fila.doubleId}
                   className={`rounded-xl border bg-surface p-5 text-center ${
                     fila.pos === 1
                       ? "order-1 border-transparent sm:order-2"
@@ -267,8 +411,8 @@ export default async function GrupoMatchesPage({
                   style={
                     fila.pos === 1
                       ? {
-                          borderColor: cat.color,
-                          boxShadow: `0 0 40px ${cat.colorSoft}`,
+                          borderColor: data.color,
+                          boxShadow: `0 0 40px ${data.colorSoft}`,
                         }
                       : undefined
                   }
@@ -277,22 +421,21 @@ export default async function GrupoMatchesPage({
                     aria-label={`Posición ${fila.pos}`}
                     className="countdown-num font-display text-5xl tabular-nums"
                     style={
-                      fila.pos <= 2 ? { color: cat.color } : { color: "var(--muted)" }
+                      fila.pos <= 2 ? { color: data.color } : { color: "var(--muted)" }
                     }
                   >
                     {fila.pos}
                   </p>
                   <div className="mt-3 flex justify-center">
                     <ParejaAvatars
-                      jugador1={fila.pareja.jugador1}
-                      jugador2={fila.pareja.jugador2}
-                      color={cat.color}
-                      colorSoft={cat.colorSoft}
+                      jugador1={fila.nombre.split(" / ")[0] ?? ""}
+                      jugador2={fila.nombre.split(" / ")[1] ?? ""}
+                      color={data.color}
+                      colorSoft={data.colorSoft}
                     />
                   </div>
                   <p className="mt-3 text-sm leading-snug">
-                    {fila.pareja.jugador1} <span className="text-muted">/</span>{" "}
-                    {fila.pareja.jugador2}
+                    {fila.nombre}
                   </p>
                   <p className="mt-2 text-xs uppercase tracking-[0.18em] text-muted">
                     {fila.pg} PG · {fila.pf} pts
@@ -305,7 +448,7 @@ export default async function GrupoMatchesPage({
             <div className="mt-6">
               <Table className="min-w-[680px]">
                 <caption className="sr-only">
-                  Posiciones del {grupo.nombre} de {cat.nombre}
+                  Posiciones del {data.grupo.name} de {data.category.name}
                 </caption>
                 <TableHeader>
                   <tr>
@@ -322,13 +465,12 @@ export default async function GrupoMatchesPage({
                 <TableBody>
                   {posiciones.map((fila) => {
                     const avanza = fila.pos <= 2;
-                    const key = `${fila.pareja.jugador1}-${fila.pareja.jugador2}`;
                     return (
                       <TableRow
-                        key={key}
+                        key={fila.doubleId}
                         style={
                           fila.pos === 2
-                            ? { borderBottom: `2px solid ${cat.color}` }
+                            ? { borderBottom: `2px solid ${data.color}` }
                             : undefined
                         }
                       >
@@ -338,7 +480,7 @@ export default async function GrupoMatchesPage({
                               className="countdown-num font-display text-xl tabular-nums"
                               style={
                                 avanza
-                                  ? { color: cat.color }
+                                  ? { color: data.color }
                                   : { color: "var(--muted)" }
                               }
                             >
@@ -348,8 +490,8 @@ export default async function GrupoMatchesPage({
                               <span
                                 className="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em]"
                                 style={{
-                                  backgroundColor: cat.colorSoft,
-                                  color: cat.color,
+                                  backgroundColor: data.colorSoft,
+                                  color: data.color,
                                 }}
                               >
                                 Avanza
@@ -360,15 +502,13 @@ export default async function GrupoMatchesPage({
                         <TableCell>
                           <span className="flex items-center gap-3">
                             <ParejaAvatars
-                              jugador1={fila.pareja.jugador1}
-                              jugador2={fila.pareja.jugador2}
-                              color={cat.color}
-                              colorSoft={cat.colorSoft}
+                              jugador1={fila.nombre.split(" / ")[0] ?? ""}
+                              jugador2={fila.nombre.split(" / ")[1] ?? ""}
+                              color={data.color}
+                              colorSoft={data.colorSoft}
                             />
                             <span className="text-sm leading-snug">
-                              {fila.pareja.jugador1}{" "}
-                              <span className="text-muted">/</span>{" "}
-                              {fila.pareja.jugador2}
+                              {fila.nombre}
                             </span>
                           </span>
                         </TableCell>
@@ -390,7 +530,7 @@ export default async function GrupoMatchesPage({
                         <TableCell
                           className="countdown-num text-center tabular-nums"
                           style={
-                            fila.dif > 0 ? { color: cat.color } : undefined
+                            fila.dif > 0 ? { color: data.color } : undefined
                           }
                         >
                           {fila.dif > 0 ? `+${fila.dif}` : fila.dif}
@@ -401,6 +541,8 @@ export default async function GrupoMatchesPage({
                 </TableBody>
               </Table>
             </div>
+              </>
+            )}
           </section>
         </div>
       </main>
