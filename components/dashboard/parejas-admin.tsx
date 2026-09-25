@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Eye, Pencil, Plus, Trash2, TriangleAlert } from "lucide-react";
+import { Eye, Pencil, Plus, Search, Trash2, TriangleAlert } from "lucide-react";
 
 import { CategoriaBadge } from "@/components/dashboard/categoria-badge";
 import { JugadorCombobox } from "@/components/dashboard/jugador-combobox";
@@ -69,6 +69,22 @@ export function ParejasAdmin({
   const [guardando, setGuardando] = useState(false);
   const [porEliminar, setPorEliminar] = useState<DoubleRow | null>(null);
   const [eliminando, setEliminando] = useState(false);
+  const [filtro, setFiltro] = useState<string>("todas");
+  const [busqueda, setBusqueda] = useState("");
+  const [busquedaDeb, setBusquedaDeb] = useState("");
+
+  // Debounce del buscador para no filtrar en cada tecla.
+  useEffect(() => {
+    const t = setTimeout(() => setBusquedaDeb(busqueda), 250);
+    return () => clearTimeout(t);
+  }, [busqueda]);
+
+  function normaliza(s: string) {
+    return s
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  }
 
   function getJugador(id: string): ParejaPlayerOption | undefined {
     return players.find((j) => j.id === id);
@@ -170,6 +186,13 @@ export function ParejasAdmin({
     return `${a?.nombre ?? "?"} / ${b?.nombre ?? "?"}`;
   }
 
+  const visibles = parejas.filter((p) => {
+    if (filtro !== "todas" && p.categoriaSlug !== filtro) return false;
+    const q = normaliza(busquedaDeb.trim());
+    if (!q) return true;
+    return normaliza(nombrePareja(p)).includes(q);
+  });
+
   function hint(j: ParejaPlayerOption): string {
     const edad = j.edad === null ? "–" : `${j.edad} años`;
     const ciudad = j.ciudad ?? "–";
@@ -180,7 +203,7 @@ export function ParejasAdmin({
     <div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-muted">
-          {parejas.length} {parejas.length === 1 ? "pareja" : "parejas"}
+          {visibles.length} {visibles.length === 1 ? "pareja" : "parejas"}
         </p>
         <Button
           type="button"
@@ -193,18 +216,59 @@ export function ParejasAdmin({
         </Button>
       </div>
 
-      {parejas.length === 0 ? (
+      <div className="mt-4 grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
+        <div className="grid gap-2">
+          <Label htmlFor="par-buscar">Buscar por jugador</Label>
+          <span className="relative block">
+            <Search
+              aria-hidden="true"
+              className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
+            />
+            <input
+              id="par-buscar"
+              type="search"
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+              placeholder="p. ej. Mendoza"
+              autoComplete="off"
+              className="min-h-11 w-full rounded-xl border border-line bg-background py-2.5 pl-10 pr-3.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted/70 focus-visible:border-accent [&::-webkit-search-cancel-button]:cursor-pointer"
+            />
+          </span>
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="par-filtro">Categoría</Label>
+          <select
+            id="par-filtro"
+            value={filtro}
+            onChange={(e) => setFiltro(e.target.value)}
+            className={`${SELECT_CLASS} sm:w-auto sm:min-w-44`}
+          >
+            <option value="todas">Todas las categorías</option>
+            {categories.map((c) => (
+              <option key={c.slug} value={c.slug}>
+                {c.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      {visibles.length === 0 ? (
         <Card className="mt-6 flex flex-col items-center gap-3 rounded-xl p-10 text-center">
           <p className="font-display text-xl uppercase tracking-wide">
             Sin parejas
           </p>
           <p className="max-w-sm text-sm text-muted">
-            Crea la primera eligiendo dos jugadores existentes.
+            {parejas.length === 0
+              ? "Crea la primera eligiendo dos jugadores existentes."
+              : "No hay parejas para este filtro."}
           </p>
-          <Button type="button" onClick={abrirCrear} className="mt-2 rounded-xl">
-            <Plus aria-hidden="true" />
-            Nueva pareja
-          </Button>
+          {parejas.length === 0 && (
+            <Button type="button" onClick={abrirCrear} className="mt-2 rounded-xl">
+              <Plus aria-hidden="true" />
+              Nueva pareja
+            </Button>
+          )}
         </Card>
       ) : (
         <div className="mt-6">
@@ -220,7 +284,7 @@ export function ParejasAdmin({
               </tr>
             </TableHeader>
             <TableBody>
-              {parejas.map((p) => {
+              {visibles.map((p) => {
                 const a = getJugador(p.jugador1Id);
                 const b = getJugador(p.jugador2Id);
                 return (

@@ -84,7 +84,7 @@ export function PartidosAdmin({
     return s
       .toLowerCase()
       .normalize("NFD")
-      .replace(/[̀-ͯ]/g, "");
+      .replace(/[\u0300-\u036f]/g, "");
   }
 
   function nombresPartido(p: MatchRow) {
