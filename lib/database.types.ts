@@ -357,7 +357,10 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      create_groups_for_category: {
+        Args: { p_category_id: string; p_group_count: number }
+        Returns: undefined
+      }
     }
     Enums: {
       match_stage:
