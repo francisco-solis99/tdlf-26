@@ -27,8 +27,7 @@ import {
 } from "@/lib/actions/torneo";
 import {
   categorySlug,
-  letraDeGrupo,
-  ordenarGrupos,
+  letraDeGrupoNombre,
 } from "@/lib/torneo-view";
 
 export const dynamic = "force-dynamic";
@@ -65,12 +64,13 @@ async function loadCategoria(slug: string) {
   const categories = await getCategories();
   const row = categories.find((c) => categorySlug(c.name) === slug);
   if (!row) return null;
-  const [groups, doubles] = await Promise.all([
+  const [groupsRaw, doubles] = await Promise.all([
     getGroups(row.id),
     getDoublesWithPlayers({ categoryId: row.id }),
   ]);
   const presentacion = PRESENTACION[slug] ?? PRESENTACION_FALLBACK;
-  return { row, groups: ordenarGrupos(groups), doubles, ...presentacion };
+  const groups = [...groupsRaw].sort((a, b) => a.name.localeCompare(b.name, "es"));
+  return { row, groups, doubles, ...presentacion };
 }
 
 export async function generateMetadata({
@@ -216,8 +216,8 @@ export default async function CategoriaDetailPage({
             type="multiple"
             className="mt-6 grid items-start gap-4 sm:grid-cols-2 xl:grid-cols-3"
           >
-            {cat.groups.map((grupo, i) => {
-              const letra = letraDeGrupo(i);
+            {cat.groups.map((grupo) => {
+              const letra = letraDeGrupoNombre(grupo.name);
               const parejasGrupo = cat.doubles.filter(
                 (d) => d.group_id === grupo.id,
               );

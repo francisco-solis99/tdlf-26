@@ -26,7 +26,6 @@ import {
 import {
   categorySlug,
   grupoPorLetra,
-  ordenarGrupos,
 } from "@/lib/torneo-view";
 
 export const dynamic = "force-dynamic";
@@ -68,7 +67,7 @@ async function loadGrupo(slug: string, letra: string) {
     getMatches(),
     getGroups(category.id),
   ]);
-  const grupo = grupoPorLetra(ordenarGrupos(groups), letra);
+  const grupo = grupoPorLetra(groups, letra);
   if (!grupo) return null;
   const groupMatches = matches.filter((m) => m.group_id === grupo.id);
   const standings = (await getGroupStandings(grupo.id)).filter(
