@@ -33,6 +33,7 @@ import {
   updateDouble,
 } from "@/lib/actions/admin";
 import type { DoubleRow } from "@/lib/torneo-view";
+import { letraDeGrupoNombre } from "@/lib/torneo-view";
 
 export type ParejaPlayerOption = {
   id: string;
@@ -313,20 +314,35 @@ export function ParejasAdmin({
                     </TableCell>
                     <TableCell>
                       <span className="flex items-center justify-end gap-1">
-                        <Button
-                          asChild
-                          variant="ghost"
-                          size="icon"
-                          title="Ver grupo (público)"
-                          className="rounded-xl"
-                        >
-                          <Link
-                            href={`/categorias/${p.categoriaSlug}`}
-                            aria-label={`Ver grupo de ${nombrePareja(p)}`}
+                        {p.grupo ? (
+                          <Button
+                            asChild
+                            variant="ghost"
+                            size="icon"
+                            title={`Ver ${p.grupo} (público)`}
+                            className="rounded-xl"
+                          >
+                            <Link
+                              href={`/categorias/${p.categoriaSlug}/matches/${letraDeGrupoNombre(p.grupo)}`}
+                              aria-label={`Ver ${p.grupo} de ${nombrePareja(p)}`}
+                            >
+                              <Eye aria-hidden="true" />
+                            </Link>
+                          </Button>
+                        ) : (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            title="Sin grupo asignado"
+                            aria-label={`Sin grupo asignado para ${nombrePareja(p)}`}
+                            aria-disabled="true"
+                            disabled
+                            className="rounded-xl opacity-40"
                           >
                             <Eye aria-hidden="true" />
-                          </Link>
-                        </Button>
+                          </Button>
+                        )}
                         <Button
                           type="button"
                           variant="ghost"
