@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
 
 import { Resumen } from "@/components/dashboard/resumen";
-import { listCategorias } from "@/config/categorias";
-import { listGrupos } from "@/config/grupos";
-import { isJugado, listPartidos } from "@/config/partidos";
+import { getCategoria } from "@/config/categorias";
 import { requireAdmin } from "@/lib/actions/auth";
+import {
+  getCategories,
+  getDoublesWithPlayers,
+  getGroups,
+  getMatches,
+} from "@/lib/actions/torneo";
+import { categorySlug } from "@/lib/torneo-view";
 
 export const metadata: Metadata = {
   title: "Panel — Torneo de las Fresas 2026",
@@ -13,24 +18,29 @@ export const metadata: Metadata = {
 
 export default async function DashboardHomePage() {
   await requireAdmin();
-  const categorias = listCategorias().map((cat) => {
-    const grupos = listGrupos(cat.slug);
-    let partidos = 0;
-    let jugados = 0;
-    for (const g of grupos) {
-      const ps = listPartidos(cat.slug, g.letra);
-      partidos += ps.length;
-      jugados += ps.filter(isJugado).length;
-    }
+  const [categories, groups, doubles, matches] = await Promise.all([
+    getCategories(),
+    getGroups(),
+    getDoublesWithPlayers(),
+    getMatches(),
+  ]);
+  const categorias = categories.map((cat) => {
+    const slug = categorySlug(cat.name);
+    const presentacion = getCategoria(slug);
+    const grupos = groups.filter((g) => g.category_id === cat.id);
+    const idsGrupos = new Set(grupos.map((g) => g.id));
+    const parejas = doubles.filter((d) => d.category_id === cat.id).length;
+    const partidosCat = matches.filter((m) => m.group_id && idsGrupos.has(m.group_id));
+    const jugados = partidosCat.filter((m) => m.winner_double_id !== null).length;
     return {
-      slug: cat.slug,
-      nombre: cat.nombre,
-      color: cat.color,
-      colorSoft: cat.colorSoft,
+      slug,
+      nombre: cat.name,
+      color: presentacion?.color ?? "#9b9b96",
+      colorSoft: presentacion?.colorSoft ?? "rgba(155,155,150,0.15)",
       grupos: grupos.length,
-      parejas: cat.parejas,
-      jugadores: cat.jugadores,
-      partidos,
+      parejas,
+      jugadores: parejas * 2,
+      partidos: partidosCat.length,
       jugados,
     };
   });
@@ -55,9 +65,9 @@ export default async function DashboardHomePage() {
       <h1 className="mt-2 font-display text-3xl uppercase tracking-wide sm:text-5xl">
         Resumen del torneo
       </h1>
-      <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
-        Cuarta edición · Datos de ejemplo hasta conectar la base de datos.
-      </p>
+        <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
+          Cuarta edición · Datos en vivo de la base de datos.
+        </p>
 
       <Resumen totales={totales} categorias={categorias} />
     </div>
