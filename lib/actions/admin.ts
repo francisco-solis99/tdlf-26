@@ -347,6 +347,7 @@ export async function deleteMatch(
 export type CreateGroupsInput = {
   category_id: string;
   group_count: number;
+  group_heads?: string[];
 };
 
 export type CreatedGroups = {
@@ -375,10 +376,24 @@ export async function createGroupsForCategory(
     };
   }
 
+  const heads = (input.group_heads ?? []).filter((h) => h !== "");
+  if (heads.length > 0) {
+    if (heads.length !== input.group_count) {
+      return {
+        ok: false,
+        error: `Si eliges cabezas, debes llenar los ${input.group_count} grupos — o ninguno.`,
+      };
+    }
+    if (new Set(heads).size !== heads.length) {
+      return { ok: false, error: "Los cabezas de grupo deben ser parejas distintas." };
+    }
+  }
+
   const supabase = await createClient();
   const { error } = await supabase.rpc("create_groups_for_category", {
     p_category_id: input.category_id,
     p_group_count: input.group_count,
+    p_group_heads: heads,
   });
   if (error) return { ok: false, error: toReadableError("groups", error) };
 
@@ -503,4 +518,65 @@ export async function deleteCategory(
   const { error } = await supabase.from("categories").delete().eq("id", id);
   if (error) return { ok: false, error: toReadableError("groups", error) };
   return { ok: true, data: { id } };
+}
+
+// ---------------------------------------------------------------------------
+// Groups reset — wipes one category's groups so it can be rebuilt.
+// A single DELETE does the whole job by schema design:
+//   matches.group_id  ON DELETE CASCADE  → the group's matches vanish
+//   doubles.group_id  ON DELETE SET NULL → pairs survive, ungrouped again
+// Players, doubles rows and the category itself are never touched.
+// ---------------------------------------------------------------------------
+
+export type ResetGroupsResult = {
+  groups: number;
+  matches: number;
+};
+
+export async function resetCategoryGroups(
+  category_id: string,
+): Promise<ActionResult<ResetGroupsResult>> {
+  await requireAdmin();
+
+  if (!category_id) {
+    return { ok: false, error: "Elige una categoría." };
+  }
+
+  const supabase = await createClient();
+
+  const { data: groups, error: groupsError } = await supabase
+    .from("groups")
+    .select("id")
+    .eq("category_id", category_id);
+  if (groupsError) {
+    return { ok: false, error: toReadableError("groups", groupsError) };
+  }
+  if (groups.length === 0) {
+    return {
+      ok: false,
+      error: "Esta categoría no tiene grupos para restablecer.",
+    };
+  }
+
+  const groupIds = groups.map((g) => g.id);
+  const { count: matchCount, error: matchError } = await supabase
+    .from("matches")
+    .select("id", { count: "exact", head: true })
+    .in("group_id", groupIds);
+  if (matchError) {
+    return { ok: false, error: toReadableError("groups", matchError) };
+  }
+
+  const { error: deleteError } = await supabase
+    .from("groups")
+    .delete()
+    .eq("category_id", category_id);
+  if (deleteError) {
+    return { ok: false, error: toReadableError("groups", deleteError) };
+  }
+
+  return {
+    ok: true,
+    data: { groups: groups.length, matches: matchCount ?? 0 },
+  };
 }

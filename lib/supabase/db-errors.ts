@@ -52,6 +52,15 @@ export function toReadableError(
   if (message.includes("Not enough registered doubles")) {
     return "No hay suficientes parejas registradas (mínimo 2 por grupo).";
   }
+  if (message.includes("one group head per group")) {
+    return "Si eliges cabezas, debes llenar una por grupo — o ninguna.";
+  }
+  if (message.includes("must all be different doubles")) {
+    return "Los cabezas de grupo deben ser parejas distintas.";
+  }
+  if (message.includes("not valid, ungrouped doubles")) {
+    return "Un cabeza elegido ya no es una pareja válida sin grupo de esta categoría.";
+  }
 
   // RPC function missing (migration not applied).
   if (code === "PGRST202" || message.includes("Could not find the function")) {
