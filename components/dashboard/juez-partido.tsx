@@ -3,6 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
+import { updateMatchScore } from "@/lib/actions/admin";
+import type { ScoringMatch } from "@/lib/actions/torneo";
+
 const DEFAULT_MINUTES = 20;
 const DEFAULT_SECONDS = 0;
 const DEFAULT_WIN_POINTS = 10;
@@ -10,19 +13,9 @@ const DEFAULT_WIN_POINTS = 10;
 type Side = "A" | "B";
 type Phase = "idle" | "running" | "paused";
 
-const PAIRS: Record<
-  Side,
-  { tag: string; players: [string, string] }
-> = {
-  A: {
-    tag: "Pareja A",
-    players: ["Carlos Mendoza", "Luis Torres"],
-  },
-  B: {
-    tag: "Pareja B",
-    players: ["Jorge Ramírez", "Miguel Soto"],
-  },
-};
+function tag(side: Side): string {
+  return `Pareja ${side}`;
+}
 
 function clamp(n: number, min: number, max: number) {
   return Math.max(min, Math.min(max, n));
@@ -36,11 +29,19 @@ function splitTime(totalSeconds: number) {
   };
 }
 
-export default function LiveScorePage() {
-  const [scores, setScores] = useState<Record<Side, number>>({ A: 0, B: 0 });
+export function JuezPartido({ scoring }: { scoring: ScoringMatch }) {
+  const nombres: Record<Side, [string, string]> = {
+    A: [scoring.double1.player1.name, scoring.double1.player2.name],
+    B: [scoring.double2.player1.name, scoring.double2.player2.name],
+  };
+  const [scores, setScores] = useState<Record<Side, number>>({
+    A: scoring.match.score1 ?? 0,
+    B: scoring.match.score2 ?? 0,
+  });
   const [pulse, setPulse] = useState<{ side: Side; key: number } | null>(null);
   const [phase, setPhase] = useState<Phase>("idle");
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [registerError, setRegisterError] = useState<string | null>(null);
   const [registered, setRegistered] = useState<{
     a: number;
     b: number;
@@ -205,9 +206,18 @@ export default function LiveScorePage() {
     setSecondsLeft(durationSec);
   }
 
-  function handleConfirmRegister() {
+  async function handleConfirmRegister() {
+    const result = await updateMatchScore(scoring.match.id, {
+      score1: scores.A,
+      score2: scores.B,
+    });
+    if (!result.ok) {
+      setRegisterError(result.error);
+      return;
+    }
     const snapshot = { a: scores.A, b: scores.B, key: Date.now() };
     setConfirmOpen(false);
+    setRegisterError(null);
     resetMatch();
     if (registeredTimeout.current) clearTimeout(registeredTimeout.current);
     setRegistered(snapshot);
@@ -233,12 +243,12 @@ export default function LiveScorePage() {
 
   const modalHeadline =
     winner === "A" || winner === "B"
-      ? `Gana ${PAIRS[winner].tag} ${scores.A} – ${scores.B}`
+      ? `Gana ${tag(winner)} ${scores.A} – ${scores.B}`
       : winner === "tie"
         ? `Empate a ${scores.A} — punto de oro`
         : modalLeader === "tie"
           ? `Empate parcial ${scores.A} – ${scores.B}`
-          : `Va ganando ${PAIRS[modalLeader].tag} ${scores.A} – ${scores.B}`;
+          : `Va ganando ${tag(modalLeader)} ${scores.A} – ${scores.B}`;
 
   const registeredWinner: Side | "tie" | null = registered
     ? registered.a === registered.b
@@ -260,18 +270,18 @@ export default function LiveScorePage() {
           : "En pausa — el reloj está congelado. Detener para reconfigurar.";
 
   return (
-    <main className="grain relative flex min-h-dvh flex-1 flex-col bg-background text-foreground lg:min-h-full">
+    <div className="grain relative flex min-h-dvh flex-1 flex-col bg-background text-foreground lg:min-h-full">
       <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-3 py-2 sm:px-6 sm:py-10">
         {/* Encabezado */}
         <div className="flex items-center justify-between gap-4">
           <Link
-            href="/"
+            href="/dashboard/partidos"
             className="text-xs text-muted underline-offset-4 hover:text-foreground hover:underline sm:text-sm"
           >
-            ← Volver al inicio
+            ← Volver a partidos
           </Link>
           <p className="font-display text-[10px] uppercase tracking-[0.2em] text-muted sm:text-xs">
-            Marcador en vivo
+            Juzgando · {scoring.category.name} · {scoring.group?.name ?? "Sin grupo"}
           </p>
         </div>
 
@@ -356,12 +366,12 @@ export default function LiveScorePage() {
               <p className="font-display text-sm uppercase tracking-wide text-accent sm:text-xl">
                 {winner === "tie"
                   ? `Empate a ${winPoints} — punto de oro`
-                  : `¡Partido terminado! Gana ${PAIRS[winner].tag}`}
+                  : `¡Partido terminado! Gana ${tag(winner)}`}
               </p>
               <p className="mt-0.5 hidden text-sm text-muted sm:mt-1 sm:block">
                 {winner === "tie"
                   ? "El siguiente punto define al ganador."
-                  : `${PAIRS[winner].players[0]} y ${PAIRS[winner].players[1]} llegan a ${winPoints} puntos.`}
+                  : `${nombres[winner][0]} y ${nombres[winner][1]} llegan a ${winPoints} puntos.`}
               </p>
             </div>
           )}
@@ -372,6 +382,7 @@ export default function LiveScorePage() {
         <div className="mt-2 grid flex-1 content-start gap-2 sm:mt-6 sm:gap-4 lg:grid-cols-[1fr_auto_1fr] lg:content-stretch lg:items-stretch">
           <PairPanel
             side="A"
+            nombres={nombres.A}
             score={scores.A}
             pulsing={pulse?.side === "A"}
             pulseKey={pulse?.side === "A" ? pulse.key : 0}
@@ -471,6 +482,7 @@ export default function LiveScorePage() {
 
           <PairPanel
             side="B"
+            nombres={nombres.B}
             score={scores.B}
             pulsing={pulse?.side === "B"}
             pulseKey={pulse?.side === "B" ? pulse.key : 0}
@@ -482,6 +494,12 @@ export default function LiveScorePage() {
 
         {/* Acciones secundarias */}
         <div className="mt-2 flex flex-wrap items-center justify-center gap-2 sm:mt-6 sm:gap-3">
+          <Link
+            href="/dashboard/partidos"
+            className="inline-flex min-h-10 items-center gap-2 border border-line px-3 py-2 font-display text-xs uppercase tracking-widest text-foreground transition hover:border-accent hover:text-accent sm:min-h-11 sm:px-5 sm:py-2.5 sm:text-sm"
+          >
+            ← Partidos
+          </Link>
           <button
             type="button"
             onClick={resetScores}
@@ -492,7 +510,10 @@ export default function LiveScorePage() {
           </button>
           <button
             type="button"
-            onClick={() => setConfirmOpen(true)}
+            onClick={() => {
+              setRegisterError(null);
+              setConfirmOpen(true);
+            }}
             disabled={!canRegister}
             title={
               canRegister
@@ -546,10 +567,10 @@ export default function LiveScorePage() {
             <div className="mt-5 grid grid-cols-[1fr_auto_1fr] items-center gap-3 border border-line bg-background px-4 py-4">
               <div className="min-w-0">
                 <p className="font-display text-xs uppercase tracking-[0.2em] text-muted">
-                  {PAIRS.A.tag}
+                  {tag("A")}
                 </p>
                 <p className="mt-1 truncate text-sm">
-                  {PAIRS.A.players[0]} y {PAIRS.A.players[1]}
+                  {nombres.A[0]} y {nombres.A[1]}
                 </p>
                 <p className="mt-2 font-display text-5xl tabular-nums">
                   {scores.A}
@@ -563,10 +584,10 @@ export default function LiveScorePage() {
               </p>
               <div className="min-w-0 text-right">
                 <p className="font-display text-xs uppercase tracking-[0.2em] text-muted">
-                  {PAIRS.B.tag}
+                  {tag("B")}
                 </p>
                 <p className="mt-1 truncate text-sm">
-                  {PAIRS.B.players[0]} y {PAIRS.B.players[1]}
+                  {nombres.B[0]} y {nombres.B[1]}
                 </p>
                 <p className="mt-2 font-display text-5xl tabular-nums">
                   {scores.B}
@@ -579,6 +600,11 @@ export default function LiveScorePage() {
               {Math.floor(durationSec / 60)}:
               {String(durationSec % 60).padStart(2, "0")}
             </p>
+            {registerError && (
+              <p role="alert" className="mt-3 text-center text-sm text-accent">
+                {registerError}
+              </p>
+            )}
 
             <div className="mt-6 grid grid-cols-2 gap-2">
               <button
@@ -624,12 +650,19 @@ export default function LiveScorePage() {
                   {registeredWinner === "tie"
                     ? `Empate ${registered.a} – ${registered.b}: punto de oro.`
                     : registeredWinner
-                      ? `Gana ${PAIRS[registeredWinner].tag} ${registered.a} – ${registered.b}.`
+                      ? `Gana ${tag(registeredWinner)} ${registered.a} – ${registered.b}.`
                       : `Marcador ${registered.a} – ${registered.b} guardado.`}
                 </p>
                 <p className="mt-1 text-xs text-muted">
                   Marcador reiniciado — listo para el siguiente partido.
                 </p>
+                <Link
+                  href="/dashboard/partidos"
+                  className="mt-2 inline-flex min-h-10 items-center gap-1.5 text-sm font-medium text-accent underline-offset-4 hover:underline"
+                >
+                  Volver a partidos
+                  <span aria-hidden="true">→</span>
+                </Link>
                 <span
                   aria-hidden="true"
                   className="registered-bar mt-3 block h-1 w-full overflow-hidden bg-line"
@@ -712,12 +745,13 @@ export default function LiveScorePage() {
           .registered-toast, .registered-check, .registered-bar::after { animation: none; }
         }
       `}</style>
-    </main>
+    </div>
   );
 }
 
 function PairPanel({
   side,
+  nombres,
   score,
   pulsing,
   pulseKey,
@@ -726,6 +760,7 @@ function PairPanel({
   onRemove,
 }: {
   side: Side;
+  nombres: [string, string];
   score: number;
   pulsing: boolean;
   pulseKey: number;
@@ -733,19 +768,19 @@ function PairPanel({
   onAdd: () => void;
   onRemove: () => void;
 }) {
-  const pair = PAIRS[side];
+  const tagName = tag(side);
   const accentSide = side === "A" ? "border-l-4 border-l-accent" : "border-r-4 border-r-accent lg:text-right";
 
   return (
     <section
-      aria-label={pair.tag}
+      aria-label={tagName}
       className={`flex flex-col border bg-surface p-3 transition-colors sm:p-8 lg:p-8 ${
         pulsing ? "pair-pulsing border-line" : "border-line"
       } ${isWinner ? "border-accent/60" : ""} ${accentSide}`}
     >
       <div className={`flex items-center justify-between gap-3 ${side === "B" ? "lg:flex-row-reverse" : ""}`}>
         <p className="font-display text-[10px] uppercase tracking-[0.25em] text-muted sm:text-xs">
-          {pair.tag}
+          {tagName}
         </p>
         {isWinner && (
           <span className="bg-accent px-2 py-0.5 font-display text-[11px] uppercase tracking-widest text-white">
@@ -759,7 +794,7 @@ function PairPanel({
       <div className="mt-1.5 flex items-center gap-3 sm:mt-3 lg:mt-0 lg:flex-col lg:gap-0">
         <p
           aria-live="polite"
-          aria-label={`Puntos de ${pair.tag}: ${score}`}
+          aria-label={`Puntos de ${tagName}: ${score}`}
           className="countdown-num min-w-14 text-center font-display text-6xl leading-none tabular-nums sm:text-8xl lg:mb-0 lg:mt-6 lg:min-w-0 lg:text-9xl"
         >
           <span key={`${side}-${score}-${pulseKey}`} className={pulsing ? "score-digit-pop" : undefined}>
@@ -769,7 +804,7 @@ function PairPanel({
 
         <div className="min-w-0 flex-1 lg:mt-2 lg:flex lg:flex-col lg:items-center">
           <ul className="space-y-0 truncate sm:space-y-1 lg:text-center">
-            {pair.players.map((player) => (
+            {nombres.map((player) => (
               <li
                 key={player}
                 className="truncate font-display text-sm uppercase tracking-wide sm:text-xl lg:text-2xl"
@@ -787,7 +822,7 @@ function PairPanel({
           <button
             type="button"
             onClick={onAdd}
-            aria-label={`Sumar un punto a ${pair.tag}`}
+            aria-label={`Sumar un punto a ${tagName}`}
             className="min-h-11 bg-accent font-display text-base uppercase tracking-widest text-white transition hover:bg-accent-strong active:scale-[0.98] sm:text-2xl lg:min-h-16"
           >
             + 1
@@ -796,7 +831,7 @@ function PairPanel({
             type="button"
             onClick={onRemove}
             disabled={score <= 0}
-            aria-label={`Restar un punto a ${pair.tag}`}
+            aria-label={`Restar un punto a ${tagName}`}
             className="min-h-8 border border-line font-display text-sm uppercase tracking-widest text-foreground transition hover:border-accent hover:text-accent active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-line disabled:hover:text-foreground sm:text-lg lg:min-h-12"
           >
             − 1

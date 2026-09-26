@@ -163,3 +163,54 @@ export async function getDoubleStatus(filters?: {
   if (error) throwQueryError("double_status", error.message);
   return data;
 }
+
+// ---------------------------------------------------------------------------
+// Single match with full scoring context (both doubles with players,
+// group and category). Powers the judge view.
+// ---------------------------------------------------------------------------
+
+export type ScoringMatch = {
+  match: Match;
+  double1: DoubleWithPlayers;
+  double2: DoubleWithPlayers;
+  group: Pick<Group, "id" | "name"> | null;
+  category: Pick<Category, "id" | "name">;
+};
+
+export async function getScoringMatch(matchId: string): Promise<ScoringMatch> {
+  const supabase = await createClient();
+  const { data: match, error } = await supabase
+    .from("matches")
+    .select("*")
+    .eq("id", matchId)
+    .single();
+
+  if (error || !match) throwQueryError("matches", "Partido no encontrado.");
+
+  const { data: doubles, error: doublesError } = await supabase
+    .from("doubles")
+    .select(`
+      *,
+      player1:players!doubles_player1_id_fkey(id, name, age, city, picture),
+      player2:players!doubles_player2_id_fkey(id, name, age, city, picture),
+      group:groups(id, name),
+      category:categories!doubles_category_id_fkey(id, name)
+    `)
+    .in("id", [match.double1_id, match.double2_id]);
+
+  if (doublesError || !doubles) {
+    throwQueryError("doubles", doublesError?.message ?? "Parejas no encontradas.");
+  }
+
+  const double1 = (doubles as DoubleWithPlayers[]).find(
+    (d) => d.id === match.double1_id,
+  );
+  const double2 = (doubles as DoubleWithPlayers[]).find(
+    (d) => d.id === match.double2_id,
+  );
+  if (!double1 || !double2) {
+    throwQueryError("doubles", "Parejas no encontradas.");
+  }
+
+  return { match, double1, double2, group: double1.group, category: double1.category };
+}

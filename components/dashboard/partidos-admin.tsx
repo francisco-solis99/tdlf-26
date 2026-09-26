@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Pencil, Search, Trash2, TriangleAlert } from "lucide-react";
+import Link from "next/link";
+import { Gavel, Pencil, Search, Trash2, TriangleAlert } from "lucide-react";
 
 import { CategoriaBadge } from "@/components/dashboard/categoria-badge";
+import { Paginacion } from "@/components/dashboard/paginacion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -99,6 +101,15 @@ export function PartidosAdmin({
     return normaliza(nombresPartido(p)).includes(q);
   });
 
+  const POR_PAGINA = 15;
+  const [pagina, setPagina] = useState(1);
+  const totalPaginas = Math.max(1, Math.ceil(visibles.length / POR_PAGINA));
+  const paginaSegura = Math.min(pagina, totalPaginas);
+  const enPagina = visibles.slice(
+    (paginaSegura - 1) * POR_PAGINA,
+    paginaSegura * POR_PAGINA,
+  );
+
   function abrirEditar(p: MatchRow) {
     setEditando(p);
     setScoreA(p.scoreA === null ? "" : String(p.scoreA));
@@ -172,7 +183,10 @@ export function PartidosAdmin({
                 id="part-buscar"
                 type="search"
                 value={busqueda}
-                onChange={(e) => setBusqueda(e.target.value)}
+                onChange={(e) => {
+                  setBusqueda(e.target.value);
+                  setPagina(1);
+                }}
                 placeholder="p. ej. Mendoza"
                 autoComplete="off"
                 className="min-h-11 w-full rounded-xl border border-line bg-background py-2.5 pl-10 pr-3.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted/70 focus-visible:border-accent [&::-webkit-search-cancel-button]:cursor-pointer"
@@ -184,7 +198,10 @@ export function PartidosAdmin({
             <select
               id="part-filtro"
               value={filtro}
-              onChange={(e) => setFiltro(e.target.value)}
+              onChange={(e) => {
+                setFiltro(e.target.value);
+                setPagina(1);
+              }}
               className={`${SELECT_CLASS} sm:w-auto sm:min-w-44`}
             >
               <option value="todas">Todas las categorías</option>
@@ -200,7 +217,10 @@ export function PartidosAdmin({
             <select
               id="part-grupo"
               value={filtroGrupo}
-              onChange={(e) => setFiltroGrupo(e.target.value)}
+              onChange={(e) => {
+                setFiltroGrupo(e.target.value);
+                setPagina(1);
+              }}
               className={`${SELECT_CLASS} sm:w-auto sm:min-w-44`}
             >
               <option value="todos">Todos los grupos</option>
@@ -242,7 +262,7 @@ export function PartidosAdmin({
               </tr>
             </TableHeader>
             <TableBody>
-              {visibles.map((p) => {
+              {enPagina.map((p) => {
                 const win = ganadorRow(p);
                 const jugado = isJugadoRow(p);
                 const cat = getCategoria(p.categoriaSlug);
@@ -309,6 +329,20 @@ export function PartidosAdmin({
                     <TableCell>
                       <span className="flex items-center justify-end gap-1">
                         <Button
+                          asChild
+                          variant="ghost"
+                          size="icon"
+                          title="Juzgar partido"
+                          className="rounded-xl"
+                        >
+                          <Link
+                            href={`/dashboard/live-score?match=${p.id}`}
+                            aria-label={`Juzgar partido ${p.nombreA} contra ${p.nombreB}`}
+                          >
+                            <Gavel aria-hidden="true" />
+                          </Link>
+                        </Button>
+                        <Button
                           type="button"
                           variant="ghost"
                           size="icon"
@@ -342,6 +376,14 @@ export function PartidosAdmin({
           </Table>
         </div>
       )}
+      <Paginacion
+        pagina={paginaSegura}
+        totalPaginas={totalPaginas}
+        desde={visibles.length === 0 ? 0 : (paginaSegura - 1) * POR_PAGINA + 1}
+        hasta={Math.min(paginaSegura * POR_PAGINA, visibles.length)}
+        total={visibles.length}
+        onChange={setPagina}
+      />
 
       {/* Modal editar: solo marcador */}
       <Dialog
