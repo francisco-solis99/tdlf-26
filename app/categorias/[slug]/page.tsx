@@ -176,6 +176,13 @@ export default async function CategoriaDetailPage({
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Button
                 asChild
+                size="lg"
+                className="w-full rounded-xl sm:w-auto"
+              >
+                <Link href={`/clasificados/${slug}`}>Ver clasificados</Link>
+              </Button>
+              <Button
+                asChild
                 variant="outline"
                 size="lg"
                 className="w-full rounded-xl sm:w-auto"
