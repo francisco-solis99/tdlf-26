@@ -298,6 +298,8 @@ export type Database = {
           group_rank: number | null
           group_stage_complete: boolean | null
           losses: number | null
+          point_differential: number | null
+          points_conceded: number | null
           points_scored: number | null
           status: string | null
           wins: number | null
@@ -335,6 +337,8 @@ export type Database = {
           group_id: string | null
           group_rank: number | null
           losses: number | null
+          point_differential: number | null
+          points_conceded: number | null
           points_scored: number | null
           wins: number | null
         }
