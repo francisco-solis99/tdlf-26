@@ -362,7 +362,11 @@ export type Database = {
     }
     Functions: {
       create_groups_for_category: {
-        Args: { p_category_id: string; p_group_count: number }
+        Args: {
+          p_category_id: string
+          p_group_count: number
+          p_group_heads?: string[]
+        }
         Returns: undefined
       }
     }
