@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Eye, Pencil, Plus, Search, Trash2, TriangleAlert } from "lucide-react";
 
 import { CategoriaBadge } from "@/components/dashboard/categoria-badge";
+import { Paginacion } from "@/components/dashboard/paginacion";
 import { JugadorCombobox } from "@/components/dashboard/jugador-combobox";
 import { Avatar } from "@/components/pareja-avatars";
 import { Button } from "@/components/ui/button";
@@ -164,6 +165,7 @@ export function ParejasAdmin({
       setParejas((prev) => prev.map((p) => (p.id === row.id ? row : p)));
     } else {
       setParejas((prev) => [...prev, row]);
+      setPagina(Math.max(1, Math.ceil((parejas.length + 1) / POR_PAGINA)));
     }
     setFormAbierto(false);
   }
@@ -193,6 +195,15 @@ export function ParejasAdmin({
     if (!q) return true;
     return normaliza(nombrePareja(p)).includes(q);
   });
+
+  const POR_PAGINA = 15;
+  const [pagina, setPagina] = useState(1);
+  const totalPaginas = Math.max(1, Math.ceil(visibles.length / POR_PAGINA));
+  const paginaSegura = Math.min(pagina, totalPaginas);
+  const enPagina = visibles.slice(
+    (paginaSegura - 1) * POR_PAGINA,
+    paginaSegura * POR_PAGINA,
+  );
 
   function hint(j: ParejaPlayerOption): string {
     const edad = j.edad === null ? "–" : `${j.edad} años`;
@@ -229,7 +240,10 @@ export function ParejasAdmin({
               id="par-buscar"
               type="search"
               value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
+              onChange={(e) => {
+                setBusqueda(e.target.value);
+                setPagina(1);
+              }}
               placeholder="p. ej. Mendoza"
               autoComplete="off"
               className="min-h-11 w-full rounded-xl border border-line bg-background py-2.5 pl-10 pr-3.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted/70 focus-visible:border-accent [&::-webkit-search-cancel-button]:cursor-pointer"
@@ -241,7 +255,10 @@ export function ParejasAdmin({
           <select
             id="par-filtro"
             value={filtro}
-            onChange={(e) => setFiltro(e.target.value)}
+            onChange={(e) => {
+              setFiltro(e.target.value);
+              setPagina(1);
+            }}
             className={`${SELECT_CLASS} sm:w-auto sm:min-w-44`}
           >
             <option value="todas">Todas las categorías</option>
@@ -285,7 +302,7 @@ export function ParejasAdmin({
               </tr>
             </TableHeader>
             <TableBody>
-              {visibles.map((p) => {
+              {enPagina.map((p) => {
                 const a = getJugador(p.jugador1Id);
                 const b = getJugador(p.jugador2Id);
                 return (
@@ -377,6 +394,14 @@ export function ParejasAdmin({
           </Table>
         </div>
       )}
+      <Paginacion
+        pagina={paginaSegura}
+        totalPaginas={totalPaginas}
+        desde={visibles.length === 0 ? 0 : (paginaSegura - 1) * POR_PAGINA + 1}
+        hasta={Math.min(paginaSegura * POR_PAGINA, visibles.length)}
+        total={visibles.length}
+        onChange={setPagina}
+      />
 
       {/* Modal crear / editar */}
       <Dialog

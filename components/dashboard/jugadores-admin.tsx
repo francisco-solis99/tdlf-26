@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Pencil, Plus, Search, Trash2, TriangleAlert } from "lucide-react";
 
 import { CategoriaBadge } from "@/components/dashboard/categoria-badge";
+import { Paginacion } from "@/components/dashboard/paginacion";
 import { Avatar } from "@/components/pareja-avatars";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -64,6 +65,7 @@ export function JugadoresAdmin({
   const [filtro, setFiltro] = useState<string>("todas");
   const [busqueda, setBusqueda] = useState("");
   const [busquedaDeb, setBusquedaDeb] = useState("");
+  const [pagina, setPagina] = useState(1);
 
   // Debounce del buscador para no filtrar en cada tecla.
   useEffect(() => {
@@ -88,6 +90,14 @@ export function JugadoresAdmin({
     if (!q) return true;
     return normaliza(j.nombre).includes(q);
   });
+
+  const POR_PAGINA = 15;
+  const totalPaginas = Math.max(1, Math.ceil(visibles.length / POR_PAGINA));
+  const paginaSegura = Math.min(pagina, totalPaginas);
+  const enPagina = visibles.slice(
+    (paginaSegura - 1) * POR_PAGINA,
+    paginaSegura * POR_PAGINA,
+  );
 
   // Parejas conocidas (live) para bloquear borrados.
   function parejaDe(id: string): string | null {
@@ -162,6 +172,7 @@ export function JugadoresAdmin({
       setJugadores((prev) => prev.map((j) => (j.id === row.id ? row : j)));
     } else {
       setJugadores((prev) => [...prev, row]);
+      setPagina(Math.max(1, Math.ceil((jugadores.length + 1) / POR_PAGINA)));
     }
     setFormAbierto(false);
   }
@@ -206,11 +217,14 @@ export function JugadoresAdmin({
               aria-hidden="true"
               className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
             />
-            <input
-              id="jug-buscar"
-              type="search"
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
+              <input
+                id="jug-buscar"
+                type="search"
+                value={busqueda}
+                onChange={(e) => {
+                  setBusqueda(e.target.value);
+                  setPagina(1);
+                }}
               placeholder="p. ej. Mendoza"
               autoComplete="off"
               className="min-h-11 w-full rounded-xl border border-line bg-background py-2.5 pl-10 pr-3.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted/70 focus-visible:border-accent [&::-webkit-search-cancel-button]:cursor-pointer"
@@ -219,10 +233,13 @@ export function JugadoresAdmin({
         </div>
         <div className="grid gap-2">
           <Label htmlFor="jug-filtro">Categoría</Label>
-          <select
-            id="jug-filtro"
-            value={filtro}
-            onChange={(e) => setFiltro(e.target.value)}
+            <select
+              id="jug-filtro"
+              value={filtro}
+              onChange={(e) => {
+                setFiltro(e.target.value);
+                setPagina(1);
+              }}
             className={`${SELECT_CLASS} sm:w-auto sm:min-w-44`}
           >
             <option value="todas">Todas las categorías</option>
@@ -261,7 +278,7 @@ export function JugadoresAdmin({
             </tr>
           </TableHeader>
           <TableBody>
-            {visibles.map((j) => {
+            {enPagina.map((j) => {
               const cat = getCategoria(j.categoriaSlug);
               return (
                 <TableRow key={j.id}>
@@ -324,6 +341,14 @@ export function JugadoresAdmin({
         </Table>
       </div>
       )}
+      <Paginacion
+        pagina={paginaSegura}
+        totalPaginas={totalPaginas}
+        desde={visibles.length === 0 ? 0 : (paginaSegura - 1) * POR_PAGINA + 1}
+        hasta={Math.min(paginaSegura * POR_PAGINA, visibles.length)}
+        total={visibles.length}
+        onChange={setPagina}
+      />
 
       {/* Modal crear / editar (sin categoría: se define en la pareja) */}
       <Dialog
