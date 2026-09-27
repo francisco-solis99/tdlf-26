@@ -4,7 +4,7 @@ This document is meant to be handed to an AI assistant (or a new developer) as t
 
 ## 1. What the app does
 
-A web app for organizing a frontenis tournament: registering players and doubles (pairs), organizing them into groups, tracking round-robin match results within those groups, and (in a future phase, not yet built) running a single-elimination knockout bracket among the group winners.
+A web app for organizing a frontenis tournament: registering players and doubles (pairs), organizing them into groups, tracking round-robin match results within those groups, and running a single-elimination knockout bracket among the group qualifiers.
 
 Stack: Next.js frontend, Supabase (Postgres + Auth + Storage) as the backend.
 
@@ -14,7 +14,7 @@ Stack: Next.js frontend, Supabase (Postgres + Auth + Storage) as the backend.
 - Within each category, the **group stage**: each group has N doubles (pairs of two players). Every double plays every other double in its group exactly once (round robin). A group of `k` doubles plays `k(k-1)/2` matches.
 - **The top 2 doubles per group advance** to the next phase.
 - **Ranking within a group**: primarily by number of wins; ties are broken by point differential (points scored minus points conceded) across all group-stage matches.
-- **Not built yet**: the knockout (single-elimination) stage that follows the group stage. The schema has been shaped so this can be added later without a breaking migration (see §7).
+- **The knockout (single-elimination) stage** follows the group stage: one round at a time, admin-triggered, with pairings picked manually rather than randomized or auto-seeded (see §4 and §6, `create_knockout_round`).
 
 ## 3. Roles & permissions
 
@@ -29,6 +29,7 @@ Implemented via a Supabase `profiles` table (one row per `auth.users` row, holdi
 2. **Register doubles**: a pair of two players, registered under a specific category (`doubles.category_id`). At this point the double has **no group yet** (`doubles.group_id` is `null`) — grouping happens later, in bulk.
 3. **Create groups**: once enough doubles are registered for a category, the admin picks that category, enters a group count, optionally picks one "head" double per group to seed, and triggers `create_groups_for_category(p_category_id, p_group_count, p_group_heads)` (a Postgres function, called via `supabase.rpc(...)`, not a sequence of client-side inserts — the whole operation runs as one transaction, so it either fully succeeds or fully fails with no broken half-state). It:
    - Rejects the call outright if `p_group_count` isn't a power of 2 (1, 2, 4, 8, 16...) — enforced in the database, not just the UI. Since exactly 2 doubles qualify per group, total qualifiers = 2 × (number of groups), which needs to land on a power of 2 for a clean knockout bracket later with no byes.
+   - Groups are named with letters (`Grupo A`, `Grupo B`, ...), so it also rejects a group count above 26 — in practice only relevant at 32+ groups, the next power of 2 past 16.
    - Refuses to run if groups already exist for that category (it's a one-time action per category — re-running it could duplicate groups or strand later-registered doubles).
    - Refuses to run if there aren't at least 2 ungrouped doubles per requested group.
    - Optionally seeds one "group head" per group first, via `p_group_heads` (an array of double IDs, one per group) — e.g. 8 groups → 8 seeded heads, one per group. Pass an empty array for pure-random group formation (the original behavior); if any heads are given, it must be exactly one per group. Validated: no duplicate heads, every head must be a real ungrouped double in that category.
@@ -37,7 +38,7 @@ Implemented via a Supabase `profiles` table (one row per `auth.users` row, holdi
 4. **Enter match results**: admin submits `score1` and `score2` for a match. The database automatically computes `winner_double_id` and `played_at` via a trigger — the admin never sets `winner_double_id` directly. A tied score is rejected by the database (frontenis has no draws). Clearing a score back to `null` also clears `winner_double_id`/`played_at` automatically, so a corrected match can never be left pointing at a stale result.
 5. **Standings**: read from the `group_standings` view, which is already ordered by wins then point differential, with a `group_rank` column — `group_rank <= 2` is exactly "who advances."
 6. **Who's still alive / eliminated**: read from the `double_status` view (built on `group_standings` + `group_progress`) — `status` is `'in_progress'`, `'advanced'`, or `'eliminated'`, always computed fresh, never stored.
-7. **(Future, not built)**: the knockout bracket itself — pairing/seeding qualifiers into a round of N, tracking which match's winner feeds into which next match. The schema reserves a `matches.stage` column for this (see §7) but the bracket-building logic doesn't exist yet.
+7. **Knockout stage**: once every group in a category has finished its round robin, the admin creates one round at a time via `create_knockout_round(p_category_id, p_stage, p_pairings)` — manually pairing up whoever's eligible (round 1: the group-stage qualifiers; later rounds: the previous round's winners) rather than any random or auto-seeded pairing. The function computes the correct stage itself from context (qualifier count for round 1, next stage in sequence otherwise) and rejects the call if it doesn't match, refuses to advance until every match in the current stage has a result, and requires the submitted pairings to cover every eligible double exactly once. Scoring a knockout match works exactly like a group match — same `score1`/`score2` update, same auto-computed `winner_double_id`, same tie rejection.
 
 ## 5. Entity-relationship diagram
 
@@ -580,6 +581,11 @@ begin
     raise exception 'Group count must be a power of 2 (1, 2, 4, 8, 16...), got %', p_group_count;
   end if;
 
+  -- group names are letters (Grupo A, B, C...), which only go up to Z
+  if p_group_count > 26 then
+    raise exception 'Group count cannot exceed 26 with letter-based group names, got %', p_group_count;
+  end if;
+
   -- one-time action per category: once groups exist, re-running this
   -- would either duplicate groups or strand later-registered doubles
   -- outside the round-robin they'd need to be part of
@@ -624,7 +630,7 @@ begin
 
   -- create the N groups
   insert into groups (category_id, name)
-  select p_category_id, 'Grupo ' || n
+  select p_category_id, 'Grupo ' || chr(64 + n)
   from generate_series(1, p_group_count) as n;
 
   -- seed the heads first, one per group — array position N (1-based)
@@ -635,7 +641,7 @@ begin
     from unnest(p_group_heads) with ordinality as head(double_id, idx)
     join groups g
       on g.category_id = p_category_id
-     and g.name = 'Grupo ' || head.idx
+     and g.name = 'Grupo ' || chr(64 + head.idx)
     where d.id = head.double_id;
   end if;
 
@@ -653,7 +659,7 @@ begin
     from shuffled s
     join groups g
       on g.category_id = p_category_id
-     and g.name = 'Grupo ' || (((s.rn - 1) % p_group_count) + 1)
+     and g.name = 'Grupo ' || chr(64 + (((s.rn - 1) % p_group_count) + 1))
   )
   update doubles d
   set group_id = a.group_id
@@ -674,6 +680,186 @@ begin
 end;
 $$;
 
+-- ----------------------------------------------------------------------------
+-- 9. Knockout stage progression (admin action, one stage at a time)
+-- ----------------------------------------------------------------------------
+
+-- Creates one knockout round's matches from admin-picked pairings. Handles
+-- both the first knockout round (sourced from group-stage qualifiers) and
+-- every round after it (sourced from the previous round's winners) — same
+-- function either way, since "admin manually pairs who plays who" is the
+-- same operation regardless of which round it is.
+--
+-- p_pairings shape: a JSON array, one entry per match —
+--   [{"double1_id": "...", "double2_id": "..."}, ...]
+--
+-- Deliberately SECURITY INVOKER, same reasoning as create_groups_for_category:
+-- it runs as the calling user, so its insert still goes through the normal
+-- admin-only RLS policy on matches — no need to hide it in `private`.
+create or replace function create_knockout_round(
+  p_category_id uuid,
+  p_stage match_stage,
+  p_pairings jsonb
+)
+returns void
+language plpgsql
+set search_path = public
+as $$
+declare
+  v_current_max_stage match_stage;
+  v_expected_stage match_stage;
+  v_qualifier_count integer;
+  v_incomplete_groups integer;
+  v_pending_matches integer;
+  v_eligible_ids uuid[];
+  v_paired_ids uuid[];
+begin
+  if p_stage = 'group' then
+    raise exception 'create_knockout_round is only for knockout stages, not the group stage';
+  end if;
+
+  if p_pairings is null or jsonb_array_length(p_pairings) = 0 then
+    raise exception 'No pairings provided';
+  end if;
+
+  if exists (
+    select 1 from jsonb_array_elements(p_pairings) elem
+    where elem->>'double1_id' is null or elem->>'double2_id' is null
+  ) then
+    raise exception 'Every pairing must include both double1_id and double2_id';
+  end if;
+
+  if exists (
+    select 1 from jsonb_array_elements(p_pairings) elem
+    where (elem->>'double1_id') = (elem->>'double2_id')
+  ) then
+    raise exception 'A double cannot be paired against itself';
+  end if;
+
+  -- find the highest knockout stage already created for this category, if
+  -- any — matches has no direct category column, so this joins through
+  -- double1_id, which every match (group or knockout) always has
+  select max(m.stage) into v_current_max_stage
+  from matches m
+  join doubles d on d.id = m.double1_id
+  where d.category_id = p_category_id
+    and m.stage <> 'group';
+
+  if v_current_max_stage is null then
+    -- first knockout round: every group in the category must be finished
+    if not exists (select 1 from groups where category_id = p_category_id) then
+      raise exception 'No groups exist for this category yet';
+    end if;
+
+    select count(*) into v_incomplete_groups
+    from group_progress gp
+    join groups g on g.id = gp.group_id
+    where g.category_id = p_category_id
+      and not gp.group_stage_complete;
+
+    if v_incomplete_groups > 0 then
+      raise exception 'Group stage is not finished for every group in this category yet';
+    end if;
+
+    select array_agg(gs.double_id) into v_eligible_ids
+    from group_standings gs
+    join groups g on g.id = gs.group_id
+    where g.category_id = p_category_id
+      and gs.group_rank <= 2;
+
+    v_qualifier_count := coalesce(array_length(v_eligible_ids, 1), 0);
+
+    -- starting stage depends on how many qualified — always a power of 2,
+    -- since group count is validated as one and qualifiers = 2 × groups
+    v_expected_stage := case v_qualifier_count
+      when 2 then 'final'
+      when 4 then 'semifinal'
+      when 8 then 'quarterfinal'
+      when 16 then 'round_of_16'
+      when 32 then 'round_of_32'
+      else null
+    end;
+
+    if v_expected_stage is null then
+      raise exception
+        'Unexpected qualifier count (%) for this category — expected 2, 4, 8, 16 or 32',
+        v_qualifier_count;
+    end if;
+  else
+    if v_current_max_stage = 'final' then
+      raise exception 'The final has already been created for this category — nothing left to advance';
+    end if;
+
+    select count(*) into v_pending_matches
+    from matches m
+    join doubles d on d.id = m.double1_id
+    where d.category_id = p_category_id
+      and m.stage = v_current_max_stage
+      and m.winner_double_id is null;
+
+    if v_pending_matches > 0 then
+      raise exception 'Not every % match has a result yet', v_current_max_stage;
+    end if;
+
+    v_expected_stage := case v_current_max_stage
+      when 'round_of_32' then 'round_of_16'
+      when 'round_of_16' then 'quarterfinal'
+      when 'quarterfinal' then 'semifinal'
+      when 'semifinal' then 'final'
+    end;
+
+    select array_agg(m.winner_double_id) into v_eligible_ids
+    from matches m
+    join doubles d on d.id = m.double1_id
+    where d.category_id = p_category_id
+      and m.stage = v_current_max_stage;
+  end if;
+
+  if p_stage <> v_expected_stage then
+    raise exception 'Expected to create % next for this category, not %', v_expected_stage, p_stage;
+  end if;
+
+  if exists (
+    select 1 from matches m
+    join doubles d on d.id = m.double1_id
+    where d.category_id = p_category_id and m.stage = p_stage
+  ) then
+    raise exception '% matches already exist for this category', p_stage;
+  end if;
+
+  -- flatten the pairings into one array of double ids, to validate
+  -- against the eligible set
+  select array_agg(x) into v_paired_ids
+  from (
+    select (elem->>'double1_id')::uuid as x from jsonb_array_elements(p_pairings) elem
+    union all
+    select (elem->>'double2_id')::uuid as x from jsonb_array_elements(p_pairings) elem
+  ) all_ids;
+
+  if (select count(distinct x) from unnest(v_paired_ids) x) <> array_length(v_paired_ids, 1) then
+    raise exception 'Each double can only appear in one pairing';
+  end if;
+
+  if (
+    select array_agg(x order by x) from unnest(coalesce(v_eligible_ids, '{}')) x
+  ) is distinct from (
+    select array_agg(x order by x) from unnest(v_paired_ids) x
+  ) then
+    raise exception
+      'Pairings must include every eligible double exactly once — % eligible, % paired',
+      coalesce(array_length(v_eligible_ids, 1), 0), array_length(v_paired_ids, 1);
+  end if;
+
+  -- everything checks out
+  insert into matches (stage, double1_id, double2_id)
+  select
+    p_stage,
+    least((elem->>'double1_id')::uuid, (elem->>'double2_id')::uuid),
+    greatest((elem->>'double1_id')::uuid, (elem->>'double2_id')::uuid)
+  from jsonb_array_elements(p_pairings) elem;
+end;
+$$;
+
 ```
 
 ## 7. Key design decisions (quick reference)
@@ -682,9 +868,10 @@ $$;
 - **A player can only ever appear in one row of `doubles`, tournament-wide.** Enforced by `trg_validate_player_single_double`. Since a double is tied to exactly one category, this is what stops a player from competing in more than one category.
 - **`winner_double_id` is auto-computed, not admin-entered.** A trigger (`trg_set_match_winner`) derives it from `score1`/`score2` and rejects ties. Clearing either score back to `null` clears `winner_double_id`/`played_at` too, so a corrected result never leaves a stale winner behind.
 - **Canonical ordering** (`player1_id < player2_id`, `double1_id < double2_id`) plus `unique` constraints stop the same pair or fixture from being inserted twice under a different column order.
-- **`matches.stage`** (`group`, `round_of_32`, `round_of_16`, `quarterfinal`, `semifinal`, `final`; default `'group'`) and a nullable `matches.group_id` were added now, ahead of the knockout stage being built, to avoid a schema migration later. A check constraint keeps them consistent: group-stage matches must have a `group_id`, every other stage must not. `group_standings` only counts `stage = 'group'` matches, so it isn't affected once knockout matches start being inserted.
+- **`matches.stage`** (`group`, `round_of_32`, `round_of_16`, `quarterfinal`, `semifinal`, `final`; default `'group'`) and a nullable `matches.group_id` power the knockout stage. A check constraint keeps them consistent: group-stage matches must have a `group_id`, every other stage must not. `group_standings` only counts `stage = 'group'` matches, so it isn't affected by knockout matches.
 - **`group_standings` is a view**, not a table — it's derived live from `doubles` and `matches`, always consistent, no sync logic needed. `group_rank` (via `row_number()`) makes "top 2 advance" a one-line filter. Ranks by wins, then `point_differential` (points scored minus points conceded) — not total points scored, which was the original rule but turned out to produce wrong rankings (a double with a high total but a worse differential could outrank one with a better differential).
 - **`create_groups_for_category(p_category_id, p_group_count, p_group_heads)` is one atomic Postgres function**, not a sequence of client-side inserts — the create-N-groups / assign-doubles / generate-matches operation needs to succeed or fail as a whole, not leave a broken half-state if one part fails partway through. `p_group_heads` optionally seeds one double per group before the random shuffle runs (empty array = pure random, the original behavior). It's `SECURITY INVOKER` (the default), so its writes still go through normal RLS as the calling user — a non-admin calling it directly just gets every write inside it rejected by RLS, so unlike `is_admin()`/`handle_new_user()` it doesn't need to be hidden in the `private` schema.
+- **`create_knockout_round(p_category_id, p_stage, p_pairings)` handles every knockout round**, first through final, with the same function — pairing is deliberately fully manual (the admin submits exact matchups as JSON), not random or auto-seeded, unlike group formation. It computes the correct stage itself (qualifier count for round 1, next stage in sequence otherwise) rather than trusting the caller, and validates the submitted pairings cover every eligible double exactly once. Same `SECURITY INVOKER` reasoning as `create_groups_for_category`.
 - **Elimination status (`group_progress` + `double_status` views) is derived, not stored.** No `is_eliminated` column exists on `doubles` — a stored boolean could go stale the moment a score is corrected, and a double isn't actually eliminated until its whole group finishes its round robin, which a trigger would need to track separately anyway. `double_status.status` is computed fresh on every query instead.
 - **Roles/RLS**: a `profiles` table (role: `admin` | `user`) + a `is_admin()` helper function used in every RLS policy. Every table: readable by anyone, writable only by admins. The `player-photos` Storage bucket uses the same pattern. Views use `security_invoker = true` so they respect the caller's RLS rather than the view owner's privileges.
 - **`private.is_admin()` and `private.handle_new_user()` live outside `public`.** PostgREST auto-exposes every function in `public` as a callable API endpoint by default, and Postgres grants `EXECUTE` to everyone unless revoked. Neither function should be client-callable, so both live in a `private` schema (which PostgREST doesn't expose), with `EXECUTE` explicitly revoked from `public` and re-granted only to `anon`/`authenticated` on `is_admin()` (since RLS policies still need to invoke it as those roles).
@@ -694,7 +881,6 @@ $$;
 
 ## 8. Current scope / what's NOT built yet
 
-This schema and the workflow above cover **registration through the group stage, group creation, standings, and elimination status**. Explicitly out of scope for now, and not reflected anywhere except as a placeholder:
+This schema and the workflow above cover **registration through the group stage, group creation, standings, elimination status, and knockout-round progression**. Explicitly out of scope for now, and not reflected anywhere except as a placeholder:
 
-- The knockout/elimination bracket: seeding qualifiers, pairing them into rounds, and tracking which match's winner advances to which next match. `matches.stage` exists to support this later, but the bracket-building and progression logic itself hasn't been designed yet.
-- The actual UI pages (public browsing views, admin dashboard forms) and the player-photo upload flow — the data layer (schema, server actions, the group-creation function) is built, but most of what's been built so far is that data layer, not the pages that use it.
+- The actual UI pages (public browsing views, admin dashboard forms) and the player-photo upload flow — the data layer (schema, server actions, the group-creation and knockout-round functions) is built, but most of what's been built so far is that data layer, not the pages that use it.
