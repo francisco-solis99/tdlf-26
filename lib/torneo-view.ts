@@ -118,6 +118,49 @@ export function stageLabel(
   }
 }
 
+// Knockout stage math, mirroring create_knockout_round's own derivation
+// (display only — the function's validation is the source of truth).
+export type KnockoutStage = Exclude<
+  Database["public"]["Enums"]["match_stage"],
+  "group"
+>;
+
+export const KNOCKOUT_STAGES: KnockoutStage[] = [
+  "round_of_32",
+  "round_of_16",
+  "quarterfinal",
+  "semifinal",
+  "final",
+];
+
+export function startingStageForQualifiers(
+  count: number,
+): KnockoutStage | null {
+  switch (count) {
+    case 2:
+      return "final";
+    case 4:
+      return "semifinal";
+    case 8:
+      return "quarterfinal";
+    case 16:
+      return "round_of_16";
+    case 32:
+      return "round_of_32";
+    default:
+      return null;
+  }
+}
+
+export function nextKnockoutStage(
+  stage: KnockoutStage,
+): KnockoutStage | null {
+  const i = KNOCKOUT_STAGES.indexOf(stage);
+  return i >= 0 && i < KNOCKOUT_STAGES.length - 1
+    ? KNOCKOUT_STAGES[i + 1]
+    : null;
+}
+
 export type MatchOpponent = {
   doubleId: string;
   nombreA: string;

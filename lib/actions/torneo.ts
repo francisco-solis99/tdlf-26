@@ -2,6 +2,12 @@
 
 import { createClient } from "@/lib/supabase/server";
 import type { Database } from "@/lib/database.types";
+import {
+  KNOCKOUT_STAGES,
+  nextKnockoutStage,
+  startingStageForQualifiers,
+  type KnockoutStage,
+} from "@/lib/torneo-view";
 
 type Tables = Database["public"]["Tables"];
 type Views = Database["public"]["Views"];
@@ -162,6 +168,163 @@ export async function getDoubleStatus(filters?: {
   const { data, error } = await query;
   if (error) throwQueryError("double_status", error.message);
   return data;
+}
+
+// ---------------------------------------------------------------------------
+// Knockout matches of one category (any non-group stage). matches has no
+// category column, so this filters through the category's doubles.
+// ---------------------------------------------------------------------------
+
+export async function getKnockoutMatches(
+  categoryId: string,
+): Promise<Match[]> {
+  const supabase = await createClient();
+  const [{ data: matches, error }, doubles] = await Promise.all([
+    supabase.from("matches").select("*").neq("stage", "group"),
+    getDoublesWithPlayers({ categoryId }),
+  ]);
+  if (error) throwQueryError("matches", error.message);
+  const ids = new Set(doubles.map((d) => d.id));
+  return (matches ?? []).filter(
+    (m) => ids.has(m.double1_id) && ids.has(m.double2_id),
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Knockout state for the admin section: what exists, what's next, who's
+// eligible. Mirrors create_knockout_round's derivation for display — the
+// function's own validation stays the source of truth on submit.
+// ---------------------------------------------------------------------------
+
+export type KnockoutContender = {
+  doubleId: string;
+  nombre: string;
+  grupo: string | null;
+};
+
+export type KnockoutState = {
+  hasGroups: boolean;
+  groupStageComplete: boolean;
+  pendingGroups: number;
+  qualifierCount: number;
+  currentMaxStage: KnockoutStage | null;
+  stages: Array<{
+    stage: KnockoutStage;
+    matches: Match[];
+  }>;
+  expectedStage: KnockoutStage | null;
+  eligible: KnockoutContender[];
+  champion: KnockoutContender | null;
+};
+
+export async function getKnockoutState(
+  categoryId: string,
+): Promise<KnockoutState> {
+  const [groups, doubles, statuses, koMatches] = await Promise.all([
+    getGroups(categoryId),
+    getDoublesWithPlayers({ categoryId }),
+    getDoubleStatus(),
+    getKnockoutMatches(categoryId),
+  ]);
+
+  const groupIds = new Set(groups.map((g) => g.id));
+  const nombrePorId = new Map(
+    doubles.map((d) => [
+      d.id,
+      {
+        nombre: `${d.player1.name} / ${d.player2.name}`,
+        grupo: d.group?.name ?? null,
+      },
+    ]),
+  );
+  const contendiente = (doubleId: string): KnockoutContender => ({
+    doubleId,
+    nombre: nombrePorId.get(doubleId)?.nombre ?? "?",
+    grupo: nombrePorId.get(doubleId)?.grupo ?? null,
+  });
+
+  const empty: KnockoutState = {
+    hasGroups: groups.length > 0,
+    groupStageComplete: false,
+    pendingGroups: groups.length,
+    qualifierCount: 0,
+    currentMaxStage: null,
+    stages: [],
+    expectedStage: null,
+    eligible: [],
+    champion: null,
+  };
+  if (groups.length === 0) return empty;
+
+  const groupComplete = new Map<string, boolean>();
+  for (const g of groups) {
+    const rows = statuses.filter((s) => s.group_id === g.id);
+    const played = rows.filter((s) => s.status !== "in_progress").length;
+    groupComplete.set(g.id, rows.length > 0 && played === rows.length);
+  }
+  // A group with no played matches at all reports every row in_progress;
+  // completion means every double resolved (advanced or eliminated).
+  const pendingGroups = [...groupComplete.values()].filter((c) => !c).length;
+  const groupStageComplete = pendingGroups === 0;
+
+  const byStage = new Map<string, Match[]>();
+  for (const m of koMatches) {
+    const list = byStage.get(m.stage) ?? [];
+    list.push(m);
+    byStage.set(m.stage, list);
+  }
+  const stages = KNOCKOUT_STAGES.filter((s) => byStage.has(s)).map(
+    (stage) => ({ stage, matches: byStage.get(stage) ?? [] }),
+  );
+  const currentMaxStage =
+    stages.length > 0 ? stages[stages.length - 1].stage : null;
+
+  if (!currentMaxStage) {
+    const qualifiers = statuses.filter(
+      (s) =>
+        s.double_id !== null &&
+        s.status === "advanced" &&
+        s.group_id !== null &&
+        groupIds.has(s.group_id),
+    );
+    return {
+      ...empty,
+      groupStageComplete,
+      pendingGroups,
+      qualifierCount: qualifiers.length,
+      expectedStage: groupStageComplete
+        ? startingStageForQualifiers(qualifiers.length)
+        : null,
+      eligible: groupStageComplete
+        ? qualifiers.map((s) => contendiente(s.double_id as string))
+        : [],
+    };
+  }
+
+  const current = byStage.get(currentMaxStage) ?? [];
+  const allDecided = current.every((m) => m.winner_double_id !== null);
+  const winners = current
+    .filter((m) => m.winner_double_id !== null)
+    .map((m) => contendiente(m.winner_double_id as string));
+  const expectedStage = allDecided
+    ? nextKnockoutStage(currentMaxStage)
+    : currentMaxStage;
+  const champion =
+    currentMaxStage === "final" && allDecided && winners.length === 1
+      ? winners[0]
+      : null;
+
+  return {
+    ...empty,
+    groupStageComplete,
+    pendingGroups,
+    qualifierCount: winners.length,
+    currentMaxStage,
+    stages,
+    expectedStage: champion ? null : expectedStage,
+    eligible: champion ? [] : allDecided ? winners : [],
+    champion,
+  };
 }
 
 // ---------------------------------------------------------------------------

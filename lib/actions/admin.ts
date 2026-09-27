@@ -4,8 +4,9 @@ import { createClient } from "@/lib/supabase/server";
 import { toReadableError } from "@/lib/supabase/db-errors";
 import type { Database } from "@/lib/database.types";
 import { requireAdmin } from "./auth";
-import { getDoublesWithPlayers, getGroups } from "./torneo";
+import { getDoublesWithPlayers, getGroups, getKnockoutMatches } from "./torneo";
 import type { DoubleWithPlayers, Group } from "./torneo";
+import type { KnockoutStage } from "@/lib/torneo-view";
 
 type Tables = Database["public"]["Tables"];
 
@@ -579,4 +580,68 @@ export async function resetCategoryGroups(
     ok: true,
     data: { groups: groups.length, matches: matchCount ?? 0 },
   };
+}
+
+// ---------------------------------------------------------------------------
+// Knockout-round creation — one RPC call validates the stage, the coverage
+// and the ordering, then inserts the round's matches atomically. Afterwards
+// the fresh round is refetched for display.
+// ---------------------------------------------------------------------------
+
+export type KnockoutPairingInput = {
+  double1_id: string;
+  double2_id: string;
+};
+
+export async function createKnockoutRound(input: {
+  category_id: string;
+  stage: KnockoutStage;
+  pairings: KnockoutPairingInput[];
+}): Promise<ActionResult<Match[]>> {
+  await requireAdmin();
+
+  if (!input.category_id) {
+    return { ok: false, error: "Elige una categoría." };
+  }
+  if (input.pairings.length === 0) {
+    return { ok: false, error: "Arma al menos un cruce para crear la ronda." };
+  }
+  const vistos = new Set<string>();
+  for (const p of input.pairings) {
+    if (!p.double1_id || !p.double2_id) {
+      return { ok: false, error: "Cada cruce necesita dos parejas." };
+    }
+    if (p.double1_id === p.double2_id) {
+      return { ok: false, error: "Una pareja no puede enfrentar a sí misma." };
+    }
+    if (vistos.has(p.double1_id) || vistos.has(p.double2_id)) {
+      return {
+        ok: false,
+        error: "Cada pareja solo puede aparecer en un cruce.",
+      };
+    }
+    vistos.add(p.double1_id);
+    vistos.add(p.double2_id);
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("create_knockout_round", {
+    p_category_id: input.category_id,
+    p_stage: input.stage,
+    p_pairings: input.pairings,
+  });
+  if (error) return { ok: false, error: toReadableError("knockout", error) };
+
+  try {
+    const matches = await getKnockoutMatches(input.category_id);
+    return {
+      ok: true,
+      data: matches.filter((m) => m.stage === input.stage),
+    };
+  } catch {
+    return {
+      ok: false,
+      error: "Ronda creada, pero no se pudo cargar para mostrar.",
+    };
+  }
 }

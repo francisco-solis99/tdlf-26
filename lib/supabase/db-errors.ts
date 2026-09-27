@@ -8,7 +8,7 @@ export type DbErrorLike = {
 };
 
 export function toReadableError(
-  operation: "player" | "double" | "match" | "groups",
+  operation: "player" | "double" | "match" | "groups" | "knockout",
   error: DbErrorLike,
 ): string {
   const message = error.message ?? "";
@@ -46,10 +46,14 @@ export function toReadableError(
   if (message.includes("must be a power of 2")) {
     return "El número de grupos debe ser potencia de 2 (1, 2, 4, 8, 16…).";
   }
+  // NB: the knockout "already exist" check must come before the groups
+  // one below — "... matches already exist ..." contains its substring.
+  if (message.includes("matches already exist for this category")) {
+    return "Esa ronda ya fue creada para esta categoría.";
+  }
   if (message.includes("already exist for this category")) {
     return "Esta categoría ya tiene grupos creados — la creación solo se ejecuta una vez.";
-  }
-  if (message.includes("Not enough registered doubles")) {
+  }  if (message.includes("Not enough registered doubles")) {
     return "No hay suficientes parejas registradas (mínimo 2 por grupo).";
   }
   if (message.includes("one group head per group")) {
@@ -60,6 +64,45 @@ export function toReadableError(
   }
   if (message.includes("not valid, ungrouped doubles")) {
     return "Un cabeza elegido ya no es una pareja válida sin grupo de esta categoría.";
+  }
+
+  // create_knockout_round validations.
+  if (message.includes("only for knockout stages")) {
+    return "La fase de grupos no se crea desde la eliminatoria.";
+  }
+  if (message.includes("No pairings provided")) {
+    return "Arma al menos un cruce para crear la ronda.";
+  }
+  if (
+    message.includes("must include both double1_id") ||
+    message.includes("cannot be paired against itself") ||
+    message.includes("only appear in one pairing")
+  ) {
+    return "Cada cruce necesita dos parejas distintas, cada una una sola vez.";
+  }
+  if (message.includes("Expected to create ")) {
+    return "La ronda indicada no es la que sigue. Revisa la ronda esperada.";
+  }
+  if (message.includes("Group stage is not finished")) {
+    return "Aún hay grupos sin terminar la fase de grupos.";
+  }
+  if (message.includes("No groups exist for this category")) {
+    return "Esta categoría aún no tiene grupos.";
+  }
+  if (message.includes("has a result yet")) {
+    return "Faltan resultados en la ronda anterior.";
+  }
+  if (message.includes("matches already exist for this category")) {
+    return "Esa ronda ya fue creada para esta categoría.";
+  }
+  if (message.includes("must include every eligible double")) {
+    return "Los cruces deben incluir a cada pareja elegible exactamente una vez.";
+  }
+  if (message.includes("final has already been created")) {
+    return "La final ya fue creada; no queda nada por avanzar.";
+  }
+  if (message.includes("Unexpected qualifier count")) {
+    return "Número inesperado de clasificados; se esperaban 2, 4, 8, 16 o 32.";
   }
 
   // RPC function missing (migration not applied).
