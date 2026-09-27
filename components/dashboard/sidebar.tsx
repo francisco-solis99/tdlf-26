@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  GitBranch,
   House,
   LogOut,
   Medal,
@@ -36,6 +37,7 @@ const ITEMS: Item[] = [
   { href: "/dashboard/partidos", label: "Partidos", icono: Swords },
   { href: "/dashboard/clasificados", label: "Clasificados", icono: Medal },
   { href: "/dashboard/crear-grupos", label: "Crear grupos", icono: Shuffle },
+  { href: "/dashboard/eliminatoria", label: "Eliminatoria", icono: GitBranch },
 ];
 
 function isActivo(pathname: string, href: string) {
