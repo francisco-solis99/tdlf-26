@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   createGroupsForCategory,
+  resetCategoryData,
   resetCategoryGroups,
   type CreatedGroups,
 } from "@/lib/actions/admin";
@@ -63,6 +64,10 @@ export function CrearGruposAdmin({
   const [confirmText, setConfirmText] = useState("");
   const [reseteando, setReseteando] = useState(false);
   const [resetMsg, setResetMsg] = useState<string | null>(null);
+  const [borradoAbierto, setBorradoAbierto] = useState(false);
+  const [confirmBorrado, setConfirmBorrado] = useState("");
+  const [borrando, setBorrando] = useState(false);
+  const [borradoMsg, setBorradoMsg] = useState<string | null>(null);
   const [resultado, setResultado] = useState<
     (CreatedGroups & { categoryNombre: string }) | null
   >(null);
@@ -176,6 +181,32 @@ export function CrearGruposAdmin({
     );
   }
 
+  function abrirBorrado() {
+    setConfirmBorrado("");
+    setError(null);
+    setBorradoAbierto(true);
+  }
+
+  async function borrarDatos() {
+    if (confirmBorrado.trim() !== categoriaNombre || borrando) return;
+    setBorrando(true);
+    const result = await resetCategoryData(categoryId);
+    setBorrando(false);
+    if (!result.ok) {
+      setError(result.error);
+      setBorradoAbierto(false);
+      return;
+    }
+    setBorradoAbierto(false);
+    setConfirmBorrado("");
+    setResultado(null);
+    setHeads([]);
+    setRecargarParejas((k) => k + 1);
+    setBorradoMsg(
+      `Se eliminaron ${result.data.groups} grupos, ${result.data.matches} partidos, ${result.data.doubles} parejas y ${result.data.players} jugadores de «${categoriaNombre}». La categoría quedó lista para empezar de cero.`,
+    );
+  }
+
   return (
     <div>
       <Card className="mt-8 max-w-xl rounded-xl p-6">
@@ -192,6 +223,8 @@ export function CrearGruposAdmin({
                 setCargandoParejas(e.target.value !== "");
                 setResetAbierto(false);
                 setResetMsg(null);
+                setBorradoAbierto(false);
+                setBorradoMsg(null);
                 setError(null);
               }}
               required
@@ -216,6 +249,7 @@ export function CrearGruposAdmin({
                 setCount(e.target.value);
                 setHeads([]);
                 setResetMsg(null);
+                setBorradoMsg(null);
                 setError(null);
               }}
               placeholder="4"
@@ -312,17 +346,36 @@ export function CrearGruposAdmin({
             {resetMsg}
           </p>
         )}
-        <div className="mt-4">
+        <div className="mt-4 flex flex-wrap gap-3">
           <Button
             type="button"
             variant="outline"
             onClick={abrirReset}
-            disabled={creando || reseteando || categoryId === ""}
+            disabled={creando || reseteando || borrando || categoryId === ""}
             className="rounded-xl text-accent hover:text-accent"
           >
             Restablecer grupos…
           </Button>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={abrirBorrado}
+            disabled={creando || reseteando || borrando || categoryId === ""}
+            className="rounded-xl border-accent/60 text-accent hover:text-accent"
+          >
+            Borrar datos de la categoría…
+          </Button>
         </div>
+        {borradoMsg && (
+          <p role="status" className="mt-3 text-sm text-foreground">
+            {borradoMsg}
+          </p>
+        )}
+        <p className="mt-3 text-xs leading-relaxed text-muted">
+          Borrar datos elimina grupos, todos los partidos, parejas y jugadores
+          de la categoría. Solo sobrevive la categoría, lista para empezar de
+          cero.
+        </p>
       </Card>
 
       <Dialog
@@ -371,6 +424,57 @@ export function CrearGruposAdmin({
               className="rounded-xl"
             >
               {reseteando ? "Eliminando…" : "Eliminar grupos"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={borradoAbierto}
+        onOpenChange={(v) => {
+          if (!v) setBorradoAbierto(false);
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              Borrar <span className="text-accent">datos</span>
+            </DialogTitle>
+            <DialogDescription>
+              Se eliminarán los grupos, todos los partidos, las parejas y los
+              jugadores de «{categoriaNombre}». Solo sobrevivirá la categoría.
+              Para confirmar, escribe el nombre de la categoría.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-2">
+            <Label htmlFor="cg-confirm-borrado">Nombre de la categoría</Label>
+            <Input
+              id="cg-confirm-borrado"
+              value={confirmBorrado}
+              onChange={(e) => setConfirmBorrado(e.target.value)}
+              placeholder={categoriaNombre}
+              autoComplete="off"
+              disabled={borrando}
+              className="rounded-xl"
+            />
+          </div>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setBorradoAbierto(false)}
+              disabled={borrando}
+              className="rounded-xl"
+            >
+              Cancelar
+            </Button>
+            <Button
+              type="button"
+              onClick={borrarDatos}
+              disabled={borrando || confirmBorrado.trim() !== categoriaNombre}
+              className="rounded-xl"
+            >
+              {borrando ? "Eliminando…" : "Borrar todo"}
             </Button>
           </DialogFooter>
         </DialogContent>

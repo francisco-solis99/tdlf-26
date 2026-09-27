@@ -645,3 +645,133 @@ export async function createKnockoutRound(input: {
     };
   }
 }
+
+// ---------------------------------------------------------------------------
+// Full category reset — wipes groups, every match, doubles and players of
+// one category so it can be rebuilt from zero. Only the category row itself
+// survives. FK-safe deletion order (restrict constraints, no cascades here
+// except matches.group_id, which is already covered by deleting matches):
+//   matches → groups → doubles → players
+// Player photos in Storage are files, not rows — orphaned uploads, if any,
+// stay in the bucket and are out of scope for this reset.
+// ---------------------------------------------------------------------------
+
+export type ResetCategoryResult = {
+  groups: number;
+  matches: number;
+  doubles: number;
+  players: number;
+};
+
+export async function resetCategoryData(
+  category_id: string,
+): Promise<ActionResult<ResetCategoryResult>> {
+  await requireAdmin();
+
+  if (!category_id) {
+    return { ok: false, error: "Elige una categoría." };
+  }
+
+  const supabase = await createClient();
+
+  const { data: doubles, error: doublesError } = await supabase
+    .from("doubles")
+    .select("id, player1_id, player2_id")
+    .eq("category_id", category_id);
+  if (doublesError) {
+    return { ok: false, error: toReadableError("groups", doublesError) };
+  }
+
+  const doubleIds = doubles.map((d) => d.id);
+  const playerIds = [
+    ...new Set(doubles.flatMap((d) => [d.player1_id, d.player2_id])),
+  ];
+
+  const { count: groupCount, error: groupCountError } = await supabase
+    .from("groups")
+    .select("id", { count: "exact", head: true })
+    .eq("category_id", category_id);
+  if (groupCountError) {
+    return { ok: false, error: toReadableError("groups", groupCountError) };
+  }
+
+  // Matches reference the doubles from either side (double1, double2,
+  // winner); one .or() covers all three columns in a single pass.
+  let matchCount = 0;
+  if (doubleIds.length > 0) {
+    const lista = doubleIds.join(",");
+    const {
+      count,
+      error: matchCountError,
+    } = await supabase
+      .from("matches")
+      .select("id", { count: "exact", head: true })
+      .or(
+        `double1_id.in.(${lista}),double2_id.in.(${lista}),winner_double_id.in.(${lista})`,
+      );
+    if (matchCountError) {
+      return { ok: false, error: toReadableError("groups", matchCountError) };
+    }
+    matchCount = count ?? 0;
+  }
+
+  if ((groupCount ?? 0) === 0 && matchCount === 0 && doubles.length === 0) {
+    return {
+      ok: false,
+      error: "Esta categoría no tiene datos para restablecer.",
+    };
+  }
+
+  // 1. Matches first (restrict on double1/double2/winner references).
+  // 2. Groups (cascades anything left via group_id; doubles SET NULL).
+  // 3. Doubles (frees the player references).
+  // 4. Players of this category's doubles only.
+  if (doubleIds.length > 0) {
+    const lista = doubleIds.join(",");
+    const { error: matchesError } = await supabase
+      .from("matches")
+      .delete()
+      .or(
+        `double1_id.in.(${lista}),double2_id.in.(${lista}),winner_double_id.in.(${lista})`,
+      );
+    if (matchesError) {
+      return { ok: false, error: toReadableError("groups", matchesError) };
+    }
+  }
+
+  const { error: groupsError } = await supabase
+    .from("groups")
+    .delete()
+    .eq("category_id", category_id);
+  if (groupsError) {
+    return { ok: false, error: toReadableError("groups", groupsError) };
+  }
+
+  const { error: doublesError2 } = await supabase
+    .from("doubles")
+    .delete()
+    .eq("category_id", category_id);
+  if (doublesError2) {
+    return { ok: false, error: toReadableError("groups", doublesError2) };
+  }
+
+  if (playerIds.length > 0) {
+    const { error: playersError } = await supabase
+      .from("players")
+      .delete()
+      .in("id", playerIds);
+    if (playersError) {
+      return { ok: false, error: toReadableError("groups", playersError) };
+    }
+  }
+
+  return {
+    ok: true,
+    data: {
+      groups: groupCount ?? 0,
+      matches: matchCount,
+      doubles: doubles.length,
+      players: playerIds.length,
+    },
+  };
+}
