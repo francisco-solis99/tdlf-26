@@ -27,11 +27,12 @@ Implemented via a Supabase `profiles` table (one row per `auth.users` row, holdi
 
 1. **Register players**: name, age, city, and an optional picture. If a picture is uploaded, it goes to the `player-photos` bucket in Supabase Storage, and the resulting public URL is saved to `players.picture`. If no picture, the app shows a default avatar — that's a UI-only fallback, not a database default.
 2. **Register doubles**: a pair of two players, registered under a specific category (`doubles.category_id`). At this point the double has **no group yet** (`doubles.group_id` is `null`) — grouping happens later, in bulk.
-3. **Create groups**: once enough doubles are registered for a category, the admin picks that category, enters a group count, and triggers `create_groups_for_category(p_category_id, p_group_count)` (a Postgres function, called via `supabase.rpc(...)`, not a sequence of client-side inserts — the whole operation runs as one transaction, so it either fully succeeds or fully fails with no broken half-state). It:
+3. **Create groups**: once enough doubles are registered for a category, the admin picks that category, enters a group count, optionally picks one "head" double per group to seed, and triggers `create_groups_for_category(p_category_id, p_group_count, p_group_heads)` (a Postgres function, called via `supabase.rpc(...)`, not a sequence of client-side inserts — the whole operation runs as one transaction, so it either fully succeeds or fully fails with no broken half-state). It:
    - Rejects the call outright if `p_group_count` isn't a power of 2 (1, 2, 4, 8, 16...) — enforced in the database, not just the UI. Since exactly 2 doubles qualify per group, total qualifiers = 2 × (number of groups), which needs to land on a power of 2 for a clean knockout bracket later with no byes.
    - Refuses to run if groups already exist for that category (it's a one-time action per category — re-running it could duplicate groups or strand later-registered doubles).
    - Refuses to run if there aren't at least 2 ungrouped doubles per requested group.
-   - Randomly shuffles the ungrouped doubles and spreads them as evenly as possible across the new groups (extra pairs land on the earlier groups, not all on one).
+   - Optionally seeds one "group head" per group first, via `p_group_heads` (an array of double IDs, one per group) — e.g. 8 groups → 8 seeded heads, one per group. Pass an empty array for pure-random group formation (the original behavior); if any heads are given, it must be exactly one per group. Validated: no duplicate heads, every head must be a real ungrouped double in that category.
+   - Randomly shuffles whatever's still ungrouped (heads, if any, are already placed) and spreads them as evenly as possible across the groups (extra pairs land on the earlier groups, not all on one).
    - Generates the full round-robin set of `matches` for every group (every double vs. every other double in its group).
 4. **Enter match results**: admin submits `score1` and `score2` for a match. The database automatically computes `winner_double_id` and `played_at` via a trigger — the admin never sets `winner_double_id` directly. A tied score is rejected by the database (frontenis has no draws). Clearing a score back to `null` also clears `winner_double_id`/`played_at` automatically, so a corrected match can never be left pointing at a stale result.
 5. **Standings**: read from the `group_standings` view, which is already ordered by wins then point differential, with a `group_rank` column — `group_rank <= 2` is exactly "who advances."
@@ -540,9 +541,14 @@ join group_progress gp on gp.group_id = gs.group_id;
 -- ----------------------------------------------------------------------------
 
 -- Takes every currently-ungrouped double in a category, splits them into N
--- groups (random shuffle, spread as evenly as possible), and generates the
--- full round-robin match set for each group. Runs as one transaction:
--- either everything lands, or nothing does.
+-- groups, and generates the full round-robin match set for each group.
+-- Runs as one transaction: either everything lands, or nothing does.
+--
+-- Supports optional "group heads" (seeded doubles): pass one double per
+-- group in p_group_heads to have it placed as that group's head before
+-- the rest are randomly distributed — e.g. 8 groups → 8 seeded heads,
+-- one per group, remaining doubles randomized. Pass an empty array (the
+-- default) for pure-random group formation.
 --
 -- Deliberately SECURITY INVOKER (the default — no "security definer"
 -- here): it runs as the calling user, so every insert/update inside it is
@@ -555,7 +561,8 @@ join group_progress gp on gp.group_id = gs.group_id;
 -- isn't a risk here, since RLS already makes it a no-op for non-admins.
 create or replace function create_groups_for_category(
   p_category_id uuid,
-  p_group_count integer
+  p_group_count integer,
+  p_group_heads uuid[] default '{}'
 )
 returns void
 language plpgsql
@@ -563,6 +570,8 @@ set search_path = public
 as $$
 declare
   v_double_count integer;
+  v_head_count integer;
+  v_invalid_heads integer;
 begin
   -- group count must be a power of 2, or the knockout bracket built later
   -- won't divide cleanly
@@ -576,6 +585,31 @@ begin
   -- outside the round-robin they'd need to be part of
   if exists (select 1 from groups where category_id = p_category_id) then
     raise exception 'Groups already exist for this category — group creation only runs once';
+  end if;
+
+  v_head_count := coalesce(array_length(p_group_heads, 1), 0);
+
+  -- heads are optional: none means pure random (original behavior),
+  -- otherwise it must be exactly one per group
+  if v_head_count > 0 and v_head_count <> p_group_count then
+    raise exception 'Provide one group head per group (%) or none at all — got %',
+      p_group_count, v_head_count;
+  end if;
+
+  if v_head_count > 0 then
+    if (select count(distinct h) from unnest(p_group_heads) as h) <> v_head_count then
+      raise exception 'Group heads must all be different doubles';
+    end if;
+
+    select count(*) into v_invalid_heads
+    from unnest(p_group_heads) as h
+    where not exists (
+      select 1 from doubles
+      where id = h and category_id = p_category_id and group_id is null
+    );
+    if v_invalid_heads > 0 then
+      raise exception 'One or more group heads are not valid, ungrouped doubles in this category';
+    end if;
   end if;
 
   select count(*) into v_double_count
@@ -593,9 +627,22 @@ begin
   select p_category_id, 'Grupo ' || n
   from generate_series(1, p_group_count) as n;
 
-  -- randomly shuffle the ungrouped doubles, then spread them evenly
-  -- across the new groups — the modulo mapping puts any extra pairs on
-  -- the earlier groups rather than piling them all onto the last one
+  -- seed the heads first, one per group — array position N (1-based)
+  -- becomes the head of "Grupo N"
+  if v_head_count > 0 then
+    update doubles d
+    set group_id = g.id
+    from unnest(p_group_heads) with ordinality as head(double_id, idx)
+    join groups g
+      on g.category_id = p_category_id
+     and g.name = 'Grupo ' || head.idx
+    where d.id = head.double_id;
+  end if;
+
+  -- randomly shuffle whatever's still ungrouped (heads, if any, are
+  -- already grouped and excluded here automatically), then spread evenly
+  -- across the groups — the modulo mapping puts any extra pairs on the
+  -- earlier groups rather than piling them all onto the last one
   with shuffled as (
     select id, row_number() over (order by random()) as rn
     from doubles
@@ -637,7 +684,7 @@ $$;
 - **Canonical ordering** (`player1_id < player2_id`, `double1_id < double2_id`) plus `unique` constraints stop the same pair or fixture from being inserted twice under a different column order.
 - **`matches.stage`** (`group`, `round_of_32`, `round_of_16`, `quarterfinal`, `semifinal`, `final`; default `'group'`) and a nullable `matches.group_id` were added now, ahead of the knockout stage being built, to avoid a schema migration later. A check constraint keeps them consistent: group-stage matches must have a `group_id`, every other stage must not. `group_standings` only counts `stage = 'group'` matches, so it isn't affected once knockout matches start being inserted.
 - **`group_standings` is a view**, not a table — it's derived live from `doubles` and `matches`, always consistent, no sync logic needed. `group_rank` (via `row_number()`) makes "top 2 advance" a one-line filter. Ranks by wins, then `point_differential` (points scored minus points conceded) — not total points scored, which was the original rule but turned out to produce wrong rankings (a double with a high total but a worse differential could outrank one with a better differential).
-- **`create_groups_for_category(p_category_id, p_group_count)` is one atomic Postgres function**, not a sequence of client-side inserts — the create-N-groups / assign-doubles / generate-matches operation needs to succeed or fail as a whole, not leave a broken half-state if one part fails partway through. It's `SECURITY INVOKER` (the default), so its writes still go through normal RLS as the calling user — a non-admin calling it directly just gets every write inside it rejected by RLS, so unlike `is_admin()`/`handle_new_user()` it doesn't need to be hidden in the `private` schema.
+- **`create_groups_for_category(p_category_id, p_group_count, p_group_heads)` is one atomic Postgres function**, not a sequence of client-side inserts — the create-N-groups / assign-doubles / generate-matches operation needs to succeed or fail as a whole, not leave a broken half-state if one part fails partway through. `p_group_heads` optionally seeds one double per group before the random shuffle runs (empty array = pure random, the original behavior). It's `SECURITY INVOKER` (the default), so its writes still go through normal RLS as the calling user — a non-admin calling it directly just gets every write inside it rejected by RLS, so unlike `is_admin()`/`handle_new_user()` it doesn't need to be hidden in the `private` schema.
 - **Elimination status (`group_progress` + `double_status` views) is derived, not stored.** No `is_eliminated` column exists on `doubles` — a stored boolean could go stale the moment a score is corrected, and a double isn't actually eliminated until its whole group finishes its round robin, which a trigger would need to track separately anyway. `double_status.status` is computed fresh on every query instead.
 - **Roles/RLS**: a `profiles` table (role: `admin` | `user`) + a `is_admin()` helper function used in every RLS policy. Every table: readable by anyone, writable only by admins. The `player-photos` Storage bucket uses the same pattern. Views use `security_invoker = true` so they respect the caller's RLS rather than the view owner's privileges.
 - **`private.is_admin()` and `private.handle_new_user()` live outside `public`.** PostgREST auto-exposes every function in `public` as a callable API endpoint by default, and Postgres grants `EXECUTE` to everyone unless revoked. Neither function should be client-callable, so both live in a `private` schema (which PostgREST doesn't expose), with `EXECUTE` explicitly revoked from `public` and re-granted only to `anon`/`authenticated` on `is_admin()` (since RLS policies still need to invoke it as those roles).
