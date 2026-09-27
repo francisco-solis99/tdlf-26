@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   House,
   LogOut,
+  Medal,
   PanelLeftClose,
   PanelLeftOpen,
   Shuffle,
@@ -33,6 +34,7 @@ const ITEMS: Item[] = [
   { href: "/dashboard/jugadores", label: "Jugadores", icono: UserRound },
   { href: "/dashboard/parejas", label: "Parejas", icono: Users },
   { href: "/dashboard/partidos", label: "Partidos", icono: Swords },
+  { href: "/dashboard/clasificados", label: "Clasificados", icono: Medal },
   { href: "/dashboard/crear-grupos", label: "Crear grupos", icono: Shuffle },
 ];
 
