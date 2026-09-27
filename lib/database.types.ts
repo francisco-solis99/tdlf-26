@@ -369,6 +369,14 @@ export type Database = {
         }
         Returns: undefined
       }
+      create_knockout_round: {
+        Args: {
+          p_category_id: string
+          p_pairings: Json
+          p_stage: Database["public"]["Enums"]["match_stage"]
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       match_stage:
