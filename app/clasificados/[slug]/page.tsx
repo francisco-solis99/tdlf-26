@@ -135,7 +135,7 @@ export default async function ClasificadosPage({
             </Link>
           </div>
 
-          <div className="relative mt-8 flex items-center gap-4">
+          <div className="relative mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
             <span
               aria-hidden="true"
               className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl sm:h-20 sm:w-20"
@@ -147,14 +147,14 @@ export default async function ClasificadosPage({
                 strokeWidth={1.5}
               />
             </span>
-            <div>
+            <div className="min-w-0">
               <p
                 className="text-[11px] font-medium uppercase tracking-[0.25em]"
                 style={{ color: data.color }}
               >
                 {data.category.name} · Fase final
               </p>
-              <h1 className="font-display text-5xl uppercase leading-[0.95] tracking-tight sm:text-7xl">
+              <h1 className="font-display text-4xl uppercase leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
                 Clasifi<span style={{ color: data.color }}>cados</span>
               </h1>
             </div>
