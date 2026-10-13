@@ -1,0 +1,120 @@
+{
+ "id": "41073179-d863-4e56-acd5-09d470d8c0c4",
+ "categoria": "libre",
+ "grupo": "Grupo D",
+ "pareja": "Ivan Padron / Omar Melendez",
+ "resumen": {
+  "partidos": 3,
+  "partidos_oficiales": 3,
+  "victorias": 0,
+  "victorias_oficiales": 0,
+  "victorias_por_default": 0,
+  "puntos_favor": 12,
+  "puntos_contra": 30,
+  "diferencia": -18,
+  "sinergia": -45.5,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 3,
+  "nombre": "Los de contracorriente",
+  "descripcion": "Les tocó remar contra la corriente, pero salieron a jugar cada punto."
+ },
+ "percentiles": {
+  "sinergia": 0.03,
+  "ataque": 0.1,
+  "defensa": 0.0
+ },
+ "insignias": [],
+ "partidos": [
+  {
+   "rival": "Fabian Padilla / Alonso Moreno",
+   "rival_id": "d528daaa-dfbd-4d13-8a9e-062907ec6fe1",
+   "marcador_propio": 7,
+   "marcador_rival": 10,
+   "marcador": "7-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 0
+  },
+  {
+   "rival": "Santiago Mtz / Gerardo Macizo",
+   "rival_id": "c34f8082-9209-4def-be19-fccb55cd3df5",
+   "marcador_propio": 1,
+   "marcador_rival": 10,
+   "marcador": "1-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 51
+  },
+  {
+   "rival": "Gustavo Ventura / Daniel Adame",
+   "rival_id": "4b4bf997-de41-4531-a0f5-28c26a6b4ef3",
+   "marcador_propio": 4,
+   "marcador_rival": 10,
+   "marcador": "4-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 0
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": null,
+  "derrota_mas_cerrada": {
+   "marcador": "7-10",
+   "rival": "Fabian Padilla / Alonso Moreno",
+   "margen": 3
+  },
+  "rival_mas_lejano": {
+   "rival": "Santiago Mtz / Gerardo Macizo",
+   "km": 51
+  },
+  "mas_puntos": {
+   "marcador": "7-10",
+   "rival": "Fabian Padilla / Alonso Moreno"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 3 partidos, anotaron 12 puntos y recibieron 30.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Los de contracorriente",
+   "texto": "Les tocó remar contra la corriente, pero salieron a jugar cada punto.",
+   "datos": {
+    "sinergia": -45.5,
+    "nivel": 3
+   }
+  },
+  {
+   "id": "mas_puntos",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su partido de más puntos",
+   "texto": "El partido en el que más anotaron fue 7-10 contra Fabian Padilla / Alonso Moreno.",
+   "datos": {
+    "marcador": "7-10",
+    "rival": "Fabian Padilla / Alonso Moreno"
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Ivan Padron / Omar Melendez.",
+   "datos": {}
+  }
+ ]
+}

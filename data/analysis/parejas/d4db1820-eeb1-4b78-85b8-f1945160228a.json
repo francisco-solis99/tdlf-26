@@ -1,0 +1,131 @@
+{
+ "id": "d4db1820-eeb1-4b78-85b8-f1945160228a",
+ "categoria": "libre",
+ "grupo": "Grupo H",
+ "pareja": "Ivan Zuñiga / Raymundo",
+ "resumen": {
+  "partidos": 3,
+  "partidos_oficiales": 3,
+  "victorias": 0,
+  "victorias_oficiales": 0,
+  "victorias_por_default": 0,
+  "puntos_favor": 13,
+  "puntos_contra": 30,
+  "diferencia": -17,
+  "sinergia": -42.4,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 3,
+  "nombre": "Los de contracorriente",
+  "descripcion": "Les tocó remar contra la corriente, pero salieron a jugar cada punto."
+ },
+ "percentiles": {
+  "sinergia": 0.07,
+  "ataque": 0.17,
+  "defensa": 0.0
+ },
+ "insignias": [],
+ "partidos": [
+  {
+   "rival": "Moises Miranda / Juan Pablo Ayala",
+   "rival_id": "fcd7587c-59a2-4241-b231-dfb0f8a046fc",
+   "marcador_propio": 7,
+   "marcador_rival": 10,
+   "marcador": "7-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 71
+  },
+  {
+   "rival": "Lenin Reyes / Ricardo Rodriguez",
+   "rival_id": "4053c054-79c0-45ac-9e95-6a5d26b810ce",
+   "marcador_propio": 2,
+   "marcador_rival": 10,
+   "marcador": "2-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 65
+  },
+  {
+   "rival": "Carlos Machado / Oscar Gallegos",
+   "rival_id": "b15c0062-265a-41de-b23e-4110984286f7",
+   "marcador_propio": 4,
+   "marcador_rival": 10,
+   "marcador": "4-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 270
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": null,
+  "derrota_mas_cerrada": {
+   "marcador": "7-10",
+   "rival": "Moises Miranda / Juan Pablo Ayala",
+   "margen": 3
+  },
+  "rival_mas_lejano": {
+   "rival": "Carlos Machado / Oscar Gallegos",
+   "km": 270
+  },
+  "mas_puntos": {
+   "marcador": "7-10",
+   "rival": "Moises Miranda / Juan Pablo Ayala"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 3 partidos, anotaron 13 puntos y recibieron 30.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Los de contracorriente",
+   "texto": "Les tocó remar contra la corriente, pero salieron a jugar cada punto.",
+   "datos": {
+    "sinergia": -42.4,
+    "nivel": 3
+   }
+  },
+  {
+   "id": "mas_puntos",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su partido de más puntos",
+   "texto": "El partido en el que más anotaron fue 7-10 contra Moises Miranda / Juan Pablo Ayala.",
+   "datos": {
+    "marcador": "7-10",
+    "rival": "Moises Miranda / Juan Pablo Ayala"
+   }
+  },
+  {
+   "id": "rival_lejano",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su rival de más lejos",
+   "texto": "En promedio, 270 km separaban sus ciudades de las de Carlos Machado / Oscar Gallegos.",
+   "datos": {
+    "rival": "Carlos Machado / Oscar Gallegos",
+    "km": 270
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Ivan Zuñiga / Raymundo.",
+   "datos": {}
+  }
+ ]
+}

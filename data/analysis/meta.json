@@ -1,0 +1,89 @@
+{
+  "generado": "2026-10-12",
+  "categorias": [
+    {
+      "id": "libre",
+      "nombre": "Libre",
+      "descripcion": "Abierta a todo jugador, sin importar edad o nivel."
+    },
+    {
+      "id": "masters",
+      "nombre": "Masters",
+      "descripcion": "Solo hombres de 50 años o más."
+    }
+  ],
+  "niveles": [
+    {
+      "id": 1,
+      "nombre": "Las aplanadoras",
+      "descripcion": "Ganaron con claridad y dejaron poco margen a sus rivales."
+    },
+    {
+      "id": 2,
+      "nombre": "Los parejos",
+      "descripcion": "Partidos de tú a tú: ganaron y perdieron sin que nadie se despegara."
+    },
+    {
+      "id": 3,
+      "nombre": "Los de contracorriente",
+      "descripcion": "Les tocó remar contra la corriente, pero salieron a jugar cada punto."
+    }
+  ],
+  "cortes_nivel": {
+    "aplanadoras_desde": 37.9,
+    "contracorriente_hasta": -8.3
+  },
+  "insignias": [
+    {
+      "id": "invicta",
+      "nombre": "Invicta",
+      "descripcion": "Ganó todos sus partidos del grupo."
+    },
+    {
+      "id": "a_diez",
+      "nombre": "Siempre a 10",
+      "descripcion": "Llegó a 10 puntos en cada partido que jugó."
+    },
+    {
+      "id": "cardiaca",
+      "nombre": "Cardiaca",
+      "descripcion": "Jugó un partido que se decidió por 2 puntos o menos."
+    },
+    {
+      "id": "muro",
+      "nombre": "Muro",
+      "descripcion": "Recibió 4 puntos o menos por partido."
+    },
+    {
+      "id": "extremos",
+      "nombre": "De los extremos",
+      "descripcion": "Una victoria muy amplia y una derrota por un solo punto."
+    },
+    {
+      "id": "pelea",
+      "nombre": "Pelearon cada punto",
+      "descripcion": "Sus partidos sumaron 16 puntos o más en promedio."
+    },
+    {
+      "id": "dos_ciudades",
+      "nombre": "Dos ciudades, una pareja",
+      "descripcion": "Cada jugador viene de una ciudad distinta."
+    }
+  ],
+  "metricas": {
+    "sinergia": "((Ph - Pr + PJ) / (11 * PJ)) * 100. Ph: puntos hechos, Pr: puntos recibidos, PJ: partidos jugados. 100% es ganar todos los partidos 10-0; el promedio del torneo es 9.1%.",
+    "percentil": "Fracción de las otras parejas de su categoría a las que supera (0 a 1).",
+    "default": "Partido ganado porque la pareja rival no se presentó. Cuenta como victoria oficial, pero no entra en las métricas de puntos.",
+    "por_tiempo": "Partido que terminó antes de que alguien llegara a 10 puntos.",
+    "cardiaco": "Partido decidido por 2 puntos o menos.",
+    "muestra_pequena": "Pareja con un solo partido real: sus métricas son orientativas."
+  },
+  "mensajes": {
+    "no_jugo": "Esta pareja se inscribió, pero no disputó partidos en la fase de grupos, así que no hay estadísticas que mostrar. Gracias por ser parte del torneo."
+  },
+  "notas": [
+    "Solo se registró la fase de grupos.",
+    "Los grupos jugaron entre sí, nunca contra otros grupos: los rankings reflejan lo que se vio en la fase de grupos.",
+    "Los niveles son una clasificación descriptiva por cortes de sinergia."
+  ]
+}

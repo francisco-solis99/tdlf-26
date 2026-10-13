@@ -1,0 +1,143 @@
+{
+ "id": "82fe8773-1ae2-4ec0-b045-be51781df0dd",
+ "categoria": "masters",
+ "grupo": "Grupo B",
+ "pareja": "Marco Mtz / Humberto Mtz",
+ "resumen": {
+  "partidos": 2,
+  "partidos_oficiales": 2,
+  "victorias": 2,
+  "victorias_oficiales": 2,
+  "victorias_por_default": 0,
+  "puntos_favor": 20,
+  "puntos_contra": 11,
+  "diferencia": 9,
+  "sinergia": 50.0,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 1,
+  "nombre": "Las aplanadoras",
+  "descripcion": "Ganaron con claridad y dejaron poco margen a sus rivales."
+ },
+ "percentiles": {
+  "sinergia": 0.78,
+  "ataque": 0.78,
+  "defensa": 0.78
+ },
+ "insignias": [
+  {
+   "id": "invicta",
+   "nombre": "Invicta",
+   "descripcion": "Ganó todos sus partidos del grupo."
+  },
+  {
+   "id": "a_diez",
+   "nombre": "Siempre a 10",
+   "descripcion": "Llegó a 10 puntos en cada partido que jugó."
+  }
+ ],
+ "partidos": [
+  {
+   "rival": "Alfredo Rocha / Luis Segura",
+   "rival_id": "ed6a3cee-2dc7-4644-9d5c-87441beecd79",
+   "marcador_propio": 10,
+   "marcador_rival": 4,
+   "marcador": "10-4",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 0
+  },
+  {
+   "rival": "Carlos Labra / Antonio T",
+   "rival_id": "ddf33915-f5f9-4fa6-a5d8-1e46dfe4210a",
+   "marcador_propio": 10,
+   "marcador_rival": 7,
+   "marcador": "10-7",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 0
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": {
+   "marcador": "10-4",
+   "rival": "Alfredo Rocha / Luis Segura"
+  },
+  "derrota_mas_cerrada": null,
+  "rival_mas_lejano": {
+   "rival": "Alfredo Rocha / Luis Segura",
+   "km": 0
+  },
+  "mas_puntos": {
+   "marcador": "10-4",
+   "rival": "Alfredo Rocha / Luis Segura"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 2 partidos, anotaron 20 puntos y recibieron 11.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Las aplanadoras",
+   "texto": "Su sinergia fue de 50.0%. Ganaron con claridad y dejaron poco margen a sus rivales. Superaron al 78% de las parejas de su categoría.",
+   "datos": {
+    "sinergia": 50.0,
+    "nivel": 1
+   }
+  },
+  {
+   "id": "frente_al_resto",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Frente al resto",
+   "texto": "Dentro de su categoría, su ataque superó al 78% de las parejas y su defensa al 78%.",
+   "datos": {
+    "ataque": 0.78,
+    "defensa": 0.78
+   }
+  },
+  {
+   "id": "sus_insignias",
+   "tipo": "badges",
+   "categoria": null,
+   "titulo": "Sus insignias",
+   "texto": "Se llevaron 2 insignias: Invicta, Siempre a 10.",
+   "datos": {
+    "insignias": [
+     "Invicta",
+     "Siempre a 10"
+    ]
+   }
+  },
+  {
+   "id": "mejor_victoria",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su mejor partido",
+   "texto": "Su victoria más amplia fue 10-4 contra Alfredo Rocha / Luis Segura.",
+   "datos": {
+    "marcador": "10-4",
+    "rival": "Alfredo Rocha / Luis Segura"
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Marco Mtz / Humberto Mtz.",
+   "datos": {}
+  }
+ ]
+}

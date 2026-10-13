@@ -1,0 +1,160 @@
+{
+ "id": "33bbe487-5e05-463b-bad3-b7197c2110d6",
+ "categoria": "libre",
+ "grupo": "Grupo G",
+ "pareja": "Julio Mendez / Miguel Baez",
+ "resumen": {
+  "partidos": 3,
+  "partidos_oficiales": 3,
+  "victorias": 3,
+  "victorias_oficiales": 3,
+  "victorias_por_default": 0,
+  "puntos_favor": 30,
+  "puntos_contra": 11,
+  "diferencia": 19,
+  "sinergia": 66.7,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 1,
+  "nombre": "Las aplanadoras",
+  "descripcion": "Ganaron con claridad y dejaron poco margen a sus rivales."
+ },
+ "percentiles": {
+  "sinergia": 0.9,
+  "ataque": 0.83,
+  "defensa": 0.83
+ },
+ "insignias": [
+  {
+   "id": "invicta",
+   "nombre": "Invicta",
+   "descripcion": "Ganó todos sus partidos del grupo."
+  },
+  {
+   "id": "a_diez",
+   "nombre": "Siempre a 10",
+   "descripcion": "Llegó a 10 puntos en cada partido que jugó."
+  },
+  {
+   "id": "muro",
+   "nombre": "Muro",
+   "descripcion": "Recibió 4 puntos o menos por partido."
+  }
+ ],
+ "partidos": [
+  {
+   "rival": "Mikjail Juarez / Ignacio Orozco",
+   "rival_id": "7ef4baf6-1aa3-4e93-b5c5-c55d95cb0ebb",
+   "marcador_propio": 10,
+   "marcador_rival": 4,
+   "marcador": "10-4",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 16
+  },
+  {
+   "rival": "Emiliano Zavala / Efrain Rojas",
+   "rival_id": "71b14788-ec2d-4e25-87fb-e28e471d032c",
+   "marcador_propio": 10,
+   "marcador_rival": 2,
+   "marcador": "10-2",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 59
+  },
+  {
+   "rival": "Israel Lara / Rafael Becerril",
+   "rival_id": "ecf0a805-faf6-4298-9dd4-95556d3b5f18",
+   "marcador_propio": 10,
+   "marcador_rival": 5,
+   "marcador": "10-5",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 45
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": {
+   "marcador": "10-2",
+   "rival": "Emiliano Zavala / Efrain Rojas"
+  },
+  "derrota_mas_cerrada": null,
+  "rival_mas_lejano": {
+   "rival": "Emiliano Zavala / Efrain Rojas",
+   "km": 59
+  },
+  "mas_puntos": {
+   "marcador": "10-4",
+   "rival": "Mikjail Juarez / Ignacio Orozco"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 3 partidos, anotaron 30 puntos y recibieron 11.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Las aplanadoras",
+   "texto": "Su sinergia fue de 66.7%. Ganaron con claridad y dejaron poco margen a sus rivales. Superaron al 90% de las parejas de su categoría.",
+   "datos": {
+    "sinergia": 66.7,
+    "nivel": 1
+   }
+  },
+  {
+   "id": "frente_al_resto",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Frente al resto",
+   "texto": "Dentro de su categoría, su ataque superó al 83% de las parejas y su defensa al 83%.",
+   "datos": {
+    "ataque": 0.83,
+    "defensa": 0.83
+   }
+  },
+  {
+   "id": "sus_insignias",
+   "tipo": "badges",
+   "categoria": null,
+   "titulo": "Sus insignias",
+   "texto": "Se llevaron 3 insignias: Invicta, Siempre a 10, Muro.",
+   "datos": {
+    "insignias": [
+     "Invicta",
+     "Siempre a 10",
+     "Muro"
+    ]
+   }
+  },
+  {
+   "id": "mejor_victoria",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su mejor partido",
+   "texto": "Su victoria más amplia fue 10-2 contra Emiliano Zavala / Efrain Rojas.",
+   "datos": {
+    "marcador": "10-2",
+    "rival": "Emiliano Zavala / Efrain Rojas"
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Julio Mendez / Miguel Baez.",
+   "datos": {}
+  }
+ ]
+}

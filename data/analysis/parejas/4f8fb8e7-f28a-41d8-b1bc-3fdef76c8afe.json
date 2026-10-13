@@ -1,0 +1,137 @@
+{
+ "id": "4f8fb8e7-f28a-41d8-b1bc-3fdef76c8afe",
+ "categoria": "masters",
+ "grupo": "Grupo C",
+ "pareja": "Fernando / Wuicho",
+ "resumen": {
+  "partidos": 2,
+  "partidos_oficiales": 2,
+  "victorias": 2,
+  "victorias_oficiales": 2,
+  "victorias_por_default": 0,
+  "puntos_favor": 18,
+  "puntos_contra": 9,
+  "diferencia": 9,
+  "sinergia": 50.0,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 1,
+  "nombre": "Las aplanadoras",
+  "descripcion": "Ganaron con claridad y dejaron poco margen a sus rivales."
+ },
+ "percentiles": {
+  "sinergia": 0.78,
+  "ataque": 0.67,
+  "defensa": 0.89
+ },
+ "insignias": [
+  {
+   "id": "invicta",
+   "nombre": "Invicta",
+   "descripcion": "Ganó todos sus partidos del grupo."
+  }
+ ],
+ "partidos": [
+  {
+   "rival": "Alfonso Vega / Cafe",
+   "rival_id": "a0cc46ee-047a-4f32-b215-b624da3296f6",
+   "marcador_propio": 10,
+   "marcador_rival": 4,
+   "marcador": "10-4",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 63
+  },
+  {
+   "rival": "Jorge Zavala / Javier Zavala",
+   "rival_id": "a823f1a9-81ce-4013-99dc-a22c1d75d35b",
+   "marcador_propio": 8,
+   "marcador_rival": 5,
+   "marcador": "8-5",
+   "resultado": "G",
+   "por_tiempo": true,
+   "default": false,
+   "km_promedio": 0
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": {
+   "marcador": "10-4",
+   "rival": "Alfonso Vega / Cafe"
+  },
+  "derrota_mas_cerrada": null,
+  "rival_mas_lejano": {
+   "rival": "Alfonso Vega / Cafe",
+   "km": 63
+  },
+  "mas_puntos": {
+   "marcador": "10-4",
+   "rival": "Alfonso Vega / Cafe"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 2 partidos, anotaron 18 puntos y recibieron 9.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Las aplanadoras",
+   "texto": "Su sinergia fue de 50.0%. Ganaron con claridad y dejaron poco margen a sus rivales. Superaron al 78% de las parejas de su categoría.",
+   "datos": {
+    "sinergia": 50.0,
+    "nivel": 1
+   }
+  },
+  {
+   "id": "frente_al_resto",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Frente al resto",
+   "texto": "Dentro de su categoría, su ataque superó al 67% de las parejas y su defensa al 89%.",
+   "datos": {
+    "ataque": 0.67,
+    "defensa": 0.89
+   }
+  },
+  {
+   "id": "sus_insignias",
+   "tipo": "badges",
+   "categoria": null,
+   "titulo": "Sus insignias",
+   "texto": "Se llevaron la insignia Invicta.",
+   "datos": {
+    "insignias": [
+     "Invicta"
+    ]
+   }
+  },
+  {
+   "id": "mejor_victoria",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su mejor partido",
+   "texto": "Su victoria más amplia fue 10-4 contra Alfonso Vega / Cafe.",
+   "datos": {
+    "marcador": "10-4",
+    "rival": "Alfonso Vega / Cafe"
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Fernando / Wuicho.",
+   "datos": {}
+  }
+ ]
+}

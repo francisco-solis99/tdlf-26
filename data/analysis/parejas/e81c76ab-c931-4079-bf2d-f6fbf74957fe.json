@@ -1,0 +1,171 @@
+{
+ "id": "e81c76ab-c931-4079-bf2d-f6fbf74957fe",
+ "categoria": "libre",
+ "grupo": "Grupo F",
+ "pareja": "Avimael Tapia / Lenin Bustos",
+ "resumen": {
+  "partidos": 3,
+  "partidos_oficiales": 3,
+  "victorias": 3,
+  "victorias_oficiales": 3,
+  "victorias_por_default": 0,
+  "puntos_favor": 30,
+  "puntos_contra": 9,
+  "diferencia": 21,
+  "sinergia": 72.7,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 1,
+  "nombre": "Las aplanadoras",
+  "descripcion": "Ganaron con claridad y dejaron poco margen a sus rivales."
+ },
+ "percentiles": {
+  "sinergia": 0.97,
+  "ataque": 0.83,
+  "defensa": 0.97
+ },
+ "insignias": [
+  {
+   "id": "invicta",
+   "nombre": "Invicta",
+   "descripcion": "Ganó todos sus partidos del grupo."
+  },
+  {
+   "id": "a_diez",
+   "nombre": "Siempre a 10",
+   "descripcion": "Llegó a 10 puntos en cada partido que jugó."
+  },
+  {
+   "id": "muro",
+   "nombre": "Muro",
+   "descripcion": "Recibió 4 puntos o menos por partido."
+  }
+ ],
+ "partidos": [
+  {
+   "rival": "Tiburon / Wicho",
+   "rival_id": "07e18c4b-0c9c-48e7-b637-a9e7fc91a271",
+   "marcador_propio": 10,
+   "marcador_rival": 3,
+   "marcador": "10-3",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 47
+  },
+  {
+   "rival": "Ignacio Acevedo / Edgar Labra",
+   "rival_id": "d3bb0b68-ed80-4ed4-a7d1-a9ca5db5e306",
+   "marcador_propio": 10,
+   "marcador_rival": 4,
+   "marcador": "10-4",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 99
+  },
+  {
+   "rival": "Daniel Ap / Alex Ap",
+   "rival_id": "41359ea8-a1c7-4209-ab77-314f33327bb3",
+   "marcador_propio": 10,
+   "marcador_rival": 2,
+   "marcador": "10-2",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 107
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": {
+   "marcador": "10-2",
+   "rival": "Daniel Ap / Alex Ap"
+  },
+  "derrota_mas_cerrada": null,
+  "rival_mas_lejano": {
+   "rival": "Daniel Ap / Alex Ap",
+   "km": 107
+  },
+  "mas_puntos": {
+   "marcador": "10-3",
+   "rival": "Tiburon / Wicho"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 3 partidos, anotaron 30 puntos y recibieron 9.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Las aplanadoras",
+   "texto": "Su sinergia fue de 72.7%. Ganaron con claridad y dejaron poco margen a sus rivales. Superaron al 97% de las parejas de su categoría.",
+   "datos": {
+    "sinergia": 72.7,
+    "nivel": 1
+   }
+  },
+  {
+   "id": "frente_al_resto",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Frente al resto",
+   "texto": "Dentro de su categoría, su ataque superó al 83% de las parejas y su defensa al 97%.",
+   "datos": {
+    "ataque": 0.83,
+    "defensa": 0.97
+   }
+  },
+  {
+   "id": "sus_insignias",
+   "tipo": "badges",
+   "categoria": null,
+   "titulo": "Sus insignias",
+   "texto": "Se llevaron 3 insignias: Invicta, Siempre a 10, Muro.",
+   "datos": {
+    "insignias": [
+     "Invicta",
+     "Siempre a 10",
+     "Muro"
+    ]
+   }
+  },
+  {
+   "id": "mejor_victoria",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su mejor partido",
+   "texto": "Su victoria más amplia fue 10-2 contra Daniel Ap / Alex Ap.",
+   "datos": {
+    "marcador": "10-2",
+    "rival": "Daniel Ap / Alex Ap"
+   }
+  },
+  {
+   "id": "rival_lejano",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su rival de más lejos",
+   "texto": "En promedio, 107 km separaban sus ciudades de las de Daniel Ap / Alex Ap.",
+   "datos": {
+    "rival": "Daniel Ap / Alex Ap",
+    "km": 107
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Avimael Tapia / Lenin Bustos.",
+   "datos": {}
+  }
+ ]
+}

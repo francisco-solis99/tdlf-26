@@ -1,0 +1,175 @@
+{
+ "id": "513df05a-e0a8-46d8-a7c0-73715e230c97",
+ "categoria": "libre",
+ "grupo": "Grupo A",
+ "pareja": "Juan Pablo / Owen Alexander",
+ "resumen": {
+  "partidos": 3,
+  "partidos_oficiales": 3,
+  "victorias": 1,
+  "victorias_oficiales": 1,
+  "victorias_por_default": 0,
+  "puntos_favor": 20,
+  "puntos_contra": 22,
+  "diferencia": -2,
+  "sinergia": 3.0,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 2,
+  "nombre": "Los parejos",
+  "descripcion": "Partidos de tú a tú: ganaron y perdieron sin que nadie se despegara."
+ },
+ "percentiles": {
+  "sinergia": 0.5,
+  "ataque": 0.5,
+  "defensa": 0.47
+ },
+ "insignias": [
+  {
+   "id": "cardiaca",
+   "nombre": "Cardiaca",
+   "descripcion": "Jugó un partido que se decidió por 2 puntos o menos."
+  }
+ ],
+ "partidos": [
+  {
+   "rival": "Chicaro / Daniel Detec",
+   "rival_id": "f4c6750f-a7f2-48dc-97f8-5aeaf9b6e06c",
+   "marcador_propio": 3,
+   "marcador_rival": 10,
+   "marcador": "3-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 18
+  },
+  {
+   "rival": "Luis Espitia / Adrian Arreola",
+   "rival_id": "1d4d1683-9a3c-47e5-ad41-3978cb2d7712",
+   "marcador_propio": 10,
+   "marcador_rival": 4,
+   "marcador": "10-4",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 200
+  },
+  {
+   "rival": "Edgar Garcia / Luis Bravo",
+   "rival_id": "468a63ea-efdf-48fc-b599-b3fe9465b96f",
+   "marcador_propio": 7,
+   "marcador_rival": 8,
+   "marcador": "7-8",
+   "resultado": "P",
+   "por_tiempo": true,
+   "default": false,
+   "km_promedio": 149
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": {
+   "marcador": "10-4",
+   "rival": "Luis Espitia / Adrian Arreola"
+  },
+  "derrota_mas_cerrada": {
+   "marcador": "7-8",
+   "rival": "Edgar Garcia / Luis Bravo",
+   "margen": 1
+  },
+  "rival_mas_lejano": {
+   "rival": "Luis Espitia / Adrian Arreola",
+   "km": 200
+  },
+  "mas_puntos": {
+   "marcador": "10-4",
+   "rival": "Luis Espitia / Adrian Arreola"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 3 partidos, anotaron 20 puntos y recibieron 22.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Los parejos",
+   "texto": "Su sinergia fue de 3.0%. Partidos de tú a tú: ganaron y perdieron sin que nadie se despegara. Superaron al 50% de las parejas de su categoría.",
+   "datos": {
+    "sinergia": 3.0,
+    "nivel": 2
+   }
+  },
+  {
+   "id": "frente_al_resto",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Frente al resto",
+   "texto": "Dentro de su categoría, su ataque superó al 50% de las parejas.",
+   "datos": {
+    "ataque": 0.5,
+    "defensa": 0.47
+   }
+  },
+  {
+   "id": "sus_insignias",
+   "tipo": "badges",
+   "categoria": null,
+   "titulo": "Sus insignias",
+   "texto": "Se llevaron la insignia Cardiaca.",
+   "datos": {
+    "insignias": [
+     "Cardiaca"
+    ]
+   }
+  },
+  {
+   "id": "mejor_victoria",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su mejor partido",
+   "texto": "Su victoria más amplia fue 10-4 contra Luis Espitia / Adrian Arreola.",
+   "datos": {
+    "marcador": "10-4",
+    "rival": "Luis Espitia / Adrian Arreola"
+   }
+  },
+  {
+   "id": "casi",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "A nada de ganar",
+   "texto": "Estuvieron a 1 punto de ganar: 7-8 contra Edgar Garcia / Luis Bravo.",
+   "datos": {
+    "marcador": "7-8",
+    "rival": "Edgar Garcia / Luis Bravo",
+    "margen": 1
+   }
+  },
+  {
+   "id": "rival_lejano",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su rival de más lejos",
+   "texto": "En promedio, 200 km separaban sus ciudades de las de Luis Espitia / Adrian Arreola.",
+   "datos": {
+    "rival": "Luis Espitia / Adrian Arreola",
+    "km": 200
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Juan Pablo / Owen Alexander.",
+   "datos": {}
+  }
+ ]
+}

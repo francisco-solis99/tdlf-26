@@ -1,0 +1,165 @@
+{
+ "id": "7736442e-4feb-42b1-b156-1180dd473aa7",
+ "categoria": "libre",
+ "grupo": "Grupo E",
+ "pareja": "Enrique Lara / Gerardo Cruz",
+ "resumen": {
+  "partidos": 3,
+  "partidos_oficiales": 3,
+  "victorias": 3,
+  "victorias_oficiales": 3,
+  "victorias_por_default": 0,
+  "puntos_favor": 29,
+  "puntos_contra": 14,
+  "diferencia": 15,
+  "sinergia": 54.5,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 1,
+  "nombre": "Las aplanadoras",
+  "descripcion": "Ganaron con claridad y dejaron poco margen a sus rivales."
+ },
+ "percentiles": {
+  "sinergia": 0.77,
+  "ataque": 0.77,
+  "defensa": 0.73
+ },
+ "insignias": [
+  {
+   "id": "invicta",
+   "nombre": "Invicta",
+   "descripcion": "Ganó todos sus partidos del grupo."
+  },
+  {
+   "id": "dos_ciudades",
+   "nombre": "Dos ciudades, una pareja",
+   "descripcion": "Cada jugador viene de una ciudad distinta."
+  }
+ ],
+ "partidos": [
+  {
+   "rival": "Antonio Mendoza / Kaled Gonzalez",
+   "rival_id": "d3298e96-8a6c-45bf-a678-e0085fe0ee40",
+   "marcador_propio": 10,
+   "marcador_rival": 7,
+   "marcador": "10-7",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 273
+  },
+  {
+   "rival": "Diego Solis / Francisco Solis",
+   "rival_id": "097713e4-ce10-44f3-b3f5-6a92d2024936",
+   "marcador_propio": 10,
+   "marcador_rival": 3,
+   "marcador": "10-3",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 358
+  },
+  {
+   "rival": "Ivan Guzman / Luis Zavala",
+   "rival_id": "0c5d6e05-5d0e-4ab3-8d5d-985ec4169eab",
+   "marcador_propio": 9,
+   "marcador_rival": 4,
+   "marcador": "9-4",
+   "resultado": "G",
+   "por_tiempo": true,
+   "default": false,
+   "km_promedio": 319
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": {
+   "marcador": "10-3",
+   "rival": "Diego Solis / Francisco Solis"
+  },
+  "derrota_mas_cerrada": null,
+  "rival_mas_lejano": {
+   "rival": "Diego Solis / Francisco Solis",
+   "km": 358
+  },
+  "mas_puntos": {
+   "marcador": "10-7",
+   "rival": "Antonio Mendoza / Kaled Gonzalez"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 3 partidos, anotaron 29 puntos y recibieron 14.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Las aplanadoras",
+   "texto": "Su sinergia fue de 54.5%. Ganaron con claridad y dejaron poco margen a sus rivales. Superaron al 77% de las parejas de su categoría.",
+   "datos": {
+    "sinergia": 54.5,
+    "nivel": 1
+   }
+  },
+  {
+   "id": "frente_al_resto",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Frente al resto",
+   "texto": "Dentro de su categoría, su ataque superó al 77% de las parejas y su defensa al 73%.",
+   "datos": {
+    "ataque": 0.77,
+    "defensa": 0.73
+   }
+  },
+  {
+   "id": "sus_insignias",
+   "tipo": "badges",
+   "categoria": null,
+   "titulo": "Sus insignias",
+   "texto": "Se llevaron 2 insignias: Invicta, Dos ciudades, una pareja.",
+   "datos": {
+    "insignias": [
+     "Invicta",
+     "Dos ciudades, una pareja"
+    ]
+   }
+  },
+  {
+   "id": "mejor_victoria",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su mejor partido",
+   "texto": "Su victoria más amplia fue 10-3 contra Diego Solis / Francisco Solis.",
+   "datos": {
+    "marcador": "10-3",
+    "rival": "Diego Solis / Francisco Solis"
+   }
+  },
+  {
+   "id": "rival_lejano",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su rival de más lejos",
+   "texto": "En promedio, 358 km separaban sus ciudades de las de Diego Solis / Francisco Solis.",
+   "datos": {
+    "rival": "Diego Solis / Francisco Solis",
+    "km": 358
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Enrique Lara / Gerardo Cruz.",
+   "datos": {}
+  }
+ ]
+}

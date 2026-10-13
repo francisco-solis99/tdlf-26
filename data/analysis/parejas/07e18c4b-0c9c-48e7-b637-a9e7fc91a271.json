@@ -1,0 +1,152 @@
+{
+ "id": "07e18c4b-0c9c-48e7-b637-a9e7fc91a271",
+ "categoria": "libre",
+ "grupo": "Grupo F",
+ "pareja": "Tiburon / Wicho",
+ "resumen": {
+  "partidos": 3,
+  "partidos_oficiales": 3,
+  "victorias": 2,
+  "victorias_oficiales": 2,
+  "victorias_por_default": 0,
+  "puntos_favor": 23,
+  "puntos_contra": 22,
+  "diferencia": 1,
+  "sinergia": 12.1,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 2,
+  "nombre": "Los parejos",
+  "descripcion": "Partidos de tú a tú: ganaron y perdieron sin que nadie se despegara."
+ },
+ "percentiles": {
+  "sinergia": 0.57,
+  "ataque": 0.57,
+  "defensa": 0.47
+ },
+ "insignias": [
+  {
+   "id": "cardiaca",
+   "nombre": "Cardiaca",
+   "descripcion": "Jugó un partido que se decidió por 2 puntos o menos."
+  }
+ ],
+ "partidos": [
+  {
+   "rival": "Avimael Tapia / Lenin Bustos",
+   "rival_id": "e81c76ab-c931-4079-bf2d-f6fbf74957fe",
+   "marcador_propio": 3,
+   "marcador_rival": 10,
+   "marcador": "3-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 47
+  },
+  {
+   "rival": "Daniel Ap / Alex Ap",
+   "rival_id": "41359ea8-a1c7-4209-ab77-314f33327bb3",
+   "marcador_propio": 10,
+   "marcador_rival": 4,
+   "marcador": "10-4",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 70
+  },
+  {
+   "rival": "Ignacio Acevedo / Edgar Labra",
+   "rival_id": "d3bb0b68-ed80-4ed4-a7d1-a9ca5db5e306",
+   "marcador_propio": 10,
+   "marcador_rival": 8,
+   "marcador": "10-8",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 55
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": {
+   "marcador": "10-4",
+   "rival": "Daniel Ap / Alex Ap"
+  },
+  "derrota_mas_cerrada": {
+   "marcador": "3-10",
+   "rival": "Avimael Tapia / Lenin Bustos",
+   "margen": 7
+  },
+  "rival_mas_lejano": {
+   "rival": "Daniel Ap / Alex Ap",
+   "km": 70
+  },
+  "mas_puntos": {
+   "marcador": "10-4",
+   "rival": "Daniel Ap / Alex Ap"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 3 partidos, anotaron 23 puntos y recibieron 22.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Los parejos",
+   "texto": "Su sinergia fue de 12.1%. Partidos de tú a tú: ganaron y perdieron sin que nadie se despegara. Superaron al 57% de las parejas de su categoría.",
+   "datos": {
+    "sinergia": 12.1,
+    "nivel": 2
+   }
+  },
+  {
+   "id": "frente_al_resto",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Frente al resto",
+   "texto": "Dentro de su categoría, su ataque superó al 57% de las parejas.",
+   "datos": {
+    "ataque": 0.57,
+    "defensa": 0.47
+   }
+  },
+  {
+   "id": "sus_insignias",
+   "tipo": "badges",
+   "categoria": null,
+   "titulo": "Sus insignias",
+   "texto": "Se llevaron la insignia Cardiaca.",
+   "datos": {
+    "insignias": [
+     "Cardiaca"
+    ]
+   }
+  },
+  {
+   "id": "mejor_victoria",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su mejor partido",
+   "texto": "Su victoria más amplia fue 10-4 contra Daniel Ap / Alex Ap.",
+   "datos": {
+    "marcador": "10-4",
+    "rival": "Daniel Ap / Alex Ap"
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Tiburon / Wicho.",
+   "datos": {}
+  }
+ ]
+}

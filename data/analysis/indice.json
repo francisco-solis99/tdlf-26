@@ -1,0 +1,354 @@
+[
+ {
+  "id": "a0cc46ee-047a-4f32-b215-b624da3296f6",
+  "pareja": "Alfonso Vega / Cafe",
+  "categoria": "masters",
+  "grupo": "Grupo C",
+  "jugo": true,
+  "busqueda": "alfonso vega / cafe"
+ },
+ {
+  "id": "ed6a3cee-2dc7-4644-9d5c-87441beecd79",
+  "pareja": "Alfredo Rocha / Luis Segura",
+  "categoria": "masters",
+  "grupo": "Grupo B",
+  "jugo": true,
+  "busqueda": "alfredo rocha / luis segura"
+ },
+ {
+  "id": "d3298e96-8a6c-45bf-a678-e0085fe0ee40",
+  "pareja": "Antonio Mendoza / Kaled Gonzalez",
+  "categoria": "libre",
+  "grupo": "Grupo E",
+  "jugo": true,
+  "busqueda": "antonio mendoza / kaled gonzalez"
+ },
+ {
+  "id": "e81c76ab-c931-4079-bf2d-f6fbf74957fe",
+  "pareja": "Avimael Tapia / Lenin Bustos",
+  "categoria": "libre",
+  "grupo": "Grupo F",
+  "jugo": true,
+  "busqueda": "avimael tapia / lenin bustos"
+ },
+ {
+  "id": "ddf33915-f5f9-4fa6-a5d8-1e46dfe4210a",
+  "pareja": "Carlos Labra / Antonio T",
+  "categoria": "masters",
+  "grupo": "Grupo B",
+  "jugo": true,
+  "busqueda": "carlos labra / antonio t"
+ },
+ {
+  "id": "b15c0062-265a-41de-b23e-4110984286f7",
+  "pareja": "Carlos Machado / Oscar Gallegos",
+  "categoria": "libre",
+  "grupo": "Grupo H",
+  "jugo": true,
+  "busqueda": "carlos machado / oscar gallegos"
+ },
+ {
+  "id": "f4c6750f-a7f2-48dc-97f8-5aeaf9b6e06c",
+  "pareja": "Chicaro / Daniel Detec",
+  "categoria": "libre",
+  "grupo": "Grupo A",
+  "jugo": true,
+  "busqueda": "chicaro / daniel detec"
+ },
+ {
+  "id": "c5dfb644-3970-4095-bf4b-97d5c404be25",
+  "pareja": "Compañero / Abraham Aguiñiga",
+  "categoria": "masters",
+  "grupo": "Grupo A",
+  "jugo": true,
+  "busqueda": "companero / abraham aguiniga"
+ },
+ {
+  "id": "54ff0b26-15d1-41c4-9cfc-e6cfdf332636",
+  "pareja": "Compañero / Aluche",
+  "categoria": "masters",
+  "grupo": "Grupo D",
+  "jugo": false,
+  "busqueda": "companero / aluche"
+ },
+ {
+  "id": "41359ea8-a1c7-4209-ab77-314f33327bb3",
+  "pareja": "Daniel Ap / Alex Ap",
+  "categoria": "libre",
+  "grupo": "Grupo F",
+  "jugo": true,
+  "busqueda": "daniel ap / alex ap"
+ },
+ {
+  "id": "097713e4-ce10-44f3-b3f5-6a92d2024936",
+  "pareja": "Diego Solis / Francisco Solis",
+  "categoria": "libre",
+  "grupo": "Grupo E",
+  "jugo": true,
+  "busqueda": "diego solis / francisco solis"
+ },
+ {
+  "id": "468a63ea-efdf-48fc-b599-b3fe9465b96f",
+  "pareja": "Edgar Garcia / Luis Bravo",
+  "categoria": "libre",
+  "grupo": "Grupo A",
+  "jugo": true,
+  "busqueda": "edgar garcia / luis bravo"
+ },
+ {
+  "id": "71b14788-ec2d-4e25-87fb-e28e471d032c",
+  "pareja": "Emiliano Zavala / Efrain Rojas",
+  "categoria": "libre",
+  "grupo": "Grupo G",
+  "jugo": true,
+  "busqueda": "emiliano zavala / efrain rojas"
+ },
+ {
+  "id": "ed47bae8-4bed-4eaf-9dd2-f72d6fd31ad3",
+  "pareja": "Enrique Cabrera / Leonardo Esar",
+  "categoria": "libre",
+  "grupo": "Grupo C",
+  "jugo": true,
+  "busqueda": "enrique cabrera / leonardo esar"
+ },
+ {
+  "id": "7736442e-4feb-42b1-b156-1180dd473aa7",
+  "pareja": "Enrique Lara / Gerardo Cruz",
+  "categoria": "libre",
+  "grupo": "Grupo E",
+  "jugo": true,
+  "busqueda": "enrique lara / gerardo cruz"
+ },
+ {
+  "id": "d528daaa-dfbd-4d13-8a9e-062907ec6fe1",
+  "pareja": "Fabian Padilla / Alonso Moreno",
+  "categoria": "libre",
+  "grupo": "Grupo D",
+  "jugo": true,
+  "busqueda": "fabian padilla / alonso moreno"
+ },
+ {
+  "id": "4f8fb8e7-f28a-41d8-b1bc-3fdef76c8afe",
+  "pareja": "Fernando / Wuicho",
+  "categoria": "masters",
+  "grupo": "Grupo C",
+  "jugo": true,
+  "busqueda": "fernando / wuicho"
+ },
+ {
+  "id": "0d4a988f-9bef-4f3a-85e1-18edf7b1a86e",
+  "pareja": "Flako Arroyo / Moroco",
+  "categoria": "libre",
+  "grupo": "Grupo B",
+  "jugo": true,
+  "busqueda": "flako arroyo / moroco"
+ },
+ {
+  "id": "4b4bf997-de41-4531-a0f5-28c26a6b4ef3",
+  "pareja": "Gustavo Ventura / Daniel Adame",
+  "categoria": "libre",
+  "grupo": "Grupo D",
+  "jugo": true,
+  "busqueda": "gustavo ventura / daniel adame"
+ },
+ {
+  "id": "74b96d05-4ec6-41ae-a560-7f41831bf935",
+  "pareja": "Hector Macias / Fernando Cortes",
+  "categoria": "libre",
+  "grupo": "Grupo C",
+  "jugo": true,
+  "busqueda": "hector macias / fernando cortes"
+ },
+ {
+  "id": "b04908f9-60c0-417f-a568-50491d29bf75",
+  "pareja": "Hugo Arizmendi / Mario Escamilla",
+  "categoria": "libre",
+  "grupo": "Grupo C",
+  "jugo": true,
+  "busqueda": "hugo arizmendi / mario escamilla"
+ },
+ {
+  "id": "d3bb0b68-ed80-4ed4-a7d1-a9ca5db5e306",
+  "pareja": "Ignacio Acevedo / Edgar Labra",
+  "categoria": "libre",
+  "grupo": "Grupo F",
+  "jugo": true,
+  "busqueda": "ignacio acevedo / edgar labra"
+ },
+ {
+  "id": "ecf0a805-faf6-4298-9dd4-95556d3b5f18",
+  "pareja": "Israel Lara / Rafael Becerril",
+  "categoria": "libre",
+  "grupo": "Grupo G",
+  "jugo": true,
+  "busqueda": "israel lara / rafael becerril"
+ },
+ {
+  "id": "87d7dc23-0271-40f8-8e7e-a2e8148cb168",
+  "pareja": "Issac Flores / Elliot Becerril",
+  "categoria": "libre",
+  "grupo": "Grupo C",
+  "jugo": false,
+  "busqueda": "issac flores / elliot becerril"
+ },
+ {
+  "id": "0c5d6e05-5d0e-4ab3-8d5d-985ec4169eab",
+  "pareja": "Ivan Guzman / Luis Zavala",
+  "categoria": "libre",
+  "grupo": "Grupo E",
+  "jugo": true,
+  "busqueda": "ivan guzman / luis zavala"
+ },
+ {
+  "id": "41073179-d863-4e56-acd5-09d470d8c0c4",
+  "pareja": "Ivan Padron / Omar Melendez",
+  "categoria": "libre",
+  "grupo": "Grupo D",
+  "jugo": true,
+  "busqueda": "ivan padron / omar melendez"
+ },
+ {
+  "id": "d4db1820-eeb1-4b78-85b8-f1945160228a",
+  "pareja": "Ivan Zuñiga / Raymundo",
+  "categoria": "libre",
+  "grupo": "Grupo H",
+  "jugo": true,
+  "busqueda": "ivan zuniga / raymundo"
+ },
+ {
+  "id": "2cf2daac-443e-4e38-a008-ecbeabd19893",
+  "pareja": "Joaquin / Salvador",
+  "categoria": "masters",
+  "grupo": "Grupo D",
+  "jugo": true,
+  "busqueda": "joaquin / salvador"
+ },
+ {
+  "id": "6765a923-6f86-41e4-af6a-fe971e807db6",
+  "pareja": "Jorge Isaac / Ivan Zamora",
+  "categoria": "libre",
+  "grupo": "Grupo B",
+  "jugo": true,
+  "busqueda": "jorge isaac / ivan zamora"
+ },
+ {
+  "id": "a823f1a9-81ce-4013-99dc-a22c1d75d35b",
+  "pareja": "Jorge Zavala / Javier Zavala",
+  "categoria": "masters",
+  "grupo": "Grupo C",
+  "jugo": true,
+  "busqueda": "jorge zavala / javier zavala"
+ },
+ {
+  "id": "513df05a-e0a8-46d8-a7c0-73715e230c97",
+  "pareja": "Juan Pablo / Owen Alexander",
+  "categoria": "libre",
+  "grupo": "Grupo A",
+  "jugo": true,
+  "busqueda": "juan pablo / owen alexander"
+ },
+ {
+  "id": "33bbe487-5e05-463b-bad3-b7197c2110d6",
+  "pareja": "Julio Mendez / Miguel Baez",
+  "categoria": "libre",
+  "grupo": "Grupo G",
+  "jugo": true,
+  "busqueda": "julio mendez / miguel baez"
+ },
+ {
+  "id": "4053c054-79c0-45ac-9e95-6a5d26b810ce",
+  "pareja": "Lenin Reyes / Ricardo Rodriguez",
+  "categoria": "libre",
+  "grupo": "Grupo H",
+  "jugo": true,
+  "busqueda": "lenin reyes / ricardo rodriguez"
+ },
+ {
+  "id": "1d4d1683-9a3c-47e5-ad41-3978cb2d7712",
+  "pareja": "Luis Espitia / Adrian Arreola",
+  "categoria": "libre",
+  "grupo": "Grupo A",
+  "jugo": true,
+  "busqueda": "luis espitia / adrian arreola"
+ },
+ {
+  "id": "5fcb90c1-4ebd-437b-bfdd-bc6d892b3b25",
+  "pareja": "Macoy / Jorge Gutierrez",
+  "categoria": "masters",
+  "grupo": "Grupo A",
+  "jugo": true,
+  "busqueda": "macoy / jorge gutierrez"
+ },
+ {
+  "id": "82fe8773-1ae2-4ec0-b045-be51781df0dd",
+  "pareja": "Marco Mtz / Humberto Mtz",
+  "categoria": "masters",
+  "grupo": "Grupo B",
+  "jugo": true,
+  "busqueda": "marco mtz / humberto mtz"
+ },
+ {
+  "id": "e8574882-fdf9-43fa-8f65-e35bb00387a5",
+  "pareja": "Marco Rodriguez / Josue Gomez",
+  "categoria": "libre",
+  "grupo": "Grupo B",
+  "jugo": true,
+  "busqueda": "marco rodriguez / josue gomez"
+ },
+ {
+  "id": "b2b11c86-3c22-4d2d-8af5-1886de616275",
+  "pareja": "Mauricio Castillo / Refugio Castillo",
+  "categoria": "masters",
+  "grupo": "Grupo D",
+  "jugo": true,
+  "busqueda": "mauricio castillo / refugio castillo"
+ },
+ {
+  "id": "7ef4baf6-1aa3-4e93-b5c5-c55d95cb0ebb",
+  "pareja": "Mikjail Juarez / Ignacio Orozco",
+  "categoria": "libre",
+  "grupo": "Grupo G",
+  "jugo": true,
+  "busqueda": "mikjail juarez / ignacio orozco"
+ },
+ {
+  "id": "fcd7587c-59a2-4241-b231-dfb0f8a046fc",
+  "pareja": "Moises Miranda / Juan Pablo Ayala",
+  "categoria": "libre",
+  "grupo": "Grupo H",
+  "jugo": true,
+  "busqueda": "moises miranda / juan pablo ayala"
+ },
+ {
+  "id": "c70f4c58-f9d2-4d08-927a-9f01c4207b9e",
+  "pareja": "PD1-1 / PD1-2",
+  "categoria": "masters",
+  "grupo": "Grupo A",
+  "jugo": false,
+  "busqueda": "pd1-1 / pd1-2"
+ },
+ {
+  "id": "c34f8082-9209-4def-be19-fccb55cd3df5",
+  "pareja": "Santiago Mtz / Gerardo Macizo",
+  "categoria": "libre",
+  "grupo": "Grupo D",
+  "jugo": true,
+  "busqueda": "santiago mtz / gerardo macizo"
+ },
+ {
+  "id": "07e18c4b-0c9c-48e7-b637-a9e7fc91a271",
+  "pareja": "Tiburon / Wicho",
+  "categoria": "libre",
+  "grupo": "Grupo F",
+  "jugo": true,
+  "busqueda": "tiburon / wicho"
+ },
+ {
+  "id": "b164b535-647d-40ba-8811-9ad148851e73",
+  "pareja": "Valentin Guerrero / Martin Jimenez",
+  "categoria": "libre",
+  "grupo": "Grupo B",
+  "jugo": true,
+  "busqueda": "valentin guerrero / martin jimenez"
+ }
+]

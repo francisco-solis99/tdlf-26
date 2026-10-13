@@ -1,0 +1,134 @@
+{
+ "id": "b2b11c86-3c22-4d2d-8af5-1886de616275",
+ "categoria": "masters",
+ "grupo": "Grupo D",
+ "pareja": "Mauricio Castillo / Refugio Castillo",
+ "resumen": {
+  "partidos": 1,
+  "partidos_oficiales": 2,
+  "victorias": 0,
+  "victorias_oficiales": 1,
+  "victorias_por_default": 1,
+  "puntos_favor": 8,
+  "puntos_contra": 10,
+  "diferencia": -2,
+  "sinergia": -9.1,
+  "muestra_pequena": true
+ },
+ "nivel": {
+  "id": 3,
+  "nombre": "Los de contracorriente",
+  "descripcion": "Les tocó remar contra la corriente, pero salieron a jugar cada punto."
+ },
+ "percentiles": {
+  "sinergia": 0.33,
+  "ataque": 0.44,
+  "defensa": 0.0
+ },
+ "insignias": [
+  {
+   "id": "cardiaca",
+   "nombre": "Cardiaca",
+   "descripcion": "Jugó un partido que se decidió por 2 puntos o menos."
+  },
+  {
+   "id": "pelea",
+   "nombre": "Pelearon cada punto",
+   "descripcion": "Sus partidos sumaron 16 puntos o más en promedio."
+  }
+ ],
+ "partidos": [
+  {
+   "rival": "Compañero / Aluche",
+   "rival_id": "54ff0b26-15d1-41c4-9cfc-e6cfdf332636",
+   "marcador_propio": null,
+   "marcador_rival": null,
+   "marcador": null,
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": true,
+   "km_promedio": null
+  },
+  {
+   "rival": "Joaquin / Salvador",
+   "rival_id": "2cf2daac-443e-4e38-a008-ecbeabd19893",
+   "marcador_propio": 8,
+   "marcador_rival": 10,
+   "marcador": "8-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 59
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": null,
+  "derrota_mas_cerrada": {
+   "marcador": "8-10",
+   "rival": "Joaquin / Salvador",
+   "margen": 2
+  },
+  "rival_mas_lejano": {
+   "rival": "Joaquin / Salvador",
+   "km": 59
+  },
+  "mas_puntos": {
+   "marcador": "8-10",
+   "rival": "Joaquin / Salvador"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 1 partido, anotaron 8 puntos y recibieron 10. Sumaron además 1 victoria por default.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Los de contracorriente",
+   "texto": "Les tocó remar contra la corriente, pero salieron a jugar cada punto. Ojo: este nivel se basa en un solo partido.",
+   "datos": {
+    "sinergia": -9.1,
+    "nivel": 3
+   }
+  },
+  {
+   "id": "sus_insignias",
+   "tipo": "badges",
+   "categoria": null,
+   "titulo": "Sus insignias",
+   "texto": "Se llevaron 2 insignias: Cardiaca, Pelearon cada punto.",
+   "datos": {
+    "insignias": [
+     "Cardiaca",
+     "Pelearon cada punto"
+    ]
+   }
+  },
+  {
+   "id": "casi",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "A nada de ganar",
+   "texto": "Estuvieron a 2 puntos de ganar: 8-10 contra Joaquin / Salvador.",
+   "datos": {
+    "marcador": "8-10",
+    "rival": "Joaquin / Salvador",
+    "margen": 2
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Mauricio Castillo / Refugio Castillo.",
+   "datos": {}
+  }
+ ]
+}

@@ -1,0 +1,177 @@
+{
+ "id": "b04908f9-60c0-417f-a568-50491d29bf75",
+ "categoria": "libre",
+ "grupo": "Grupo C",
+ "pareja": "Hugo Arizmendi / Mario Escamilla",
+ "resumen": {
+  "partidos": 2,
+  "partidos_oficiales": 3,
+  "victorias": 2,
+  "victorias_oficiales": 3,
+  "victorias_por_default": 1,
+  "puntos_favor": 20,
+  "puntos_contra": 6,
+  "diferencia": 14,
+  "sinergia": 72.7,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 1,
+  "nombre": "Las aplanadoras",
+  "descripcion": "Ganaron con claridad y dejaron poco margen a sus rivales."
+ },
+ "percentiles": {
+  "sinergia": 0.97,
+  "ataque": 0.83,
+  "defensa": 0.97
+ },
+ "insignias": [
+  {
+   "id": "invicta",
+   "nombre": "Invicta",
+   "descripcion": "Ganó todos sus partidos del grupo."
+  },
+  {
+   "id": "a_diez",
+   "nombre": "Siempre a 10",
+   "descripcion": "Llegó a 10 puntos en cada partido que jugó."
+  },
+  {
+   "id": "muro",
+   "nombre": "Muro",
+   "descripcion": "Recibió 4 puntos o menos por partido."
+  },
+  {
+   "id": "dos_ciudades",
+   "nombre": "Dos ciudades, una pareja",
+   "descripcion": "Cada jugador viene de una ciudad distinta."
+  }
+ ],
+ "partidos": [
+  {
+   "rival": "Enrique Cabrera / Leonardo Esar",
+   "rival_id": "ed47bae8-4bed-4eaf-9dd2-f72d6fd31ad3",
+   "marcador_propio": 10,
+   "marcador_rival": 3,
+   "marcador": "10-3",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 249
+  },
+  {
+   "rival": "Hector Macias / Fernando Cortes",
+   "rival_id": "74b96d05-4ec6-41ae-a560-7f41831bf935",
+   "marcador_propio": 10,
+   "marcador_rival": 3,
+   "marcador": "10-3",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 217
+  },
+  {
+   "rival": "Issac Flores / Elliot Becerril",
+   "rival_id": "87d7dc23-0271-40f8-8e7e-a2e8148cb168",
+   "marcador_propio": null,
+   "marcador_rival": null,
+   "marcador": null,
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": true,
+   "km_promedio": null
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": {
+   "marcador": "10-3",
+   "rival": "Enrique Cabrera / Leonardo Esar"
+  },
+  "derrota_mas_cerrada": null,
+  "rival_mas_lejano": {
+   "rival": "Enrique Cabrera / Leonardo Esar",
+   "km": 249
+  },
+  "mas_puntos": {
+   "marcador": "10-3",
+   "rival": "Enrique Cabrera / Leonardo Esar"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 2 partidos, anotaron 20 puntos y recibieron 6. Sumaron además 1 victoria por default.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Las aplanadoras",
+   "texto": "Su sinergia fue de 72.7%. Ganaron con claridad y dejaron poco margen a sus rivales. Superaron al 97% de las parejas de su categoría.",
+   "datos": {
+    "sinergia": 72.7,
+    "nivel": 1
+   }
+  },
+  {
+   "id": "frente_al_resto",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Frente al resto",
+   "texto": "Dentro de su categoría, su ataque superó al 83% de las parejas y su defensa al 97%.",
+   "datos": {
+    "ataque": 0.83,
+    "defensa": 0.97
+   }
+  },
+  {
+   "id": "sus_insignias",
+   "tipo": "badges",
+   "categoria": null,
+   "titulo": "Sus insignias",
+   "texto": "Se llevaron 4 insignias: Invicta, Siempre a 10, Muro, Dos ciudades, una pareja.",
+   "datos": {
+    "insignias": [
+     "Invicta",
+     "Siempre a 10",
+     "Muro",
+     "Dos ciudades, una pareja"
+    ]
+   }
+  },
+  {
+   "id": "mejor_victoria",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su mejor partido",
+   "texto": "Su victoria más amplia fue 10-3 contra Enrique Cabrera / Leonardo Esar.",
+   "datos": {
+    "marcador": "10-3",
+    "rival": "Enrique Cabrera / Leonardo Esar"
+   }
+  },
+  {
+   "id": "rival_lejano",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su rival de más lejos",
+   "texto": "En promedio, 249 km separaban sus ciudades de las de Enrique Cabrera / Leonardo Esar.",
+   "datos": {
+    "rival": "Enrique Cabrera / Leonardo Esar",
+    "km": 249
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Hugo Arizmendi / Mario Escamilla.",
+   "datos": {}
+  }
+ ]
+}

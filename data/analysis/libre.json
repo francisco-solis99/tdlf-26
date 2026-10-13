@@ -1,0 +1,1212 @@
+{
+  "categoria": "libre",
+  "slides": [
+    {
+      "id": "apertura",
+      "tipo": "stat",
+      "categoria": "libre",
+      "titulo": "31 parejas, un solo torneo",
+      "texto": "Llegaron de 15 ciudades distintas, jugaron 45 partidos y entre todos anotaron más de 624 puntos. Esta es su historia.",
+      "datos": {
+        "parejas": 31,
+        "partidos": 45,
+        "puntos": 624,
+        "ciudades": 15
+      }
+    },
+    {
+      "id": "mapa",
+      "tipo": "map",
+      "categoria": "libre",
+      "titulo": "De dónde vinieron",
+      "texto": "Irapuato aportó 14 de los 62 jugadores, pero el torneo se armó con gente de 15 ciudades de 7 estados. Cada punto en el mapa es una ciudad que mandó jugadores a la cancha.",
+      "datos": {
+        "ciudades": [
+          {
+            "ciudad": "Irapuato",
+            "estado": "Guanajuato",
+            "lat": 20.6767,
+            "lon": -101.3563,
+            "jugadores": 14
+          },
+          {
+            "ciudad": "Morelia",
+            "estado": "Michoacán",
+            "lat": 19.706,
+            "lon": -101.195,
+            "jugadores": 8
+          },
+          {
+            "ciudad": "Apaseo el Grande",
+            "estado": "Guanajuato",
+            "lat": 20.5467,
+            "lon": -100.6869,
+            "jugadores": 7
+          },
+          {
+            "ciudad": "Moroleón",
+            "estado": "Guanajuato",
+            "lat": 20.1286,
+            "lon": -101.1887,
+            "jugadores": 6
+          },
+          {
+            "ciudad": "Querétaro",
+            "estado": "Querétaro",
+            "lat": 20.5888,
+            "lon": -100.3899,
+            "jugadores": 5
+          },
+          {
+            "ciudad": "Cortazar",
+            "estado": "Guanajuato",
+            "lat": 20.4825,
+            "lon": -100.964,
+            "jugadores": 5
+          },
+          {
+            "ciudad": "Ciudad de México",
+            "estado": "Ciudad de México",
+            "lat": 19.4326,
+            "lon": -99.1332,
+            "jugadores": 4
+          },
+          {
+            "ciudad": "Aculco",
+            "estado": "Estado de México",
+            "lat": 20.0986,
+            "lon": -99.8336,
+            "jugadores": 3
+          },
+          {
+            "ciudad": "Celaya",
+            "estado": "Guanajuato",
+            "lat": 20.5235,
+            "lon": -100.8157,
+            "jugadores": 3
+          },
+          {
+            "ciudad": "Pénjamo",
+            "estado": "Guanajuato",
+            "lat": 20.4306,
+            "lon": -101.72,
+            "jugadores": 2
+          },
+          {
+            "ciudad": "Jilotepec",
+            "estado": "Estado de México",
+            "lat": 19.9525,
+            "lon": -99.5311,
+            "jugadores": 1
+          },
+          {
+            "ciudad": "Salamanca",
+            "estado": "Guanajuato",
+            "lat": 20.5719,
+            "lon": -101.1957,
+            "jugadores": 1
+          },
+          {
+            "ciudad": "Tepeji del Río",
+            "estado": "Hidalgo",
+            "lat": 19.9047,
+            "lon": -99.344,
+            "jugadores": 1
+          },
+          {
+            "ciudad": "Toluca",
+            "estado": "Estado de México",
+            "lat": 19.2826,
+            "lon": -99.6557,
+            "jugadores": 1
+          },
+          {
+            "ciudad": "Xalapa",
+            "estado": "Veracruz",
+            "lat": 19.5438,
+            "lon": -96.9102,
+            "jugadores": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "puntos",
+      "tipo": "chart",
+      "categoria": "libre",
+      "titulo": "Cada punto cuenta",
+      "texto": "Cada barra es una pareja: a la derecha, lo que anotó; a la izquierda, lo que recibió. Entre más larga la derecha y más corta la izquierda, más cerca de la perfección.",
+      "datos": {}
+    },
+    {
+      "id": "jerarquia",
+      "tipo": "chart",
+      "categoria": "libre",
+      "titulo": "Un torneo único",
+      "texto": "Los 8 grupos terminaron con la estructura más limpia posible: el primero ganó 3 partidos, el segundo 2, el tercero 1 y el último ninguno. Ni una sorpresa circular ni un solo empate en victorias. Si cada partido se hubiera decidido al azar, que los 8 grupos salieran así pasaría una vez de cada 1,300. Un torneo único, casi un milagro probabilístico.",
+      "datos": {
+        "grupos": 8
+      }
+    },
+    {
+      "id": "ataque_defensa",
+      "tipo": "scatter",
+      "categoria": "libre",
+      "titulo": "Quien anota, defiende",
+      "texto": "Las parejas que más puntos anotaron por partido tendieron a ser las que menos recibieron (correlación de -0.75). En este torneo, atacar bien y defender bien fueron casi lo mismo.",
+      "datos": {
+        "r": -0.754
+      }
+    },
+    {
+      "id": "playmakers",
+      "tipo": "ranking",
+      "categoria": "libre",
+      "titulo": "Empate en la cima",
+      "texto": "Una pareja que ganara todos sus partidos 10-0 tendría 100% de sinergia. En la cima hubo un empate: Avimael Tapia / Lenin Bustos y Hugo Arizmendi / Mario Escamilla, con 72.7% cada una. El promedio fue 9.1%.",
+      "datos": {
+        "promedio": 9.1,
+        "ranking": [
+          {
+            "double_id": "b04908f9-60c0-417f-a568-50491d29bf75",
+            "pareja": "Hugo Arizmendi / Mario Escamilla",
+            "pj": 2,
+            "sinergia": 72.73
+          },
+          {
+            "double_id": "e81c76ab-c931-4079-bf2d-f6fbf74957fe",
+            "pareja": "Avimael Tapia / Lenin Bustos",
+            "pj": 3,
+            "sinergia": 72.73
+          },
+          {
+            "double_id": "c34f8082-9209-4def-be19-fccb55cd3df5",
+            "pareja": "Santiago Mtz / Gerardo Macizo",
+            "pj": 3,
+            "sinergia": 69.7
+          },
+          {
+            "double_id": "33bbe487-5e05-463b-bad3-b7197c2110d6",
+            "pareja": "Julio Mendez / Miguel Baez",
+            "pj": 3,
+            "sinergia": 66.67
+          },
+          {
+            "double_id": "e8574882-fdf9-43fa-8f65-e35bb00387a5",
+            "pareja": "Marco Rodriguez / Josue Gomez",
+            "pj": 3,
+            "sinergia": 63.64
+          },
+          {
+            "double_id": "6765a923-6f86-41e4-af6a-fe971e807db6",
+            "pareja": "Jorge Isaac / Ivan Zamora",
+            "pj": 3,
+            "sinergia": 63.64
+          },
+          {
+            "double_id": "b15c0062-265a-41de-b23e-4110984286f7",
+            "pareja": "Carlos Machado / Oscar Gallegos",
+            "pj": 3,
+            "sinergia": 57.58
+          },
+          {
+            "double_id": "7736442e-4feb-42b1-b156-1180dd473aa7",
+            "pareja": "Enrique Lara / Gerardo Cruz",
+            "pj": 3,
+            "sinergia": 54.55
+          },
+          {
+            "double_id": "f4c6750f-a7f2-48dc-97f8-5aeaf9b6e06c",
+            "pareja": "Chicaro / Daniel Detec",
+            "pj": 3,
+            "sinergia": 48.48
+          },
+          {
+            "double_id": "4053c054-79c0-45ac-9e95-6a5d26b810ce",
+            "pareja": "Lenin Reyes / Ricardo Rodriguez",
+            "pj": 3,
+            "sinergia": 39.39
+          }
+        ]
+      }
+    },
+    {
+      "id": "a_diez",
+      "tipo": "stat",
+      "categoria": "libre",
+      "titulo": "6 parejas siempre llegaron a 10",
+      "texto": "Ganaron todos sus partidos llegando siempre a 10 puntos. Para desempatar, cuenta quién dejó menos puntos al rival: Avimael Tapia / Lenin Bustos (3 partidos) y Hugo Arizmendi / Mario Escamilla (2 partidos), con 3.0 por partido.",
+      "datos": {
+        "parejas": [
+          "Julio Mendez / Miguel Baez",
+          "Hugo Arizmendi / Mario Escamilla",
+          "Carlos Machado / Oscar Gallegos",
+          "Santiago Mtz / Gerardo Macizo",
+          "Avimael Tapia / Lenin Bustos",
+          "Chicaro / Daniel Detec"
+        ]
+      }
+    },
+    {
+      "id": "ganar_no_es_dominar",
+      "tipo": "comparacion",
+      "categoria": "libre",
+      "titulo": "Ganar no es dominar",
+      "texto": "Jorge Isaac / Ivan Zamora ganaron 2 partidos y Chicaro / Daniel Detec ganaron 3, pero Jorge Isaac / Ivan Zamora tuvieron más sinergia (63.6% contra 48.5%). Importa cuánto ganas, no solo cuántas veces.",
+      "datos": {
+        "a": "6765a923-6f86-41e4-af6a-fe971e807db6",
+        "b": "f4c6750f-a7f2-48dc-97f8-5aeaf9b6e06c"
+      }
+    },
+    {
+      "id": "arquetipos",
+      "tipo": "ranking",
+      "categoria": "libre",
+      "titulo": "Tres niveles, una misma cancha",
+      "texto": "Si ordenamos a las 31 parejas por sinergia aparecen tres niveles: 10 aplanadoras (38% o más), 7 parejos y 14 de contracorriente. ¿En cuál quedaste tú?",
+      "datos": {
+        "cortes": [
+          37.9,
+          -8.3
+        ],
+        "conteo": {
+          "Los de contracorriente": 14,
+          "Las aplanadoras": 10,
+          "Los parejos": 7
+        },
+        "descripciones": {
+          "Las aplanadoras": "Ganaron con claridad y dejaron poco margen a sus rivales.",
+          "Los parejos": "Partidos de tú a tú: ganaron y perdieron sin que nadie se despegara.",
+          "Los de contracorriente": "Les tocó remar contra la corriente, pero salieron a jugar cada punto."
+        },
+        "pares": [
+          {
+            "double_id": "07e18c4b-0c9c-48e7-b637-a9e7fc91a271",
+            "pareja": "Tiburon / Wicho",
+            "arquetipo": "Los parejos",
+            "sinergia": 12.12,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": [
+              "Cardiaca"
+            ]
+          },
+          {
+            "double_id": "097713e4-ce10-44f3-b3f5-6a92d2024936",
+            "pareja": "Diego Solis / Francisco Solis",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -15.15,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": []
+          },
+          {
+            "double_id": "0c5d6e05-5d0e-4ab3-8d5d-985ec4169eab",
+            "pareja": "Ivan Guzman / Luis Zavala",
+            "arquetipo": "Los parejos",
+            "sinergia": 24.24,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": []
+          },
+          {
+            "double_id": "0d4a988f-9bef-4f3a-85e1-18edf7b1a86e",
+            "pareja": "Flako Arroyo / Moroco",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -33.33,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": []
+          },
+          {
+            "double_id": "1d4d1683-9a3c-47e5-ad41-3978cb2d7712",
+            "pareja": "Luis Espitia / Adrian Arreola",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -24.24,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": [
+              "Cardiaca"
+            ]
+          },
+          {
+            "double_id": "33bbe487-5e05-463b-bad3-b7197c2110d6",
+            "pareja": "Julio Mendez / Miguel Baez",
+            "arquetipo": "Las aplanadoras",
+            "sinergia": 66.67,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": [
+              "Invicta",
+              "Siempre a 10",
+              "Muro"
+            ]
+          },
+          {
+            "double_id": "4053c054-79c0-45ac-9e95-6a5d26b810ce",
+            "pareja": "Lenin Reyes / Ricardo Rodriguez",
+            "arquetipo": "Las aplanadoras",
+            "sinergia": 39.39,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": []
+          },
+          {
+            "double_id": "41073179-d863-4e56-acd5-09d470d8c0c4",
+            "pareja": "Ivan Padron / Omar Melendez",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -45.45,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": []
+          },
+          {
+            "double_id": "41359ea8-a1c7-4209-ab77-314f33327bb3",
+            "pareja": "Daniel Ap / Alex Ap",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -36.36,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": [
+              "Cardiaca"
+            ]
+          },
+          {
+            "double_id": "468a63ea-efdf-48fc-b599-b3fe9465b96f",
+            "pareja": "Edgar Garcia / Luis Bravo",
+            "arquetipo": "Los parejos",
+            "sinergia": 9.09,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": [
+              "Cardiaca"
+            ]
+          },
+          {
+            "double_id": "4b4bf997-de41-4531-a0f5-28c26a6b4ef3",
+            "pareja": "Gustavo Ventura / Daniel Adame",
+            "arquetipo": "Los parejos",
+            "sinergia": 36.36,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": []
+          },
+          {
+            "double_id": "513df05a-e0a8-46d8-a7c0-73715e230c97",
+            "pareja": "Juan Pablo / Owen Alexander",
+            "arquetipo": "Los parejos",
+            "sinergia": 3.03,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": [
+              "Cardiaca"
+            ]
+          },
+          {
+            "double_id": "6765a923-6f86-41e4-af6a-fe971e807db6",
+            "pareja": "Jorge Isaac / Ivan Zamora",
+            "arquetipo": "Las aplanadoras",
+            "sinergia": 63.64,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": [
+              "Cardiaca",
+              "Muro",
+              "De los extremos"
+            ]
+          },
+          {
+            "double_id": "71b14788-ec2d-4e25-87fb-e28e471d032c",
+            "pareja": "Emiliano Zavala / Efrain Rojas",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -18.18,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": []
+          },
+          {
+            "double_id": "74b96d05-4ec6-41ae-a560-7f41831bf935",
+            "pareja": "Hector Macias / Fernando Cortes",
+            "arquetipo": "Los parejos",
+            "sinergia": -4.55,
+            "pj": 2,
+            "muestra_pequena": false,
+            "insignias": []
+          },
+          {
+            "double_id": "7736442e-4feb-42b1-b156-1180dd473aa7",
+            "pareja": "Enrique Lara / Gerardo Cruz",
+            "arquetipo": "Las aplanadoras",
+            "sinergia": 54.55,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": [
+              "Invicta"
+            ]
+          },
+          {
+            "double_id": "7ef4baf6-1aa3-4e93-b5c5-c55d95cb0ebb",
+            "pareja": "Mikjail Juarez / Ignacio Orozco",
+            "arquetipo": "Los parejos",
+            "sinergia": 24.24,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": []
+          },
+          {
+            "double_id": "b04908f9-60c0-417f-a568-50491d29bf75",
+            "pareja": "Hugo Arizmendi / Mario Escamilla",
+            "arquetipo": "Las aplanadoras",
+            "sinergia": 72.73,
+            "pj": 2,
+            "muestra_pequena": false,
+            "insignias": [
+              "Invicta",
+              "Siempre a 10",
+              "Muro"
+            ]
+          },
+          {
+            "double_id": "b15c0062-265a-41de-b23e-4110984286f7",
+            "pareja": "Carlos Machado / Oscar Gallegos",
+            "arquetipo": "Las aplanadoras",
+            "sinergia": 57.58,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": [
+              "Invicta",
+              "Siempre a 10"
+            ]
+          },
+          {
+            "double_id": "b164b535-647d-40ba-8811-9ad148851e73",
+            "pareja": "Valentin Guerrero / Martin Jimenez",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -57.58,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": []
+          },
+          {
+            "double_id": "c34f8082-9209-4def-be19-fccb55cd3df5",
+            "pareja": "Santiago Mtz / Gerardo Macizo",
+            "arquetipo": "Las aplanadoras",
+            "sinergia": 69.7,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": [
+              "Invicta",
+              "Siempre a 10",
+              "Muro"
+            ]
+          },
+          {
+            "double_id": "d3298e96-8a6c-45bf-a678-e0085fe0ee40",
+            "pareja": "Antonio Mendoza / Kaled Gonzalez",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -27.27,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": []
+          },
+          {
+            "double_id": "d3bb0b68-ed80-4ed4-a7d1-a9ca5db5e306",
+            "pareja": "Ignacio Acevedo / Edgar Labra",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -12.12,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": [
+              "Cardiaca"
+            ]
+          },
+          {
+            "double_id": "d4db1820-eeb1-4b78-85b8-f1945160228a",
+            "pareja": "Ivan Zuñiga / Raymundo",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -42.42,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": []
+          },
+          {
+            "double_id": "d528daaa-dfbd-4d13-8a9e-062907ec6fe1",
+            "pareja": "Fabian Padilla / Alonso Moreno",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -24.24,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": []
+          },
+          {
+            "double_id": "e81c76ab-c931-4079-bf2d-f6fbf74957fe",
+            "pareja": "Avimael Tapia / Lenin Bustos",
+            "arquetipo": "Las aplanadoras",
+            "sinergia": 72.73,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": [
+              "Invicta",
+              "Siempre a 10",
+              "Muro"
+            ]
+          },
+          {
+            "double_id": "e8574882-fdf9-43fa-8f65-e35bb00387a5",
+            "pareja": "Marco Rodriguez / Josue Gomez",
+            "arquetipo": "Las aplanadoras",
+            "sinergia": 63.64,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": [
+              "Invicta",
+              "Cardiaca",
+              "Muro"
+            ]
+          },
+          {
+            "double_id": "ecf0a805-faf6-4298-9dd4-95556d3b5f18",
+            "pareja": "Israel Lara / Rafael Becerril",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -36.36,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": []
+          },
+          {
+            "double_id": "ed47bae8-4bed-4eaf-9dd2-f72d6fd31ad3",
+            "pareja": "Enrique Cabrera / Leonardo Esar",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -40.91,
+            "pj": 2,
+            "muestra_pequena": false,
+            "insignias": []
+          },
+          {
+            "double_id": "f4c6750f-a7f2-48dc-97f8-5aeaf9b6e06c",
+            "pareja": "Chicaro / Daniel Detec",
+            "arquetipo": "Las aplanadoras",
+            "sinergia": 48.48,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": [
+              "Invicta",
+              "Siempre a 10",
+              "Cardiaca"
+            ]
+          },
+          {
+            "double_id": "fcd7587c-59a2-4241-b231-dfb0f8a046fc",
+            "pareja": "Moises Miranda / Juan Pablo Ayala",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -18.18,
+            "pj": 3,
+            "muestra_pequena": false,
+            "insignias": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "cardiacos",
+      "tipo": "chart",
+      "categoria": "libre",
+      "titulo": "Partidos de infarto",
+      "texto": "5 de 45 partidos se resolvieron por 2 puntos o menos. El más apretado: Edgar Garcia / Luis Bravo 8-7 Juan Pablo / Owen Alexander. Se acabó el tiempo antes de que alguien llegara a 10.",
+      "datos": {
+        "umbral": 2,
+        "partidos": 5,
+        "top": [
+          {
+            "gano": "Edgar Garcia / Luis Bravo",
+            "marcador": "8-7",
+            "perdio": "Juan Pablo / Owen Alexander",
+            "grupo": "Grupo A",
+            "margen": 1,
+            "total": 15,
+            "por_tiempo": true
+          },
+          {
+            "gano": "Marco Rodriguez / Josue Gomez",
+            "marcador": "9-8",
+            "perdio": "Jorge Isaac / Ivan Zamora",
+            "grupo": "Grupo B",
+            "margen": 1,
+            "total": 17,
+            "por_tiempo": true
+          },
+          {
+            "gano": "Ignacio Acevedo / Edgar Labra",
+            "marcador": "10-9",
+            "perdio": "Daniel Ap / Alex Ap",
+            "grupo": "Grupo F",
+            "margen": 1,
+            "total": 19,
+            "por_tiempo": false
+          },
+          {
+            "gano": "Chicaro / Daniel Detec",
+            "marcador": "10-8",
+            "perdio": "Luis Espitia / Adrian Arreola",
+            "grupo": "Grupo A",
+            "margen": 2,
+            "total": 18,
+            "por_tiempo": false
+          },
+          {
+            "gano": "Tiburon / Wicho",
+            "marcador": "10-8",
+            "perdio": "Ignacio Acevedo / Edgar Labra",
+            "grupo": "Grupo F",
+            "margen": 2,
+            "total": 18,
+            "por_tiempo": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "extremos",
+      "tipo": "stat",
+      "categoria": "libre",
+      "titulo": "El partido menos parejo del torneo",
+      "texto": "El partido menos parejo del torneo terminó 10-0: Jorge Isaac / Ivan Zamora contra Valentin Guerrero / Martin Jimenez. Fue el único 10-0 de toda la fase de grupos.",
+      "datos": {
+        "marcador": "10-0"
+      }
+    },
+    {
+      "id": "pareja_extremos",
+      "tipo": "stat",
+      "categoria": "libre",
+      "titulo": "La pareja de los extremos",
+      "texto": "Jorge Isaac / Ivan Zamora ganaron 10-0 en uno de sus partidos y perdieron 8-9 contra Marco Rodriguez / Josue Gomez. Un punto los separó de terminar invictos.",
+      "datos": {
+        "double_id": "6765a923-6f86-41e4-af6a-fe971e807db6"
+      }
+    },
+    {
+      "id": "distancia",
+      "tipo": "stat",
+      "categoria": "libre",
+      "titulo": "El partido de la distancia",
+      "texto": "El partido con más kilómetros de por medio: Diego Solis / Francisco Solis contra Enrique Lara / Gerardo Cruz. En promedio, 358 km separaban a sus ciudades de origen. Terminó 10-3 a favor de Enrique Lara / Gerardo Cruz. Y 3 de 45 partidos fueron entre parejas de la misma ciudad.",
+      "datos": {
+        "km": 358,
+        "locales": 3
+      }
+    }
+  ],
+  "ranking": [
+    {
+      "id": "b04908f9-60c0-417f-a568-50491d29bf75",
+      "pareja": "Hugo Arizmendi / Mario Escamilla",
+      "grupo": "Grupo C",
+      "pj": 2,
+      "pg": 2,
+      "pf": 20,
+      "pc": 6,
+      "dif": 14,
+      "sinergia": 72.73,
+      "nivel": 1,
+      "muestra_pequena": false
+    },
+    {
+      "id": "e81c76ab-c931-4079-bf2d-f6fbf74957fe",
+      "pareja": "Avimael Tapia / Lenin Bustos",
+      "grupo": "Grupo F",
+      "pj": 3,
+      "pg": 3,
+      "pf": 30,
+      "pc": 9,
+      "dif": 21,
+      "sinergia": 72.73,
+      "nivel": 1,
+      "muestra_pequena": false
+    },
+    {
+      "id": "c34f8082-9209-4def-be19-fccb55cd3df5",
+      "pareja": "Santiago Mtz / Gerardo Macizo",
+      "grupo": "Grupo D",
+      "pj": 3,
+      "pg": 3,
+      "pf": 30,
+      "pc": 10,
+      "dif": 20,
+      "sinergia": 69.7,
+      "nivel": 1,
+      "muestra_pequena": false
+    },
+    {
+      "id": "33bbe487-5e05-463b-bad3-b7197c2110d6",
+      "pareja": "Julio Mendez / Miguel Baez",
+      "grupo": "Grupo G",
+      "pj": 3,
+      "pg": 3,
+      "pf": 30,
+      "pc": 11,
+      "dif": 19,
+      "sinergia": 66.67,
+      "nivel": 1,
+      "muestra_pequena": false
+    },
+    {
+      "id": "e8574882-fdf9-43fa-8f65-e35bb00387a5",
+      "pareja": "Marco Rodriguez / Josue Gomez",
+      "grupo": "Grupo B",
+      "pj": 3,
+      "pg": 3,
+      "pf": 29,
+      "pc": 11,
+      "dif": 18,
+      "sinergia": 63.64,
+      "nivel": 1,
+      "muestra_pequena": false
+    },
+    {
+      "id": "6765a923-6f86-41e4-af6a-fe971e807db6",
+      "pareja": "Jorge Isaac / Ivan Zamora",
+      "grupo": "Grupo B",
+      "pj": 3,
+      "pg": 2,
+      "pf": 28,
+      "pc": 10,
+      "dif": 18,
+      "sinergia": 63.64,
+      "nivel": 1,
+      "muestra_pequena": false
+    },
+    {
+      "id": "b15c0062-265a-41de-b23e-4110984286f7",
+      "pareja": "Carlos Machado / Oscar Gallegos",
+      "grupo": "Grupo H",
+      "pj": 3,
+      "pg": 3,
+      "pf": 30,
+      "pc": 14,
+      "dif": 16,
+      "sinergia": 57.58,
+      "nivel": 1,
+      "muestra_pequena": false
+    },
+    {
+      "id": "7736442e-4feb-42b1-b156-1180dd473aa7",
+      "pareja": "Enrique Lara / Gerardo Cruz",
+      "grupo": "Grupo E",
+      "pj": 3,
+      "pg": 3,
+      "pf": 29,
+      "pc": 14,
+      "dif": 15,
+      "sinergia": 54.55,
+      "nivel": 1,
+      "muestra_pequena": false
+    },
+    {
+      "id": "f4c6750f-a7f2-48dc-97f8-5aeaf9b6e06c",
+      "pareja": "Chicaro / Daniel Detec",
+      "grupo": "Grupo A",
+      "pj": 3,
+      "pg": 3,
+      "pf": 30,
+      "pc": 17,
+      "dif": 13,
+      "sinergia": 48.48,
+      "nivel": 1,
+      "muestra_pequena": false
+    },
+    {
+      "id": "4053c054-79c0-45ac-9e95-6a5d26b810ce",
+      "pareja": "Lenin Reyes / Ricardo Rodriguez",
+      "grupo": "Grupo H",
+      "pj": 3,
+      "pg": 2,
+      "pf": 25,
+      "pc": 15,
+      "dif": 10,
+      "sinergia": 39.39,
+      "nivel": 1,
+      "muestra_pequena": false
+    },
+    {
+      "id": "4b4bf997-de41-4531-a0f5-28c26a6b4ef3",
+      "pareja": "Gustavo Ventura / Daniel Adame",
+      "grupo": "Grupo D",
+      "pj": 3,
+      "pg": 2,
+      "pf": 25,
+      "pc": 16,
+      "dif": 9,
+      "sinergia": 36.36,
+      "nivel": 2,
+      "muestra_pequena": false
+    },
+    {
+      "id": "7ef4baf6-1aa3-4e93-b5c5-c55d95cb0ebb",
+      "pareja": "Mikjail Juarez / Ignacio Orozco",
+      "grupo": "Grupo G",
+      "pj": 3,
+      "pg": 2,
+      "pf": 19,
+      "pc": 14,
+      "dif": 5,
+      "sinergia": 24.24,
+      "nivel": 2,
+      "muestra_pequena": false
+    },
+    {
+      "id": "0c5d6e05-5d0e-4ab3-8d5d-985ec4169eab",
+      "pareja": "Ivan Guzman / Luis Zavala",
+      "grupo": "Grupo E",
+      "pj": 3,
+      "pg": 2,
+      "pf": 24,
+      "pc": 19,
+      "dif": 5,
+      "sinergia": 24.24,
+      "nivel": 2,
+      "muestra_pequena": false
+    },
+    {
+      "id": "07e18c4b-0c9c-48e7-b637-a9e7fc91a271",
+      "pareja": "Tiburon / Wicho",
+      "grupo": "Grupo F",
+      "pj": 3,
+      "pg": 2,
+      "pf": 23,
+      "pc": 22,
+      "dif": 1,
+      "sinergia": 12.12,
+      "nivel": 2,
+      "muestra_pequena": false
+    },
+    {
+      "id": "468a63ea-efdf-48fc-b599-b3fe9465b96f",
+      "pareja": "Edgar Garcia / Luis Bravo",
+      "grupo": "Grupo A",
+      "pj": 3,
+      "pg": 2,
+      "pf": 24,
+      "pc": 24,
+      "dif": 0,
+      "sinergia": 9.09,
+      "nivel": 2,
+      "muestra_pequena": false
+    },
+    {
+      "id": "513df05a-e0a8-46d8-a7c0-73715e230c97",
+      "pareja": "Juan Pablo / Owen Alexander",
+      "grupo": "Grupo A",
+      "pj": 3,
+      "pg": 1,
+      "pf": 20,
+      "pc": 22,
+      "dif": -2,
+      "sinergia": 3.03,
+      "nivel": 2,
+      "muestra_pequena": false
+    },
+    {
+      "id": "74b96d05-4ec6-41ae-a560-7f41831bf935",
+      "pareja": "Hector Macias / Fernando Cortes",
+      "grupo": "Grupo C",
+      "pj": 2,
+      "pg": 1,
+      "pf": 12,
+      "pc": 15,
+      "dif": -3,
+      "sinergia": -4.55,
+      "nivel": 2,
+      "muestra_pequena": false
+    },
+    {
+      "id": "d3bb0b68-ed80-4ed4-a7d1-a9ca5db5e306",
+      "pareja": "Ignacio Acevedo / Edgar Labra",
+      "grupo": "Grupo F",
+      "pj": 3,
+      "pg": 1,
+      "pf": 22,
+      "pc": 29,
+      "dif": -7,
+      "sinergia": -12.12,
+      "nivel": 3,
+      "muestra_pequena": false
+    },
+    {
+      "id": "097713e4-ce10-44f3-b3f5-6a92d2024936",
+      "pareja": "Diego Solis / Francisco Solis",
+      "grupo": "Grupo E",
+      "pj": 3,
+      "pg": 1,
+      "pf": 18,
+      "pc": 26,
+      "dif": -8,
+      "sinergia": -15.15,
+      "nivel": 3,
+      "muestra_pequena": false
+    },
+    {
+      "id": "71b14788-ec2d-4e25-87fb-e28e471d032c",
+      "pareja": "Emiliano Zavala / Efrain Rojas",
+      "grupo": "Grupo G",
+      "pj": 3,
+      "pg": 1,
+      "pf": 11,
+      "pc": 20,
+      "dif": -9,
+      "sinergia": -18.18,
+      "nivel": 3,
+      "muestra_pequena": false
+    },
+    {
+      "id": "fcd7587c-59a2-4241-b231-dfb0f8a046fc",
+      "pareja": "Moises Miranda / Juan Pablo Ayala",
+      "grupo": "Grupo H",
+      "pj": 3,
+      "pg": 1,
+      "pf": 18,
+      "pc": 27,
+      "dif": -9,
+      "sinergia": -18.18,
+      "nivel": 3,
+      "muestra_pequena": false
+    },
+    {
+      "id": "d528daaa-dfbd-4d13-8a9e-062907ec6fe1",
+      "pareja": "Fabian Padilla / Alonso Moreno",
+      "grupo": "Grupo D",
+      "pj": 3,
+      "pg": 1,
+      "pf": 16,
+      "pc": 27,
+      "dif": -11,
+      "sinergia": -24.24,
+      "nivel": 3,
+      "muestra_pequena": false
+    },
+    {
+      "id": "1d4d1683-9a3c-47e5-ad41-3978cb2d7712",
+      "pareja": "Luis Espitia / Adrian Arreola",
+      "grupo": "Grupo A",
+      "pj": 3,
+      "pg": 0,
+      "pf": 19,
+      "pc": 30,
+      "dif": -11,
+      "sinergia": -24.24,
+      "nivel": 3,
+      "muestra_pequena": false
+    },
+    {
+      "id": "d3298e96-8a6c-45bf-a678-e0085fe0ee40",
+      "pareja": "Antonio Mendoza / Kaled Gonzalez",
+      "grupo": "Grupo E",
+      "pj": 3,
+      "pg": 0,
+      "pf": 18,
+      "pc": 30,
+      "dif": -12,
+      "sinergia": -27.27,
+      "nivel": 3,
+      "muestra_pequena": false
+    },
+    {
+      "id": "0d4a988f-9bef-4f3a-85e1-18edf7b1a86e",
+      "pareja": "Flako Arroyo / Moroco",
+      "grupo": "Grupo B",
+      "pj": 3,
+      "pg": 1,
+      "pf": 13,
+      "pc": 27,
+      "dif": -14,
+      "sinergia": -33.33,
+      "nivel": 3,
+      "muestra_pequena": false
+    },
+    {
+      "id": "ecf0a805-faf6-4298-9dd4-95556d3b5f18",
+      "pareja": "Israel Lara / Rafael Becerril",
+      "grupo": "Grupo G",
+      "pj": 3,
+      "pg": 0,
+      "pf": 5,
+      "pc": 20,
+      "dif": -15,
+      "sinergia": -36.36,
+      "nivel": 3,
+      "muestra_pequena": false
+    },
+    {
+      "id": "41359ea8-a1c7-4209-ab77-314f33327bb3",
+      "pareja": "Daniel Ap / Alex Ap",
+      "grupo": "Grupo F",
+      "pj": 3,
+      "pg": 0,
+      "pf": 15,
+      "pc": 30,
+      "dif": -15,
+      "sinergia": -36.36,
+      "nivel": 3,
+      "muestra_pequena": false
+    },
+    {
+      "id": "ed47bae8-4bed-4eaf-9dd2-f72d6fd31ad3",
+      "pareja": "Enrique Cabrera / Leonardo Esar",
+      "grupo": "Grupo C",
+      "pj": 2,
+      "pg": 0,
+      "pf": 8,
+      "pc": 19,
+      "dif": -11,
+      "sinergia": -40.91,
+      "nivel": 3,
+      "muestra_pequena": false
+    },
+    {
+      "id": "d4db1820-eeb1-4b78-85b8-f1945160228a",
+      "pareja": "Ivan Zuñiga / Raymundo",
+      "grupo": "Grupo H",
+      "pj": 3,
+      "pg": 0,
+      "pf": 13,
+      "pc": 30,
+      "dif": -17,
+      "sinergia": -42.42,
+      "nivel": 3,
+      "muestra_pequena": false
+    },
+    {
+      "id": "41073179-d863-4e56-acd5-09d470d8c0c4",
+      "pareja": "Ivan Padron / Omar Melendez",
+      "grupo": "Grupo D",
+      "pj": 3,
+      "pg": 0,
+      "pf": 12,
+      "pc": 30,
+      "dif": -18,
+      "sinergia": -45.45,
+      "nivel": 3,
+      "muestra_pequena": false
+    },
+    {
+      "id": "b164b535-647d-40ba-8811-9ad148851e73",
+      "pareja": "Valentin Guerrero / Martin Jimenez",
+      "grupo": "Grupo B",
+      "pj": 3,
+      "pg": 0,
+      "pf": 8,
+      "pc": 30,
+      "dif": -22,
+      "sinergia": -57.58,
+      "nivel": 3,
+      "muestra_pequena": false
+    }
+  ],
+  "mapa": [
+    {
+      "ciudad": "Irapuato",
+      "estado": "Guanajuato",
+      "lat": 20.6767,
+      "lon": -101.3563,
+      "jugadores": 14
+    },
+    {
+      "ciudad": "Morelia",
+      "estado": "Michoacán",
+      "lat": 19.706,
+      "lon": -101.195,
+      "jugadores": 8
+    },
+    {
+      "ciudad": "Apaseo el Grande",
+      "estado": "Guanajuato",
+      "lat": 20.5467,
+      "lon": -100.6869,
+      "jugadores": 7
+    },
+    {
+      "ciudad": "Moroleón",
+      "estado": "Guanajuato",
+      "lat": 20.1286,
+      "lon": -101.1887,
+      "jugadores": 6
+    },
+    {
+      "ciudad": "Querétaro",
+      "estado": "Querétaro",
+      "lat": 20.5888,
+      "lon": -100.3899,
+      "jugadores": 5
+    },
+    {
+      "ciudad": "Cortazar",
+      "estado": "Guanajuato",
+      "lat": 20.4825,
+      "lon": -100.964,
+      "jugadores": 5
+    },
+    {
+      "ciudad": "Ciudad de México",
+      "estado": "Ciudad de México",
+      "lat": 19.4326,
+      "lon": -99.1332,
+      "jugadores": 4
+    },
+    {
+      "ciudad": "Aculco",
+      "estado": "Estado de México",
+      "lat": 20.0986,
+      "lon": -99.8336,
+      "jugadores": 3
+    },
+    {
+      "ciudad": "Celaya",
+      "estado": "Guanajuato",
+      "lat": 20.5235,
+      "lon": -100.8157,
+      "jugadores": 3
+    },
+    {
+      "ciudad": "Pénjamo",
+      "estado": "Guanajuato",
+      "lat": 20.4306,
+      "lon": -101.72,
+      "jugadores": 2
+    },
+    {
+      "ciudad": "Jilotepec",
+      "estado": "Estado de México",
+      "lat": 19.9525,
+      "lon": -99.5311,
+      "jugadores": 1
+    },
+    {
+      "ciudad": "Salamanca",
+      "estado": "Guanajuato",
+      "lat": 20.5719,
+      "lon": -101.1957,
+      "jugadores": 1
+    },
+    {
+      "ciudad": "Tepeji del Río",
+      "estado": "Hidalgo",
+      "lat": 19.9047,
+      "lon": -99.344,
+      "jugadores": 1
+    },
+    {
+      "ciudad": "Toluca",
+      "estado": "Estado de México",
+      "lat": 19.2826,
+      "lon": -99.6557,
+      "jugadores": 1
+    },
+    {
+      "ciudad": "Xalapa",
+      "estado": "Veracruz",
+      "lat": 19.5438,
+      "lon": -96.9102,
+      "jugadores": 1
+    }
+  ]
+}

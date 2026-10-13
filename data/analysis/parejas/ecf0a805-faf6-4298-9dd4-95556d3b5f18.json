@@ -1,0 +1,131 @@
+{
+ "id": "ecf0a805-faf6-4298-9dd4-95556d3b5f18",
+ "categoria": "libre",
+ "grupo": "Grupo G",
+ "pareja": "Israel Lara / Rafael Becerril",
+ "resumen": {
+  "partidos": 3,
+  "partidos_oficiales": 3,
+  "victorias": 0,
+  "victorias_oficiales": 0,
+  "victorias_por_default": 0,
+  "puntos_favor": 5,
+  "puntos_contra": 20,
+  "diferencia": -15,
+  "sinergia": -36.4,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 3,
+  "nombre": "Los de contracorriente",
+  "descripcion": "Les tocó remar contra la corriente, pero salieron a jugar cada punto."
+ },
+ "percentiles": {
+  "sinergia": 0.13,
+  "ataque": 0.0,
+  "defensa": 0.53
+ },
+ "insignias": [],
+ "partidos": [
+  {
+   "rival": "Emiliano Zavala / Efrain Rojas",
+   "rival_id": "71b14788-ec2d-4e25-87fb-e28e471d032c",
+   "marcador_propio": 0,
+   "marcador_rival": 5,
+   "marcador": "0-5",
+   "resultado": "P",
+   "por_tiempo": true,
+   "default": false,
+   "km_promedio": 98
+  },
+  {
+   "rival": "Julio Mendez / Miguel Baez",
+   "rival_id": "33bbe487-5e05-463b-bad3-b7197c2110d6",
+   "marcador_propio": 5,
+   "marcador_rival": 10,
+   "marcador": "5-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 45
+  },
+  {
+   "rival": "Mikjail Juarez / Ignacio Orozco",
+   "rival_id": "7ef4baf6-1aa3-4e93-b5c5-c55d95cb0ebb",
+   "marcador_propio": 0,
+   "marcador_rival": 5,
+   "marcador": "0-5",
+   "resultado": "P",
+   "por_tiempo": true,
+   "default": false,
+   "km_promedio": 61
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": null,
+  "derrota_mas_cerrada": {
+   "marcador": "0-5",
+   "rival": "Emiliano Zavala / Efrain Rojas",
+   "margen": 5
+  },
+  "rival_mas_lejano": {
+   "rival": "Emiliano Zavala / Efrain Rojas",
+   "km": 98
+  },
+  "mas_puntos": {
+   "marcador": "5-10",
+   "rival": "Julio Mendez / Miguel Baez"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 3 partidos, anotaron 5 puntos y recibieron 20.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Los de contracorriente",
+   "texto": "Les tocó remar contra la corriente, pero salieron a jugar cada punto.",
+   "datos": {
+    "sinergia": -36.4,
+    "nivel": 3
+   }
+  },
+  {
+   "id": "frente_al_resto",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Frente al resto",
+   "texto": "Dentro de su categoría, su defensa superó al 53% de las parejas.",
+   "datos": {
+    "ataque": 0.0,
+    "defensa": 0.53
+   }
+  },
+  {
+   "id": "mas_puntos",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su partido de más puntos",
+   "texto": "El partido en el que más anotaron fue 5-10 contra Julio Mendez / Miguel Baez.",
+   "datos": {
+    "marcador": "5-10",
+    "rival": "Julio Mendez / Miguel Baez"
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Israel Lara / Rafael Becerril.",
+   "datos": {}
+  }
+ ]
+}

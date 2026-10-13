@@ -1,0 +1,155 @@
+{
+ "id": "2cf2daac-443e-4e38-a008-ecbeabd19893",
+ "categoria": "masters",
+ "grupo": "Grupo D",
+ "pareja": "Joaquin / Salvador",
+ "resumen": {
+  "partidos": 1,
+  "partidos_oficiales": 2,
+  "victorias": 1,
+  "victorias_oficiales": 2,
+  "victorias_por_default": 1,
+  "puntos_favor": 10,
+  "puntos_contra": 8,
+  "diferencia": 2,
+  "sinergia": 27.3,
+  "muestra_pequena": true
+ },
+ "nivel": {
+  "id": 2,
+  "nombre": "Los parejos",
+  "descripcion": "Partidos de tú a tú: ganaron y perdieron sin que nadie se despegara."
+ },
+ "percentiles": {
+  "sinergia": 0.56,
+  "ataque": 0.78,
+  "defensa": 0.44
+ },
+ "insignias": [
+  {
+   "id": "invicta",
+   "nombre": "Invicta",
+   "descripcion": "Ganó todos sus partidos del grupo."
+  },
+  {
+   "id": "a_diez",
+   "nombre": "Siempre a 10",
+   "descripcion": "Llegó a 10 puntos en cada partido que jugó."
+  },
+  {
+   "id": "cardiaca",
+   "nombre": "Cardiaca",
+   "descripcion": "Jugó un partido que se decidió por 2 puntos o menos."
+  },
+  {
+   "id": "pelea",
+   "nombre": "Pelearon cada punto",
+   "descripcion": "Sus partidos sumaron 16 puntos o más en promedio."
+  }
+ ],
+ "partidos": [
+  {
+   "rival": "Mauricio Castillo / Refugio Castillo",
+   "rival_id": "b2b11c86-3c22-4d2d-8af5-1886de616275",
+   "marcador_propio": 10,
+   "marcador_rival": 8,
+   "marcador": "10-8",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 59
+  },
+  {
+   "rival": "Compañero / Aluche",
+   "rival_id": "54ff0b26-15d1-41c4-9cfc-e6cfdf332636",
+   "marcador_propio": null,
+   "marcador_rival": null,
+   "marcador": null,
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": true,
+   "km_promedio": null
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": {
+   "marcador": "10-8",
+   "rival": "Mauricio Castillo / Refugio Castillo"
+  },
+  "derrota_mas_cerrada": null,
+  "rival_mas_lejano": {
+   "rival": "Mauricio Castillo / Refugio Castillo",
+   "km": 59
+  },
+  "mas_puntos": {
+   "marcador": "10-8",
+   "rival": "Mauricio Castillo / Refugio Castillo"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 1 partido, anotaron 10 puntos y recibieron 8. Sumaron además 1 victoria por default.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Los parejos",
+   "texto": "Su sinergia fue de 27.3%. Partidos de tú a tú: ganaron y perdieron sin que nadie se despegara. Superaron al 56% de las parejas de su categoría. Ojo: este nivel se basa en un solo partido.",
+   "datos": {
+    "sinergia": 27.3,
+    "nivel": 2
+   }
+  },
+  {
+   "id": "frente_al_resto",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Frente al resto",
+   "texto": "Dentro de su categoría, su ataque superó al 78% de las parejas.",
+   "datos": {
+    "ataque": 0.78,
+    "defensa": 0.44
+   }
+  },
+  {
+   "id": "sus_insignias",
+   "tipo": "badges",
+   "categoria": null,
+   "titulo": "Sus insignias",
+   "texto": "Se llevaron 4 insignias: Invicta, Siempre a 10, Cardiaca, Pelearon cada punto.",
+   "datos": {
+    "insignias": [
+     "Invicta",
+     "Siempre a 10",
+     "Cardiaca",
+     "Pelearon cada punto"
+    ]
+   }
+  },
+  {
+   "id": "mejor_victoria",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su mejor partido",
+   "texto": "Su victoria más amplia fue 10-8 contra Mauricio Castillo / Refugio Castillo.",
+   "datos": {
+    "marcador": "10-8",
+    "rival": "Mauricio Castillo / Refugio Castillo"
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Joaquin / Salvador.",
+   "datos": {}
+  }
+ ]
+}

@@ -1,0 +1,123 @@
+{
+ "id": "ddf33915-f5f9-4fa6-a5d8-1e46dfe4210a",
+ "categoria": "masters",
+ "grupo": "Grupo B",
+ "pareja": "Carlos Labra / Antonio T",
+ "resumen": {
+  "partidos": 2,
+  "partidos_oficiales": 2,
+  "victorias": 1,
+  "victorias_oficiales": 1,
+  "victorias_por_default": 0,
+  "puntos_favor": 17,
+  "puntos_contra": 12,
+  "diferencia": 5,
+  "sinergia": 31.8,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 2,
+  "nombre": "Los parejos",
+  "descripcion": "Partidos de tú a tú: ganaron y perdieron sin que nadie se despegara."
+ },
+ "percentiles": {
+  "sinergia": 0.67,
+  "ataque": 0.56,
+  "defensa": 0.67
+ },
+ "insignias": [],
+ "partidos": [
+  {
+   "rival": "Alfredo Rocha / Luis Segura",
+   "rival_id": "ed6a3cee-2dc7-4644-9d5c-87441beecd79",
+   "marcador_propio": 10,
+   "marcador_rival": 2,
+   "marcador": "10-2",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 0
+  },
+  {
+   "rival": "Marco Mtz / Humberto Mtz",
+   "rival_id": "82fe8773-1ae2-4ec0-b045-be51781df0dd",
+   "marcador_propio": 7,
+   "marcador_rival": 10,
+   "marcador": "7-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 0
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": {
+   "marcador": "10-2",
+   "rival": "Alfredo Rocha / Luis Segura"
+  },
+  "derrota_mas_cerrada": {
+   "marcador": "7-10",
+   "rival": "Marco Mtz / Humberto Mtz",
+   "margen": 3
+  },
+  "rival_mas_lejano": {
+   "rival": "Alfredo Rocha / Luis Segura",
+   "km": 0
+  },
+  "mas_puntos": {
+   "marcador": "10-2",
+   "rival": "Alfredo Rocha / Luis Segura"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 2 partidos, anotaron 17 puntos y recibieron 12.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Los parejos",
+   "texto": "Su sinergia fue de 31.8%. Partidos de tú a tú: ganaron y perdieron sin que nadie se despegara. Superaron al 67% de las parejas de su categoría.",
+   "datos": {
+    "sinergia": 31.8,
+    "nivel": 2
+   }
+  },
+  {
+   "id": "frente_al_resto",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Frente al resto",
+   "texto": "Dentro de su categoría, su ataque superó al 56% de las parejas y su defensa al 67%.",
+   "datos": {
+    "ataque": 0.56,
+    "defensa": 0.67
+   }
+  },
+  {
+   "id": "mejor_victoria",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su mejor partido",
+   "texto": "Su victoria más amplia fue 10-2 contra Alfredo Rocha / Luis Segura.",
+   "datos": {
+    "marcador": "10-2",
+    "rival": "Alfredo Rocha / Luis Segura"
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Carlos Labra / Antonio T.",
+   "datos": {}
+  }
+ ]
+}

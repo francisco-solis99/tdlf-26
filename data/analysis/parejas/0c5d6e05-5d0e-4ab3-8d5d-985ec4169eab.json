@@ -1,0 +1,145 @@
+{
+ "id": "0c5d6e05-5d0e-4ab3-8d5d-985ec4169eab",
+ "categoria": "libre",
+ "grupo": "Grupo E",
+ "pareja": "Ivan Guzman / Luis Zavala",
+ "resumen": {
+  "partidos": 3,
+  "partidos_oficiales": 3,
+  "victorias": 2,
+  "victorias_oficiales": 2,
+  "victorias_por_default": 0,
+  "puntos_favor": 24,
+  "puntos_contra": 19,
+  "diferencia": 5,
+  "sinergia": 24.2,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 2,
+  "nombre": "Los parejos",
+  "descripcion": "Partidos de tú a tú: ganaron y perdieron sin que nadie se despegara."
+ },
+ "percentiles": {
+  "sinergia": 0.6,
+  "ataque": 0.6,
+  "defensa": 0.6
+ },
+ "insignias": [],
+ "partidos": [
+  {
+   "rival": "Antonio Mendoza / Kaled Gonzalez",
+   "rival_id": "d3298e96-8a6c-45bf-a678-e0085fe0ee40",
+   "marcador_propio": 10,
+   "marcador_rival": 5,
+   "marcador": "10-5",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 98
+  },
+  {
+   "rival": "Enrique Lara / Gerardo Cruz",
+   "rival_id": "7736442e-4feb-42b1-b156-1180dd473aa7",
+   "marcador_propio": 4,
+   "marcador_rival": 9,
+   "marcador": "4-9",
+   "resultado": "P",
+   "por_tiempo": true,
+   "default": false,
+   "km_promedio": 319
+  },
+  {
+   "rival": "Diego Solis / Francisco Solis",
+   "rival_id": "097713e4-ce10-44f3-b3f5-6a92d2024936",
+   "marcador_propio": 10,
+   "marcador_rival": 5,
+   "marcador": "10-5",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 63
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": {
+   "marcador": "10-5",
+   "rival": "Antonio Mendoza / Kaled Gonzalez"
+  },
+  "derrota_mas_cerrada": {
+   "marcador": "4-9",
+   "rival": "Enrique Lara / Gerardo Cruz",
+   "margen": 5
+  },
+  "rival_mas_lejano": {
+   "rival": "Enrique Lara / Gerardo Cruz",
+   "km": 319
+  },
+  "mas_puntos": {
+   "marcador": "10-5",
+   "rival": "Antonio Mendoza / Kaled Gonzalez"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 3 partidos, anotaron 24 puntos y recibieron 19.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Los parejos",
+   "texto": "Su sinergia fue de 24.2%. Partidos de tú a tú: ganaron y perdieron sin que nadie se despegara. Superaron al 60% de las parejas de su categoría.",
+   "datos": {
+    "sinergia": 24.2,
+    "nivel": 2
+   }
+  },
+  {
+   "id": "frente_al_resto",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Frente al resto",
+   "texto": "Dentro de su categoría, su ataque superó al 60% de las parejas y su defensa al 60%.",
+   "datos": {
+    "ataque": 0.6,
+    "defensa": 0.6
+   }
+  },
+  {
+   "id": "mejor_victoria",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su mejor partido",
+   "texto": "Su victoria más amplia fue 10-5 contra Antonio Mendoza / Kaled Gonzalez.",
+   "datos": {
+    "marcador": "10-5",
+    "rival": "Antonio Mendoza / Kaled Gonzalez"
+   }
+  },
+  {
+   "id": "rival_lejano",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su rival de más lejos",
+   "texto": "En promedio, 319 km separaban sus ciudades de las de Enrique Lara / Gerardo Cruz.",
+   "datos": {
+    "rival": "Enrique Lara / Gerardo Cruz",
+    "km": 319
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Ivan Guzman / Luis Zavala.",
+   "datos": {}
+  }
+ ]
+}

@@ -1,0 +1,109 @@
+{
+ "id": "c5dfb644-3970-4095-bf4b-97d5c404be25",
+ "categoria": "masters",
+ "grupo": "Grupo A",
+ "pareja": "Compañero / Abraham Aguiñiga",
+ "resumen": {
+  "partidos": 1,
+  "partidos_oficiales": 2,
+  "victorias": 0,
+  "victorias_oficiales": 1,
+  "victorias_por_default": 1,
+  "puntos_favor": 4,
+  "puntos_contra": 10,
+  "diferencia": -6,
+  "sinergia": -45.5,
+  "muestra_pequena": true
+ },
+ "nivel": {
+  "id": 3,
+  "nombre": "Los de contracorriente",
+  "descripcion": "Les tocó remar contra la corriente, pero salieron a jugar cada punto."
+ },
+ "percentiles": {
+  "sinergia": 0.11,
+  "ataque": 0.11,
+  "defensa": 0.0
+ },
+ "insignias": [],
+ "partidos": [
+  {
+   "rival": "PD1-1 / PD1-2",
+   "rival_id": "c70f4c58-f9d2-4d08-927a-9f01c4207b9e",
+   "marcador_propio": null,
+   "marcador_rival": null,
+   "marcador": null,
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": true,
+   "km_promedio": null
+  },
+  {
+   "rival": "Macoy / Jorge Gutierrez",
+   "rival_id": "5fcb90c1-4ebd-437b-bfdd-bc6d892b3b25",
+   "marcador_propio": 4,
+   "marcador_rival": 10,
+   "marcador": "4-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 29
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": null,
+  "derrota_mas_cerrada": {
+   "marcador": "4-10",
+   "rival": "Macoy / Jorge Gutierrez",
+   "margen": 6
+  },
+  "rival_mas_lejano": {
+   "rival": "Macoy / Jorge Gutierrez",
+   "km": 29
+  },
+  "mas_puntos": {
+   "marcador": "4-10",
+   "rival": "Macoy / Jorge Gutierrez"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 1 partido, anotaron 4 puntos y recibieron 10. Sumaron además 1 victoria por default.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Los de contracorriente",
+   "texto": "Les tocó remar contra la corriente, pero salieron a jugar cada punto. Ojo: este nivel se basa en un solo partido.",
+   "datos": {
+    "sinergia": -45.5,
+    "nivel": 3
+   }
+  },
+  {
+   "id": "mas_puntos",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su partido de más puntos",
+   "texto": "El partido en el que más anotaron fue 4-10 contra Macoy / Jorge Gutierrez.",
+   "datos": {
+    "marcador": "4-10",
+    "rival": "Macoy / Jorge Gutierrez"
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Compañero / Abraham Aguiñiga.",
+   "datos": {}
+  }
+ ]
+}

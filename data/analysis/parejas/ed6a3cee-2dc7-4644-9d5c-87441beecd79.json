@@ -1,0 +1,109 @@
+{
+ "id": "ed6a3cee-2dc7-4644-9d5c-87441beecd79",
+ "categoria": "masters",
+ "grupo": "Grupo B",
+ "pareja": "Alfredo Rocha / Luis Segura",
+ "resumen": {
+  "partidos": 2,
+  "partidos_oficiales": 2,
+  "victorias": 0,
+  "victorias_oficiales": 0,
+  "victorias_por_default": 0,
+  "puntos_favor": 6,
+  "puntos_contra": 20,
+  "diferencia": -14,
+  "sinergia": -54.5,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 3,
+  "nombre": "Los de contracorriente",
+  "descripcion": "Les tocó remar contra la corriente, pero salieron a jugar cada punto."
+ },
+ "percentiles": {
+  "sinergia": 0.0,
+  "ataque": 0.0,
+  "defensa": 0.0
+ },
+ "insignias": [],
+ "partidos": [
+  {
+   "rival": "Marco Mtz / Humberto Mtz",
+   "rival_id": "82fe8773-1ae2-4ec0-b045-be51781df0dd",
+   "marcador_propio": 4,
+   "marcador_rival": 10,
+   "marcador": "4-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 0
+  },
+  {
+   "rival": "Carlos Labra / Antonio T",
+   "rival_id": "ddf33915-f5f9-4fa6-a5d8-1e46dfe4210a",
+   "marcador_propio": 2,
+   "marcador_rival": 10,
+   "marcador": "2-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 0
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": null,
+  "derrota_mas_cerrada": {
+   "marcador": "4-10",
+   "rival": "Marco Mtz / Humberto Mtz",
+   "margen": 6
+  },
+  "rival_mas_lejano": {
+   "rival": "Marco Mtz / Humberto Mtz",
+   "km": 0
+  },
+  "mas_puntos": {
+   "marcador": "4-10",
+   "rival": "Marco Mtz / Humberto Mtz"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 2 partidos, anotaron 6 puntos y recibieron 20.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Los de contracorriente",
+   "texto": "Les tocó remar contra la corriente, pero salieron a jugar cada punto.",
+   "datos": {
+    "sinergia": -54.5,
+    "nivel": 3
+   }
+  },
+  {
+   "id": "mas_puntos",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su partido de más puntos",
+   "texto": "El partido en el que más anotaron fue 4-10 contra Marco Mtz / Humberto Mtz.",
+   "datos": {
+    "marcador": "4-10",
+    "rival": "Marco Mtz / Humberto Mtz"
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Alfredo Rocha / Luis Segura.",
+   "datos": {}
+  }
+ ]
+}

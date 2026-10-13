@@ -1,0 +1,130 @@
+{
+ "id": "a823f1a9-81ce-4013-99dc-a22c1d75d35b",
+ "categoria": "masters",
+ "grupo": "Grupo C",
+ "pareja": "Jorge Zavala / Javier Zavala",
+ "resumen": {
+  "partidos": 2,
+  "partidos_oficiales": 2,
+  "victorias": 1,
+  "victorias_oficiales": 1,
+  "victorias_por_default": 0,
+  "puntos_favor": 15,
+  "puntos_contra": 16,
+  "diferencia": -1,
+  "sinergia": 4.5,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 2,
+  "nombre": "Los parejos",
+  "descripcion": "Partidos de tú a tú: ganaron y perdieron sin que nadie se despegara."
+ },
+ "percentiles": {
+  "sinergia": 0.44,
+  "ataque": 0.33,
+  "defensa": 0.44
+ },
+ "insignias": [
+  {
+   "id": "cardiaca",
+   "nombre": "Cardiaca",
+   "descripcion": "Jugó un partido que se decidió por 2 puntos o menos."
+  }
+ ],
+ "partidos": [
+  {
+   "rival": "Alfonso Vega / Cafe",
+   "rival_id": "a0cc46ee-047a-4f32-b215-b624da3296f6",
+   "marcador_propio": 10,
+   "marcador_rival": 8,
+   "marcador": "10-8",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 63
+  },
+  {
+   "rival": "Fernando / Wuicho",
+   "rival_id": "4f8fb8e7-f28a-41d8-b1bc-3fdef76c8afe",
+   "marcador_propio": 5,
+   "marcador_rival": 8,
+   "marcador": "5-8",
+   "resultado": "P",
+   "por_tiempo": true,
+   "default": false,
+   "km_promedio": 0
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": {
+   "marcador": "10-8",
+   "rival": "Alfonso Vega / Cafe"
+  },
+  "derrota_mas_cerrada": {
+   "marcador": "5-8",
+   "rival": "Fernando / Wuicho",
+   "margen": 3
+  },
+  "rival_mas_lejano": {
+   "rival": "Alfonso Vega / Cafe",
+   "km": 63
+  },
+  "mas_puntos": {
+   "marcador": "10-8",
+   "rival": "Alfonso Vega / Cafe"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 2 partidos, anotaron 15 puntos y recibieron 16.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Los parejos",
+   "texto": "Su sinergia fue de 4.5%. Partidos de tú a tú: ganaron y perdieron sin que nadie se despegara.",
+   "datos": {
+    "sinergia": 4.5,
+    "nivel": 2
+   }
+  },
+  {
+   "id": "sus_insignias",
+   "tipo": "badges",
+   "categoria": null,
+   "titulo": "Sus insignias",
+   "texto": "Se llevaron la insignia Cardiaca.",
+   "datos": {
+    "insignias": [
+     "Cardiaca"
+    ]
+   }
+  },
+  {
+   "id": "mejor_victoria",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su mejor partido",
+   "texto": "Su victoria más amplia fue 10-8 contra Alfonso Vega / Cafe.",
+   "datos": {
+    "marcador": "10-8",
+    "rival": "Alfonso Vega / Cafe"
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Jorge Zavala / Javier Zavala.",
+   "datos": {}
+  }
+ ]
+}

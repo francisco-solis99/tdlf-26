@@ -1,0 +1,134 @@
+{
+ "id": "a0cc46ee-047a-4f32-b215-b624da3296f6",
+ "categoria": "masters",
+ "grupo": "Grupo C",
+ "pareja": "Alfonso Vega / Cafe",
+ "resumen": {
+  "partidos": 2,
+  "partidos_oficiales": 2,
+  "victorias": 0,
+  "victorias_oficiales": 0,
+  "victorias_por_default": 0,
+  "puntos_favor": 12,
+  "puntos_contra": 20,
+  "diferencia": -8,
+  "sinergia": -27.3,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 3,
+  "nombre": "Los de contracorriente",
+  "descripcion": "Les tocó remar contra la corriente, pero salieron a jugar cada punto."
+ },
+ "percentiles": {
+  "sinergia": 0.22,
+  "ataque": 0.22,
+  "defensa": 0.0
+ },
+ "insignias": [
+  {
+   "id": "cardiaca",
+   "nombre": "Cardiaca",
+   "descripcion": "Jugó un partido que se decidió por 2 puntos o menos."
+  },
+  {
+   "id": "pelea",
+   "nombre": "Pelearon cada punto",
+   "descripcion": "Sus partidos sumaron 16 puntos o más en promedio."
+  }
+ ],
+ "partidos": [
+  {
+   "rival": "Jorge Zavala / Javier Zavala",
+   "rival_id": "a823f1a9-81ce-4013-99dc-a22c1d75d35b",
+   "marcador_propio": 8,
+   "marcador_rival": 10,
+   "marcador": "8-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 63
+  },
+  {
+   "rival": "Fernando / Wuicho",
+   "rival_id": "4f8fb8e7-f28a-41d8-b1bc-3fdef76c8afe",
+   "marcador_propio": 4,
+   "marcador_rival": 10,
+   "marcador": "4-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 63
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": null,
+  "derrota_mas_cerrada": {
+   "marcador": "8-10",
+   "rival": "Jorge Zavala / Javier Zavala",
+   "margen": 2
+  },
+  "rival_mas_lejano": {
+   "rival": "Jorge Zavala / Javier Zavala",
+   "km": 63
+  },
+  "mas_puntos": {
+   "marcador": "8-10",
+   "rival": "Jorge Zavala / Javier Zavala"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 2 partidos, anotaron 12 puntos y recibieron 20.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Los de contracorriente",
+   "texto": "Les tocó remar contra la corriente, pero salieron a jugar cada punto.",
+   "datos": {
+    "sinergia": -27.3,
+    "nivel": 3
+   }
+  },
+  {
+   "id": "sus_insignias",
+   "tipo": "badges",
+   "categoria": null,
+   "titulo": "Sus insignias",
+   "texto": "Se llevaron 2 insignias: Cardiaca, Pelearon cada punto.",
+   "datos": {
+    "insignias": [
+     "Cardiaca",
+     "Pelearon cada punto"
+    ]
+   }
+  },
+  {
+   "id": "casi",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "A nada de ganar",
+   "texto": "Estuvieron a 2 puntos de ganar: 8-10 contra Jorge Zavala / Javier Zavala.",
+   "datos": {
+    "marcador": "8-10",
+    "rival": "Jorge Zavala / Javier Zavala",
+    "margen": 2
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Alfonso Vega / Cafe.",
+   "datos": {}
+  }
+ ]
+}

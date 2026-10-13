@@ -1,0 +1,532 @@
+{
+  "categoria": "masters",
+  "slides": [
+    {
+      "id": "apertura",
+      "tipo": "stat",
+      "categoria": "masters",
+      "titulo": "10 parejas, un solo torneo",
+      "texto": "Llegaron de 3 ciudades distintas, jugaron 8 partidos y entre todos anotaron más de 120 puntos. Esta es su historia.",
+      "datos": {
+        "parejas": 10,
+        "partidos": 8,
+        "puntos": 120,
+        "ciudades": 3
+      }
+    },
+    {
+      "id": "mapa",
+      "tipo": "map",
+      "categoria": "masters",
+      "titulo": "De dónde vinieron",
+      "texto": "Los 20 jugadores salieron de 3 ciudades de Guanajuato, y Irapuato puso 11. Cada punto en el mapa es una ciudad que mandó jugadores a la cancha.",
+      "datos": {
+        "ciudades": [
+          {
+            "ciudad": "Irapuato",
+            "estado": "Guanajuato",
+            "lat": 20.6767,
+            "lon": -101.3563,
+            "jugadores": 11
+          },
+          {
+            "ciudad": "Moroleón",
+            "estado": "Guanajuato",
+            "lat": 20.1286,
+            "lon": -101.1887,
+            "jugadores": 6
+          },
+          {
+            "ciudad": "Celaya",
+            "estado": "Guanajuato",
+            "lat": 20.5235,
+            "lon": -100.8157,
+            "jugadores": 3
+          }
+        ]
+      }
+    },
+    {
+      "id": "puntos",
+      "tipo": "chart",
+      "categoria": "masters",
+      "titulo": "Cada punto cuenta",
+      "texto": "Cada barra es una pareja: a la derecha, lo que anotó; a la izquierda, lo que recibió. Entre más larga la derecha y más corta la izquierda, más cerca de la perfección.",
+      "datos": {}
+    },
+    {
+      "id": "jerarquia",
+      "tipo": "chart",
+      "categoria": "masters",
+      "titulo": "Cada grupo tuvo su orden",
+      "texto": "En los 4 grupos hubo un primero, un segundo y un tercero: 2 victorias, 1 y 0. Nadie rompió el orden.",
+      "datos": {
+        "grupos": 4
+      }
+    },
+    {
+      "id": "ataque_defensa",
+      "tipo": "scatter",
+      "categoria": "masters",
+      "titulo": "Quien anota, defiende",
+      "texto": "Las parejas que más puntos anotaron por partido tendieron a ser las que menos recibieron (correlación de -0.75). En este torneo, atacar bien y defender bien fueron casi lo mismo.",
+      "datos": {
+        "r": -0.749
+      }
+    },
+    {
+      "id": "playmakers",
+      "tipo": "ranking",
+      "categoria": "masters",
+      "titulo": "La sinergia más cercana a la perfección",
+      "texto": "Una pareja que ganara todos sus partidos 10-0 tendría 100% de sinergia. La más cercana fue Macoy / Jorge Gutierrez: 10 puntos a favor, 4 en contra y 63.6%. Lo logró en un solo partido. El promedio fue 9.1%.",
+      "datos": {
+        "promedio": 9.1,
+        "ranking": [
+          {
+            "double_id": "5fcb90c1-4ebd-437b-bfdd-bc6d892b3b25",
+            "pareja": "Macoy / Jorge Gutierrez",
+            "pj": 1,
+            "sinergia": 63.64
+          },
+          {
+            "double_id": "4f8fb8e7-f28a-41d8-b1bc-3fdef76c8afe",
+            "pareja": "Fernando / Wuicho",
+            "pj": 2,
+            "sinergia": 50.0
+          },
+          {
+            "double_id": "82fe8773-1ae2-4ec0-b045-be51781df0dd",
+            "pareja": "Marco Mtz / Humberto Mtz",
+            "pj": 2,
+            "sinergia": 50.0
+          },
+          {
+            "double_id": "ddf33915-f5f9-4fa6-a5d8-1e46dfe4210a",
+            "pareja": "Carlos Labra / Antonio T",
+            "pj": 2,
+            "sinergia": 31.82
+          },
+          {
+            "double_id": "2cf2daac-443e-4e38-a008-ecbeabd19893",
+            "pareja": "Joaquin / Salvador",
+            "pj": 1,
+            "sinergia": 27.27
+          },
+          {
+            "double_id": "a823f1a9-81ce-4013-99dc-a22c1d75d35b",
+            "pareja": "Jorge Zavala / Javier Zavala",
+            "pj": 2,
+            "sinergia": 4.55
+          },
+          {
+            "double_id": "b2b11c86-3c22-4d2d-8af5-1886de616275",
+            "pareja": "Mauricio Castillo / Refugio Castillo",
+            "pj": 1,
+            "sinergia": -9.09
+          },
+          {
+            "double_id": "a0cc46ee-047a-4f32-b215-b624da3296f6",
+            "pareja": "Alfonso Vega / Cafe",
+            "pj": 2,
+            "sinergia": -27.27
+          },
+          {
+            "double_id": "c5dfb644-3970-4095-bf4b-97d5c404be25",
+            "pareja": "Compañero / Abraham Aguiñiga",
+            "pj": 1,
+            "sinergia": -45.45
+          },
+          {
+            "double_id": "ed6a3cee-2dc7-4644-9d5c-87441beecd79",
+            "pareja": "Alfredo Rocha / Luis Segura",
+            "pj": 2,
+            "sinergia": -54.55
+          }
+        ]
+      }
+    },
+    {
+      "id": "a_diez",
+      "tipo": "stat",
+      "categoria": "masters",
+      "titulo": "3 parejas siempre llegaron a 10",
+      "texto": "Ganaron todos sus partidos llegando siempre a 10 puntos. Para desempatar, cuenta quién dejó menos puntos al rival: Macoy / Jorge Gutierrez (1 partido), con 4.0 por partido.",
+      "datos": {
+        "parejas": [
+          "Joaquin / Salvador",
+          "Macoy / Jorge Gutierrez",
+          "Marco Mtz / Humberto Mtz"
+        ]
+      }
+    },
+    {
+      "id": "arquetipos",
+      "tipo": "ranking",
+      "categoria": "masters",
+      "titulo": "Tres niveles, una misma cancha",
+      "texto": "Si ordenamos a las 10 parejas por sinergia aparecen tres niveles: 3 aplanadoras (38% o más), 3 parejos y 4 de contracorriente. ¿En cuál quedaste tú? 4 parejas jugaron un solo partido, así que su nivel es orientativo.",
+      "datos": {
+        "cortes": [
+          37.9,
+          -8.3
+        ],
+        "conteo": {
+          "Los de contracorriente": 4,
+          "Los parejos": 3,
+          "Las aplanadoras": 3
+        },
+        "descripciones": {
+          "Las aplanadoras": "Ganaron con claridad y dejaron poco margen a sus rivales.",
+          "Los parejos": "Partidos de tú a tú: ganaron y perdieron sin que nadie se despegara.",
+          "Los de contracorriente": "Les tocó remar contra la corriente, pero salieron a jugar cada punto."
+        },
+        "pares": [
+          {
+            "double_id": "2cf2daac-443e-4e38-a008-ecbeabd19893",
+            "pareja": "Joaquin / Salvador",
+            "arquetipo": "Los parejos",
+            "sinergia": 27.27,
+            "pj": 1,
+            "muestra_pequena": true,
+            "insignias": [
+              "Invicta",
+              "Siempre a 10",
+              "Cardiaca"
+            ]
+          },
+          {
+            "double_id": "4f8fb8e7-f28a-41d8-b1bc-3fdef76c8afe",
+            "pareja": "Fernando / Wuicho",
+            "arquetipo": "Las aplanadoras",
+            "sinergia": 50.0,
+            "pj": 2,
+            "muestra_pequena": false,
+            "insignias": [
+              "Invicta"
+            ]
+          },
+          {
+            "double_id": "5fcb90c1-4ebd-437b-bfdd-bc6d892b3b25",
+            "pareja": "Macoy / Jorge Gutierrez",
+            "arquetipo": "Las aplanadoras",
+            "sinergia": 63.64,
+            "pj": 1,
+            "muestra_pequena": true,
+            "insignias": [
+              "Invicta",
+              "Siempre a 10",
+              "Muro"
+            ]
+          },
+          {
+            "double_id": "82fe8773-1ae2-4ec0-b045-be51781df0dd",
+            "pareja": "Marco Mtz / Humberto Mtz",
+            "arquetipo": "Las aplanadoras",
+            "sinergia": 50.0,
+            "pj": 2,
+            "muestra_pequena": false,
+            "insignias": [
+              "Invicta",
+              "Siempre a 10"
+            ]
+          },
+          {
+            "double_id": "a0cc46ee-047a-4f32-b215-b624da3296f6",
+            "pareja": "Alfonso Vega / Cafe",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -27.27,
+            "pj": 2,
+            "muestra_pequena": false,
+            "insignias": [
+              "Cardiaca"
+            ]
+          },
+          {
+            "double_id": "a823f1a9-81ce-4013-99dc-a22c1d75d35b",
+            "pareja": "Jorge Zavala / Javier Zavala",
+            "arquetipo": "Los parejos",
+            "sinergia": 4.55,
+            "pj": 2,
+            "muestra_pequena": false,
+            "insignias": [
+              "Cardiaca"
+            ]
+          },
+          {
+            "double_id": "b2b11c86-3c22-4d2d-8af5-1886de616275",
+            "pareja": "Mauricio Castillo / Refugio Castillo",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -9.09,
+            "pj": 1,
+            "muestra_pequena": true,
+            "insignias": [
+              "Cardiaca"
+            ]
+          },
+          {
+            "double_id": "c5dfb644-3970-4095-bf4b-97d5c404be25",
+            "pareja": "Compañero / Abraham Aguiñiga",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -45.45,
+            "pj": 1,
+            "muestra_pequena": true,
+            "insignias": []
+          },
+          {
+            "double_id": "ddf33915-f5f9-4fa6-a5d8-1e46dfe4210a",
+            "pareja": "Carlos Labra / Antonio T",
+            "arquetipo": "Los parejos",
+            "sinergia": 31.82,
+            "pj": 2,
+            "muestra_pequena": false,
+            "insignias": []
+          },
+          {
+            "double_id": "ed6a3cee-2dc7-4644-9d5c-87441beecd79",
+            "pareja": "Alfredo Rocha / Luis Segura",
+            "arquetipo": "Los de contracorriente",
+            "sinergia": -54.55,
+            "pj": 2,
+            "muestra_pequena": false,
+            "insignias": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "cardiacos",
+      "tipo": "chart",
+      "categoria": "masters",
+      "titulo": "Partidos de infarto",
+      "texto": "2 de 8 partidos se resolvieron por 2 puntos o menos. Hubo empate en el más apretado: Joaquin / Salvador 10-8 Mauricio Castillo / Refugio Castillo y Jorge Zavala / Javier Zavala 10-8 Alfonso Vega / Cafe.",
+      "datos": {
+        "umbral": 2,
+        "partidos": 2,
+        "top": [
+          {
+            "gano": "Joaquin / Salvador",
+            "marcador": "10-8",
+            "perdio": "Mauricio Castillo / Refugio Castillo",
+            "grupo": "Grupo D",
+            "margen": 2,
+            "total": 18,
+            "por_tiempo": false
+          },
+          {
+            "gano": "Jorge Zavala / Javier Zavala",
+            "marcador": "10-8",
+            "perdio": "Alfonso Vega / Cafe",
+            "grupo": "Grupo C",
+            "margen": 2,
+            "total": 18,
+            "por_tiempo": false
+          },
+          {
+            "gano": "Fernando / Wuicho",
+            "marcador": "8-5",
+            "perdio": "Jorge Zavala / Javier Zavala",
+            "grupo": "Grupo C",
+            "margen": 3,
+            "total": 13,
+            "por_tiempo": true
+          },
+          {
+            "gano": "Marco Mtz / Humberto Mtz",
+            "marcador": "10-7",
+            "perdio": "Carlos Labra / Antonio T",
+            "grupo": "Grupo B",
+            "margen": 3,
+            "total": 17,
+            "por_tiempo": false
+          },
+          {
+            "gano": "Fernando / Wuicho",
+            "marcador": "10-4",
+            "perdio": "Alfonso Vega / Cafe",
+            "grupo": "Grupo C",
+            "margen": 6,
+            "total": 14,
+            "por_tiempo": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "extremos",
+      "tipo": "stat",
+      "categoria": "masters",
+      "titulo": "El partido menos parejo del torneo",
+      "texto": "El partido menos parejo del torneo terminó 10-2: Carlos Labra / Antonio T contra Alfredo Rocha / Luis Segura.",
+      "datos": {
+        "marcador": "10-2"
+      }
+    },
+    {
+      "id": "distancia",
+      "tipo": "stat",
+      "categoria": "masters",
+      "titulo": "Entre vecinos",
+      "texto": "4 de 8 partidos fueron entre parejas de la misma ciudad. El que más kilómetros juntó apenas llegó a 63 km de distancia promedio.",
+      "datos": {
+        "locales": 4,
+        "km_max": 63
+      }
+    }
+  ],
+  "ranking": [
+    {
+      "id": "5fcb90c1-4ebd-437b-bfdd-bc6d892b3b25",
+      "pareja": "Macoy / Jorge Gutierrez",
+      "grupo": "Grupo A",
+      "pj": 1,
+      "pg": 1,
+      "pf": 10,
+      "pc": 4,
+      "dif": 6,
+      "sinergia": 63.64,
+      "nivel": 1,
+      "muestra_pequena": true
+    },
+    {
+      "id": "4f8fb8e7-f28a-41d8-b1bc-3fdef76c8afe",
+      "pareja": "Fernando / Wuicho",
+      "grupo": "Grupo C",
+      "pj": 2,
+      "pg": 2,
+      "pf": 18,
+      "pc": 9,
+      "dif": 9,
+      "sinergia": 50.0,
+      "nivel": 1,
+      "muestra_pequena": false
+    },
+    {
+      "id": "82fe8773-1ae2-4ec0-b045-be51781df0dd",
+      "pareja": "Marco Mtz / Humberto Mtz",
+      "grupo": "Grupo B",
+      "pj": 2,
+      "pg": 2,
+      "pf": 20,
+      "pc": 11,
+      "dif": 9,
+      "sinergia": 50.0,
+      "nivel": 1,
+      "muestra_pequena": false
+    },
+    {
+      "id": "ddf33915-f5f9-4fa6-a5d8-1e46dfe4210a",
+      "pareja": "Carlos Labra / Antonio T",
+      "grupo": "Grupo B",
+      "pj": 2,
+      "pg": 1,
+      "pf": 17,
+      "pc": 12,
+      "dif": 5,
+      "sinergia": 31.82,
+      "nivel": 2,
+      "muestra_pequena": false
+    },
+    {
+      "id": "2cf2daac-443e-4e38-a008-ecbeabd19893",
+      "pareja": "Joaquin / Salvador",
+      "grupo": "Grupo D",
+      "pj": 1,
+      "pg": 1,
+      "pf": 10,
+      "pc": 8,
+      "dif": 2,
+      "sinergia": 27.27,
+      "nivel": 2,
+      "muestra_pequena": true
+    },
+    {
+      "id": "a823f1a9-81ce-4013-99dc-a22c1d75d35b",
+      "pareja": "Jorge Zavala / Javier Zavala",
+      "grupo": "Grupo C",
+      "pj": 2,
+      "pg": 1,
+      "pf": 15,
+      "pc": 16,
+      "dif": -1,
+      "sinergia": 4.55,
+      "nivel": 2,
+      "muestra_pequena": false
+    },
+    {
+      "id": "b2b11c86-3c22-4d2d-8af5-1886de616275",
+      "pareja": "Mauricio Castillo / Refugio Castillo",
+      "grupo": "Grupo D",
+      "pj": 1,
+      "pg": 0,
+      "pf": 8,
+      "pc": 10,
+      "dif": -2,
+      "sinergia": -9.09,
+      "nivel": 3,
+      "muestra_pequena": true
+    },
+    {
+      "id": "a0cc46ee-047a-4f32-b215-b624da3296f6",
+      "pareja": "Alfonso Vega / Cafe",
+      "grupo": "Grupo C",
+      "pj": 2,
+      "pg": 0,
+      "pf": 12,
+      "pc": 20,
+      "dif": -8,
+      "sinergia": -27.27,
+      "nivel": 3,
+      "muestra_pequena": false
+    },
+    {
+      "id": "c5dfb644-3970-4095-bf4b-97d5c404be25",
+      "pareja": "Compañero / Abraham Aguiñiga",
+      "grupo": "Grupo A",
+      "pj": 1,
+      "pg": 0,
+      "pf": 4,
+      "pc": 10,
+      "dif": -6,
+      "sinergia": -45.45,
+      "nivel": 3,
+      "muestra_pequena": true
+    },
+    {
+      "id": "ed6a3cee-2dc7-4644-9d5c-87441beecd79",
+      "pareja": "Alfredo Rocha / Luis Segura",
+      "grupo": "Grupo B",
+      "pj": 2,
+      "pg": 0,
+      "pf": 6,
+      "pc": 20,
+      "dif": -14,
+      "sinergia": -54.55,
+      "nivel": 3,
+      "muestra_pequena": false
+    }
+  ],
+  "mapa": [
+    {
+      "ciudad": "Irapuato",
+      "estado": "Guanajuato",
+      "lat": 20.6767,
+      "lon": -101.3563,
+      "jugadores": 11
+    },
+    {
+      "ciudad": "Moroleón",
+      "estado": "Guanajuato",
+      "lat": 20.1286,
+      "lon": -101.1887,
+      "jugadores": 6
+    },
+    {
+      "ciudad": "Celaya",
+      "estado": "Guanajuato",
+      "lat": 20.5235,
+      "lon": -100.8157,
+      "jugadores": 3
+    }
+  ]
+}

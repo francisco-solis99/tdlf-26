@@ -1,0 +1,155 @@
+{
+ "id": "5fcb90c1-4ebd-437b-bfdd-bc6d892b3b25",
+ "categoria": "masters",
+ "grupo": "Grupo A",
+ "pareja": "Macoy / Jorge Gutierrez",
+ "resumen": {
+  "partidos": 1,
+  "partidos_oficiales": 2,
+  "victorias": 1,
+  "victorias_oficiales": 2,
+  "victorias_por_default": 1,
+  "puntos_favor": 10,
+  "puntos_contra": 4,
+  "diferencia": 6,
+  "sinergia": 63.6,
+  "muestra_pequena": true
+ },
+ "nivel": {
+  "id": 1,
+  "nombre": "Las aplanadoras",
+  "descripcion": "Ganaron con claridad y dejaron poco margen a sus rivales."
+ },
+ "percentiles": {
+  "sinergia": 1.0,
+  "ataque": 0.78,
+  "defensa": 1.0
+ },
+ "insignias": [
+  {
+   "id": "invicta",
+   "nombre": "Invicta",
+   "descripcion": "Ganó todos sus partidos del grupo."
+  },
+  {
+   "id": "a_diez",
+   "nombre": "Siempre a 10",
+   "descripcion": "Llegó a 10 puntos en cada partido que jugó."
+  },
+  {
+   "id": "muro",
+   "nombre": "Muro",
+   "descripcion": "Recibió 4 puntos o menos por partido."
+  },
+  {
+   "id": "dos_ciudades",
+   "nombre": "Dos ciudades, una pareja",
+   "descripcion": "Cada jugador viene de una ciudad distinta."
+  }
+ ],
+ "partidos": [
+  {
+   "rival": "Compañero / Abraham Aguiñiga",
+   "rival_id": "c5dfb644-3970-4095-bf4b-97d5c404be25",
+   "marcador_propio": 10,
+   "marcador_rival": 4,
+   "marcador": "10-4",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 29
+  },
+  {
+   "rival": "PD1-1 / PD1-2",
+   "rival_id": "c70f4c58-f9d2-4d08-927a-9f01c4207b9e",
+   "marcador_propio": null,
+   "marcador_rival": null,
+   "marcador": null,
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": true,
+   "km_promedio": null
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": {
+   "marcador": "10-4",
+   "rival": "Compañero / Abraham Aguiñiga"
+  },
+  "derrota_mas_cerrada": null,
+  "rival_mas_lejano": {
+   "rival": "Compañero / Abraham Aguiñiga",
+   "km": 29
+  },
+  "mas_puntos": {
+   "marcador": "10-4",
+   "rival": "Compañero / Abraham Aguiñiga"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 1 partido, anotaron 10 puntos y recibieron 4. Sumaron además 1 victoria por default.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Las aplanadoras",
+   "texto": "Su sinergia fue de 63.6%. Ganaron con claridad y dejaron poco margen a sus rivales. Superaron al 100% de las parejas de su categoría. Ojo: este nivel se basa en un solo partido.",
+   "datos": {
+    "sinergia": 63.6,
+    "nivel": 1
+   }
+  },
+  {
+   "id": "frente_al_resto",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Frente al resto",
+   "texto": "Dentro de su categoría, su ataque superó al 78% de las parejas y su defensa al 100%.",
+   "datos": {
+    "ataque": 0.78,
+    "defensa": 1.0
+   }
+  },
+  {
+   "id": "sus_insignias",
+   "tipo": "badges",
+   "categoria": null,
+   "titulo": "Sus insignias",
+   "texto": "Se llevaron 4 insignias: Invicta, Siempre a 10, Muro, Dos ciudades, una pareja.",
+   "datos": {
+    "insignias": [
+     "Invicta",
+     "Siempre a 10",
+     "Muro",
+     "Dos ciudades, una pareja"
+    ]
+   }
+  },
+  {
+   "id": "mejor_victoria",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su mejor partido",
+   "texto": "Su victoria más amplia fue 10-4 contra Compañero / Abraham Aguiñiga.",
+   "datos": {
+    "marcador": "10-4",
+    "rival": "Compañero / Abraham Aguiñiga"
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Macoy / Jorge Gutierrez.",
+   "datos": {}
+  }
+ ]
+}

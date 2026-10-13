@@ -1,0 +1,134 @@
+{
+ "id": "097713e4-ce10-44f3-b3f5-6a92d2024936",
+ "categoria": "libre",
+ "grupo": "Grupo E",
+ "pareja": "Diego Solis / Francisco Solis",
+ "resumen": {
+  "partidos": 3,
+  "partidos_oficiales": 3,
+  "victorias": 1,
+  "victorias_oficiales": 1,
+  "victorias_por_default": 0,
+  "puntos_favor": 18,
+  "puntos_contra": 26,
+  "diferencia": -8,
+  "sinergia": -15.2,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 3,
+  "nombre": "Los de contracorriente",
+  "descripcion": "Les tocó remar contra la corriente, pero salieron a jugar cada punto."
+ },
+ "percentiles": {
+  "sinergia": 0.4,
+  "ataque": 0.3,
+  "defensa": 0.37
+ },
+ "insignias": [],
+ "partidos": [
+  {
+   "rival": "Enrique Lara / Gerardo Cruz",
+   "rival_id": "7736442e-4feb-42b1-b156-1180dd473aa7",
+   "marcador_propio": 3,
+   "marcador_rival": 10,
+   "marcador": "3-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 358
+  },
+  {
+   "rival": "Ivan Guzman / Luis Zavala",
+   "rival_id": "0c5d6e05-5d0e-4ab3-8d5d-985ec4169eab",
+   "marcador_propio": 5,
+   "marcador_rival": 10,
+   "marcador": "5-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 63
+  },
+  {
+   "rival": "Antonio Mendoza / Kaled Gonzalez",
+   "rival_id": "d3298e96-8a6c-45bf-a678-e0085fe0ee40",
+   "marcador_propio": 10,
+   "marcador_rival": 6,
+   "marcador": "10-6",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 101
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": {
+   "marcador": "10-6",
+   "rival": "Antonio Mendoza / Kaled Gonzalez"
+  },
+  "derrota_mas_cerrada": {
+   "marcador": "5-10",
+   "rival": "Ivan Guzman / Luis Zavala",
+   "margen": 5
+  },
+  "rival_mas_lejano": {
+   "rival": "Enrique Lara / Gerardo Cruz",
+   "km": 358
+  },
+  "mas_puntos": {
+   "marcador": "10-6",
+   "rival": "Antonio Mendoza / Kaled Gonzalez"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 3 partidos, anotaron 18 puntos y recibieron 26.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Los de contracorriente",
+   "texto": "Les tocó remar contra la corriente, pero salieron a jugar cada punto.",
+   "datos": {
+    "sinergia": -15.2,
+    "nivel": 3
+   }
+  },
+  {
+   "id": "mejor_victoria",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su mejor partido",
+   "texto": "Su victoria más amplia fue 10-6 contra Antonio Mendoza / Kaled Gonzalez.",
+   "datos": {
+    "marcador": "10-6",
+    "rival": "Antonio Mendoza / Kaled Gonzalez"
+   }
+  },
+  {
+   "id": "rival_lejano",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su rival de más lejos",
+   "texto": "En promedio, 358 km separaban sus ciudades de las de Enrique Lara / Gerardo Cruz.",
+   "datos": {
+    "rival": "Enrique Lara / Gerardo Cruz",
+    "km": 358
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Diego Solis / Francisco Solis.",
+   "datos": {}
+  }
+ ]
+}

@@ -1,0 +1,156 @@
+{
+ "id": "1d4d1683-9a3c-47e5-ad41-3978cb2d7712",
+ "categoria": "libre",
+ "grupo": "Grupo A",
+ "pareja": "Luis Espitia / Adrian Arreola",
+ "resumen": {
+  "partidos": 3,
+  "partidos_oficiales": 3,
+  "victorias": 0,
+  "victorias_oficiales": 0,
+  "victorias_por_default": 0,
+  "puntos_favor": 19,
+  "puntos_contra": 30,
+  "diferencia": -11,
+  "sinergia": -24.2,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 3,
+  "nombre": "Los de contracorriente",
+  "descripcion": "Les tocó remar contra la corriente, pero salieron a jugar cada punto."
+ },
+ "percentiles": {
+  "sinergia": 0.27,
+  "ataque": 0.43,
+  "defensa": 0.0
+ },
+ "insignias": [
+  {
+   "id": "cardiaca",
+   "nombre": "Cardiaca",
+   "descripcion": "Jugó un partido que se decidió por 2 puntos o menos."
+  },
+  {
+   "id": "pelea",
+   "nombre": "Pelearon cada punto",
+   "descripcion": "Sus partidos sumaron 16 puntos o más en promedio."
+  }
+ ],
+ "partidos": [
+  {
+   "rival": "Juan Pablo / Owen Alexander",
+   "rival_id": "513df05a-e0a8-46d8-a7c0-73715e230c97",
+   "marcador_propio": 4,
+   "marcador_rival": 10,
+   "marcador": "4-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 200
+  },
+  {
+   "rival": "Edgar Garcia / Luis Bravo",
+   "rival_id": "468a63ea-efdf-48fc-b599-b3fe9465b96f",
+   "marcador_propio": 7,
+   "marcador_rival": 10,
+   "marcador": "7-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 97
+  },
+  {
+   "rival": "Chicaro / Daniel Detec",
+   "rival_id": "f4c6750f-a7f2-48dc-97f8-5aeaf9b6e06c",
+   "marcador_propio": 8,
+   "marcador_rival": 10,
+   "marcador": "8-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 217
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": null,
+  "derrota_mas_cerrada": {
+   "marcador": "8-10",
+   "rival": "Chicaro / Daniel Detec",
+   "margen": 2
+  },
+  "rival_mas_lejano": {
+   "rival": "Chicaro / Daniel Detec",
+   "km": 217
+  },
+  "mas_puntos": {
+   "marcador": "8-10",
+   "rival": "Chicaro / Daniel Detec"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 3 partidos, anotaron 19 puntos y recibieron 30.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Los de contracorriente",
+   "texto": "Les tocó remar contra la corriente, pero salieron a jugar cada punto.",
+   "datos": {
+    "sinergia": -24.2,
+    "nivel": 3
+   }
+  },
+  {
+   "id": "sus_insignias",
+   "tipo": "badges",
+   "categoria": null,
+   "titulo": "Sus insignias",
+   "texto": "Se llevaron 2 insignias: Cardiaca, Pelearon cada punto.",
+   "datos": {
+    "insignias": [
+     "Cardiaca",
+     "Pelearon cada punto"
+    ]
+   }
+  },
+  {
+   "id": "casi",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "A nada de ganar",
+   "texto": "Estuvieron a 2 puntos de ganar: 8-10 contra Chicaro / Daniel Detec.",
+   "datos": {
+    "marcador": "8-10",
+    "rival": "Chicaro / Daniel Detec",
+    "margen": 2
+   }
+  },
+  {
+   "id": "rival_lejano",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su rival de más lejos",
+   "texto": "En promedio, 217 km separaban sus ciudades de las de Chicaro / Daniel Detec.",
+   "datos": {
+    "rival": "Chicaro / Daniel Detec",
+    "km": 217
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Luis Espitia / Adrian Arreola.",
+   "datos": {}
+  }
+ ]
+}

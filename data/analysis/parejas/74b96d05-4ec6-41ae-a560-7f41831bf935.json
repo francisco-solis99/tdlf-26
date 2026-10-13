@@ -1,0 +1,152 @@
+{
+ "id": "74b96d05-4ec6-41ae-a560-7f41831bf935",
+ "categoria": "libre",
+ "grupo": "Grupo C",
+ "pareja": "Hector Macias / Fernando Cortes",
+ "resumen": {
+  "partidos": 2,
+  "partidos_oficiales": 3,
+  "victorias": 1,
+  "victorias_oficiales": 2,
+  "victorias_por_default": 1,
+  "puntos_favor": 12,
+  "puntos_contra": 15,
+  "diferencia": -3,
+  "sinergia": -4.5,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 2,
+  "nombre": "Los parejos",
+  "descripcion": "Partidos de tú a tú: ganaron y perdieron sin que nadie se despegara."
+ },
+ "percentiles": {
+  "sinergia": 0.47,
+  "ataque": 0.3,
+  "defensa": 0.43
+ },
+ "insignias": [
+  {
+   "id": "dos_ciudades",
+   "nombre": "Dos ciudades, una pareja",
+   "descripcion": "Cada jugador viene de una ciudad distinta."
+  }
+ ],
+ "partidos": [
+  {
+   "rival": "Enrique Cabrera / Leonardo Esar",
+   "rival_id": "ed47bae8-4bed-4eaf-9dd2-f72d6fd31ad3",
+   "marcador_propio": 9,
+   "marcador_rival": 5,
+   "marcador": "9-5",
+   "resultado": "G",
+   "por_tiempo": true,
+   "default": false,
+   "km_promedio": 65
+  },
+  {
+   "rival": "Hugo Arizmendi / Mario Escamilla",
+   "rival_id": "b04908f9-60c0-417f-a568-50491d29bf75",
+   "marcador_propio": 3,
+   "marcador_rival": 10,
+   "marcador": "3-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 217
+  },
+  {
+   "rival": "Issac Flores / Elliot Becerril",
+   "rival_id": "87d7dc23-0271-40f8-8e7e-a2e8148cb168",
+   "marcador_propio": null,
+   "marcador_rival": null,
+   "marcador": null,
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": true,
+   "km_promedio": null
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": {
+   "marcador": "9-5",
+   "rival": "Enrique Cabrera / Leonardo Esar"
+  },
+  "derrota_mas_cerrada": {
+   "marcador": "3-10",
+   "rival": "Hugo Arizmendi / Mario Escamilla",
+   "margen": 7
+  },
+  "rival_mas_lejano": {
+   "rival": "Hugo Arizmendi / Mario Escamilla",
+   "km": 217
+  },
+  "mas_puntos": {
+   "marcador": "9-5",
+   "rival": "Enrique Cabrera / Leonardo Esar"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 2 partidos, anotaron 12 puntos y recibieron 15. Sumaron además 1 victoria por default.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Los parejos",
+   "texto": "Partidos de tú a tú: ganaron y perdieron sin que nadie se despegara.",
+   "datos": {
+    "sinergia": -4.5,
+    "nivel": 2
+   }
+  },
+  {
+   "id": "sus_insignias",
+   "tipo": "badges",
+   "categoria": null,
+   "titulo": "Sus insignias",
+   "texto": "Se llevaron la insignia Dos ciudades, una pareja.",
+   "datos": {
+    "insignias": [
+     "Dos ciudades, una pareja"
+    ]
+   }
+  },
+  {
+   "id": "mejor_victoria",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su mejor partido",
+   "texto": "Su victoria más amplia fue 9-5 contra Enrique Cabrera / Leonardo Esar.",
+   "datos": {
+    "marcador": "9-5",
+    "rival": "Enrique Cabrera / Leonardo Esar"
+   }
+  },
+  {
+   "id": "rival_lejano",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su rival de más lejos",
+   "texto": "En promedio, 217 km separaban sus ciudades de las de Hugo Arizmendi / Mario Escamilla.",
+   "datos": {
+    "rival": "Hugo Arizmendi / Mario Escamilla",
+    "km": 217
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Hector Macias / Fernando Cortes.",
+   "datos": {}
+  }
+ ]
+}

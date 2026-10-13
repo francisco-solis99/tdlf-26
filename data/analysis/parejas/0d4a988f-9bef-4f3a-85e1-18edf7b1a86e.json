@@ -1,0 +1,134 @@
+{
+ "id": "0d4a988f-9bef-4f3a-85e1-18edf7b1a86e",
+ "categoria": "libre",
+ "grupo": "Grupo B",
+ "pareja": "Flako Arroyo / Moroco",
+ "resumen": {
+  "partidos": 3,
+  "partidos_oficiales": 3,
+  "victorias": 1,
+  "victorias_oficiales": 1,
+  "victorias_por_default": 0,
+  "puntos_favor": 13,
+  "puntos_contra": 27,
+  "diferencia": -14,
+  "sinergia": -33.3,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 3,
+  "nombre": "Los de contracorriente",
+  "descripcion": "Les tocó remar contra la corriente, pero salieron a jugar cada punto."
+ },
+ "percentiles": {
+  "sinergia": 0.2,
+  "ataque": 0.17,
+  "defensa": 0.27
+ },
+ "insignias": [],
+ "partidos": [
+  {
+   "rival": "Marco Rodriguez / Josue Gomez",
+   "rival_id": "e8574882-fdf9-43fa-8f65-e35bb00387a5",
+   "marcador_propio": 2,
+   "marcador_rival": 10,
+   "marcador": "2-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 157
+  },
+  {
+   "rival": "Jorge Isaac / Ivan Zamora",
+   "rival_id": "6765a923-6f86-41e4-af6a-fe971e807db6",
+   "marcador_propio": 1,
+   "marcador_rival": 10,
+   "marcador": "1-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 90
+  },
+  {
+   "rival": "Valentin Guerrero / Martin Jimenez",
+   "rival_id": "b164b535-647d-40ba-8811-9ad148851e73",
+   "marcador_propio": 10,
+   "marcador_rival": 7,
+   "marcador": "10-7",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 30
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": {
+   "marcador": "10-7",
+   "rival": "Valentin Guerrero / Martin Jimenez"
+  },
+  "derrota_mas_cerrada": {
+   "marcador": "2-10",
+   "rival": "Marco Rodriguez / Josue Gomez",
+   "margen": 8
+  },
+  "rival_mas_lejano": {
+   "rival": "Marco Rodriguez / Josue Gomez",
+   "km": 157
+  },
+  "mas_puntos": {
+   "marcador": "10-7",
+   "rival": "Valentin Guerrero / Martin Jimenez"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 3 partidos, anotaron 13 puntos y recibieron 27.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Los de contracorriente",
+   "texto": "Les tocó remar contra la corriente, pero salieron a jugar cada punto.",
+   "datos": {
+    "sinergia": -33.3,
+    "nivel": 3
+   }
+  },
+  {
+   "id": "mejor_victoria",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su mejor partido",
+   "texto": "Su victoria más amplia fue 10-7 contra Valentin Guerrero / Martin Jimenez.",
+   "datos": {
+    "marcador": "10-7",
+    "rival": "Valentin Guerrero / Martin Jimenez"
+   }
+  },
+  {
+   "id": "rival_lejano",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su rival de más lejos",
+   "texto": "En promedio, 157 km separaban sus ciudades de las de Marco Rodriguez / Josue Gomez.",
+   "datos": {
+    "rival": "Marco Rodriguez / Josue Gomez",
+    "km": 157
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Flako Arroyo / Moroco.",
+   "datos": {}
+  }
+ ]
+}

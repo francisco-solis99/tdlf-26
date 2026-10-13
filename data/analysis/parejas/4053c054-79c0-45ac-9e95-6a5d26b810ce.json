@@ -1,0 +1,163 @@
+{
+ "id": "4053c054-79c0-45ac-9e95-6a5d26b810ce",
+ "categoria": "libre",
+ "grupo": "Grupo H",
+ "pareja": "Lenin Reyes / Ricardo Rodriguez",
+ "resumen": {
+  "partidos": 3,
+  "partidos_oficiales": 3,
+  "victorias": 2,
+  "victorias_oficiales": 2,
+  "victorias_por_default": 0,
+  "puntos_favor": 25,
+  "puntos_contra": 15,
+  "diferencia": 10,
+  "sinergia": 39.4,
+  "muestra_pequena": false
+ },
+ "nivel": {
+  "id": 1,
+  "nombre": "Las aplanadoras",
+  "descripcion": "Ganaron con claridad y dejaron poco margen a sus rivales."
+ },
+ "percentiles": {
+  "sinergia": 0.7,
+  "ataque": 0.67,
+  "defensa": 0.7
+ },
+ "insignias": [
+  {
+   "id": "dos_ciudades",
+   "nombre": "Dos ciudades, una pareja",
+   "descripcion": "Cada jugador viene de una ciudad distinta."
+  }
+ ],
+ "partidos": [
+  {
+   "rival": "Moises Miranda / Juan Pablo Ayala",
+   "rival_id": "fcd7587c-59a2-4241-b231-dfb0f8a046fc",
+   "marcador_propio": 10,
+   "marcador_rival": 3,
+   "marcador": "10-3",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 7
+  },
+  {
+   "rival": "Ivan Zuñiga / Raymundo",
+   "rival_id": "d4db1820-eeb1-4b78-85b8-f1945160228a",
+   "marcador_propio": 10,
+   "marcador_rival": 2,
+   "marcador": "10-2",
+   "resultado": "G",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 65
+  },
+  {
+   "rival": "Carlos Machado / Oscar Gallegos",
+   "rival_id": "b15c0062-265a-41de-b23e-4110984286f7",
+   "marcador_propio": 5,
+   "marcador_rival": 10,
+   "marcador": "5-10",
+   "resultado": "P",
+   "por_tiempo": false,
+   "default": false,
+   "km_promedio": 209
+  }
+ ],
+ "destacados": {
+  "mejor_victoria": {
+   "marcador": "10-2",
+   "rival": "Ivan Zuñiga / Raymundo"
+  },
+  "derrota_mas_cerrada": {
+   "marcador": "5-10",
+   "rival": "Carlos Machado / Oscar Gallegos",
+   "margen": 5
+  },
+  "rival_mas_lejano": {
+   "rival": "Carlos Machado / Oscar Gallegos",
+   "km": 209
+  },
+  "mas_puntos": {
+   "marcador": "10-3",
+   "rival": "Moises Miranda / Juan Pablo Ayala"
+  }
+ },
+ "slides": [
+  {
+   "id": "su_torneo",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su torneo en números",
+   "texto": "Jugaron 3 partidos, anotaron 25 puntos y recibieron 15.",
+   "datos": {}
+  },
+  {
+   "id": "su_nivel",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su nivel: Las aplanadoras",
+   "texto": "Su sinergia fue de 39.4%. Ganaron con claridad y dejaron poco margen a sus rivales. Superaron al 70% de las parejas de su categoría.",
+   "datos": {
+    "sinergia": 39.4,
+    "nivel": 1
+   }
+  },
+  {
+   "id": "frente_al_resto",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Frente al resto",
+   "texto": "Dentro de su categoría, su ataque superó al 67% de las parejas y su defensa al 70%.",
+   "datos": {
+    "ataque": 0.67,
+    "defensa": 0.7
+   }
+  },
+  {
+   "id": "sus_insignias",
+   "tipo": "badges",
+   "categoria": null,
+   "titulo": "Sus insignias",
+   "texto": "Se llevaron la insignia Dos ciudades, una pareja.",
+   "datos": {
+    "insignias": [
+     "Dos ciudades, una pareja"
+    ]
+   }
+  },
+  {
+   "id": "mejor_victoria",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su mejor partido",
+   "texto": "Su victoria más amplia fue 10-2 contra Ivan Zuñiga / Raymundo.",
+   "datos": {
+    "marcador": "10-2",
+    "rival": "Ivan Zuñiga / Raymundo"
+   }
+  },
+  {
+   "id": "rival_lejano",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Su rival de más lejos",
+   "texto": "En promedio, 209 km separaban sus ciudades de las de Carlos Machado / Oscar Gallegos.",
+   "datos": {
+    "rival": "Carlos Machado / Oscar Gallegos",
+    "km": 209
+   }
+  },
+  {
+   "id": "cierre",
+   "tipo": "stat",
+   "categoria": null,
+   "titulo": "Gracias por jugar",
+   "texto": "Los marcadores se olvidan, las historias no. Gracias por ser parte de este torneo, Lenin Reyes / Ricardo Rodriguez.",
+   "datos": {}
+  }
+ ]
+}
