@@ -1,0 +1,71 @@
+/* Estilos del formato historia /wrapped. Todo el movimiento se desactiva
+   con prefers-reduced-motion. */
+
+.wrapped-shell {
+  height: 100dvh;
+  overflow-y: auto;
+  scroll-snap-type: y proximity;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.wrapped-card {
+  min-height: 100dvh;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 6.5rem 1.25rem 5rem;
+}
+
+@media (min-width: 640px) {
+  .wrapped-card {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+.wrapped-card-fullbleed {
+  justify-content: flex-end;
+  padding: 6.5rem 0 0;
+}
+
+/* Aparición al entrar en vista (la clase la pone Reveal con IO). */
+.wrapped-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.wrapped-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Barras de gráficos: crecen con transición al volverse visibles. */
+.wrapped-bar {
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.is-visible .wrapped-bar {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wrapped-shell {
+    scroll-behavior: auto;
+  }
+  .wrapped-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .wrapped-bar {
+    transform: none;
+    transition: none;
+  }
+}
