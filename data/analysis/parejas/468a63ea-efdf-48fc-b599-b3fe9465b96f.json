@@ -39,7 +39,7 @@
  ],
  "partidos": [
   {
-   "rival": "Chicaro / Daniel Detec",
+   "rival": "Chicharo / Daniel Detec",
    "rival_id": "f4c6750f-a7f2-48dc-97f8-5aeaf9b6e06c",
    "marcador_propio": 6,
    "marcador_rival": 10,
@@ -79,11 +79,11 @@
   },
   "derrota_mas_cerrada": {
    "marcador": "6-10",
-   "rival": "Chicaro / Daniel Detec",
+   "rival": "Chicharo / Daniel Detec",
    "margen": 4
   },
   "rival_mas_lejano": {
-   "rival": "Chicaro / Daniel Detec",
+   "rival": "Chicharo / Daniel Detec",
    "km": 163
   },
   "mas_puntos": {
@@ -151,9 +151,9 @@
    "tipo": "stat",
    "categoria": null,
    "titulo": "Su rival de más lejos",
-   "texto": "En promedio, 163 km separaban sus ciudades de las de Chicaro / Daniel Detec.",
+   "texto": "En promedio, 163 km separaban sus ciudades de las de Chicharo / Daniel Detec.",
    "datos": {
-    "rival": "Chicaro / Daniel Detec",
+    "rival": "Chicharo / Daniel Detec",
     "km": 163
    }
   },

@@ -217,7 +217,7 @@
           },
           {
             "double_id": "f4c6750f-a7f2-48dc-97f8-5aeaf9b6e06c",
-            "pareja": "Chicaro / Daniel Detec",
+            "pareja": "Chicharo / Daniel Detec",
             "pj": 3,
             "sinergia": 48.48
           },
@@ -243,7 +243,7 @@
           "Carlos Machado / Oscar Gallegos",
           "Santiago Mtz / Gerardo Macizo",
           "Avimael Tapia / Lenin Bustos",
-          "Chicaro / Daniel Detec"
+          "Chicharo / Daniel Detec"
         ]
       }
     },
@@ -252,7 +252,7 @@
       "tipo": "comparacion",
       "categoria": "libre",
       "titulo": "Ganar no es dominar",
-      "texto": "Jorge Isaac / Ivan Zamora ganaron 2 partidos y Chicaro / Daniel Detec ganaron 3, pero Jorge Isaac / Ivan Zamora tuvieron más sinergia (63.6% contra 48.5%). Importa cuánto ganas, no solo cuántas veces.",
+      "texto": "Jorge Isaac / Ivan Zamora ganaron 2 partidos y Chicharo / Daniel Detec ganaron 3, pero Jorge Isaac / Ivan Zamora tuvieron más sinergia (63.6% contra 48.5%). Importa cuánto ganas, no solo cuántas veces.",
       "datos": {
         "a": "6765a923-6f86-41e4-af6a-fe971e807db6",
         "b": "f4c6750f-a7f2-48dc-97f8-5aeaf9b6e06c"
@@ -584,7 +584,7 @@
           },
           {
             "double_id": "f4c6750f-a7f2-48dc-97f8-5aeaf9b6e06c",
-            "pareja": "Chicaro / Daniel Detec",
+            "pareja": "Chicharo / Daniel Detec",
             "arquetipo": "Las aplanadoras",
             "sinergia": 48.48,
             "pj": 3,
@@ -645,7 +645,7 @@
             "por_tiempo": false
           },
           {
-            "gano": "Chicaro / Daniel Detec",
+            "gano": "Chicharo / Daniel Detec",
             "marcador": "10-8",
             "perdio": "Luis Espitia / Adrian Arreola",
             "grupo": "Grupo A",
@@ -804,7 +804,7 @@
     },
     {
       "id": "f4c6750f-a7f2-48dc-97f8-5aeaf9b6e06c",
-      "pareja": "Chicaro / Daniel Detec",
+      "pareja": "Chicharo / Daniel Detec",
       "grupo": "Grupo A",
       "pj": 3,
       "pg": 3,
