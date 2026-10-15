@@ -30,6 +30,65 @@
   padding: 6.5rem 0 0;
 }
 
+/* --- confeti de cierre: Scroll-Driven Animations -------------------------
+   Las piezas caen y el trofeo aparece al ritmo del scroll (view timeline
+   del contenedor). Sin soporte, el arte queda estático y visible. */
+@keyframes confetti-cae {
+  from {
+    transform: translateY(-38px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(54px);
+    opacity: 1;
+  }
+}
+
+@keyframes trofeo-pop {
+  from {
+    transform: scale(0.7);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .confetti-piece {
+    animation: confetti-cae linear both;
+    animation-timeline: view();
+  }
+  .confetti-0 {
+    animation-range: entry 0% entry 90%;
+  }
+  .confetti-1 {
+    animation-range: entry 15% entry 105%;
+  }
+  .confetti-2 {
+    animation-range: entry 30% entry 120%;
+  }
+  .confetti-3 {
+    animation-range: entry 45% entry 135%;
+  }
+  .cierre-trofeo {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: trofeo-pop linear both;
+    animation-timeline: view();
+    animation-range: entry 40% contain 40%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti-piece,
+  .cierre-trofeo {
+    animation: none;
+  }
+}
+
 /* Aparición al entrar en vista (la clase la pone Reveal con IO). */
 .wrapped-reveal {
   opacity: 0;

@@ -286,7 +286,11 @@ export function ParejaSlideCard({ slide, ficha, color }: ParejaSlideCardProps) {
                 [170, 22], [32, 40], [58, 34], [108, 36], [134, 30], [160, 42],
                 [184, 36],
               ].map(([x, y], i) => (
-                <g key={i} aria-hidden="true">
+                <g
+                  key={i}
+                  aria-hidden="true"
+                  className={`confetti-piece confetti-${i % 4}`}
+                >
                   <rect
                     x={x}
                     y={y}
@@ -300,6 +304,7 @@ export function ParejaSlideCard({ slide, ficha, color }: ParejaSlideCardProps) {
                 </g>
               ))}
               <g
+                className="cierre-trofeo"
                 stroke={color}
                 strokeWidth={4}
                 strokeLinecap="round"
