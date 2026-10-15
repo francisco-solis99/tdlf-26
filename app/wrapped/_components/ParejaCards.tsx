@@ -28,6 +28,46 @@ function numeroDe(datos: Record<string, unknown>, clave: string): number {
   return v;
 }
 
+/** Portada: el nombre de la pareja como título al inicio de su historia. */
+export function ParejaPortadaCard({
+  ficha,
+  color,
+}: {
+  ficha: ParejaFicha;
+  color: string;
+}) {
+  return (
+    <div className="flex min-h-[50dvh] flex-col justify-center gap-4">
+      <p
+        className="text-[11px] font-medium uppercase tracking-[0.25em]"
+        style={{ color }}
+      >
+        {ficha.nombreCategoria} · {ficha.grupo}
+      </p>
+      <h1 className="font-display text-5xl uppercase leading-[0.95] tracking-tight sm:text-7xl">
+        {ficha.pareja}
+      </h1>
+      <p className="flex flex-wrap items-center gap-1.5 text-[11px]">
+        <span
+          className="rounded-full px-2 py-px font-semibold tabular-nums"
+          style={{
+            backgroundColor: `${color}1f`,
+            color,
+          }}
+        >
+          {ficha.resumen.sinergia}% sinergia
+        </span>
+        <span className="rounded-full border border-line px-2 py-px text-muted">
+          {ficha.nivel.nombre}
+        </span>
+      </p>
+      <p className="max-w-prose text-base leading-relaxed text-muted">
+        Esta es su historia en la fase de grupos.
+      </p>
+    </div>
+  );
+}
+
 /** Una tarjeta por slide de la ficha, en el orden del archivo. */
 export function ParejaSlideCard({ slide, ficha, color }: ParejaSlideCardProps) {
   switch (slide.id) {

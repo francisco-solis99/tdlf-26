@@ -12,7 +12,7 @@ import {
   type ParejaFicha,
 } from "@/lib/wrapped-data";
 
-import { ParejaPartidosCard, ParejaSlideCard } from "../../_components/ParejaCards";
+import { ParejaPartidosCard, ParejaPortadaCard, ParejaSlideCard } from "../../_components/ParejaCards";
 import { WrappedShell, type WrappedCardSpec } from "../../_components/WrappedShell";
 import "../../_components/wrapped.css";
 
@@ -62,8 +62,17 @@ export default async function ParejaPage({
   })();
   const color = COLORES[ficha.categoria];
 
+  // La portada abre con el nombre; el saludo (cierre) va al final,
+  // después de los partidos y antes del footer.
+  const cierre = ficha.slides.find((s) => s.id === "cierre") ?? null;
+  const resto = ficha.slides.filter((s) => s.id !== "cierre");
+
   const cards: WrappedCardSpec[] = [
-    ...ficha.slides.map((slide) => ({
+    {
+      id: "portada",
+      node: <ParejaPortadaCard ficha={ficha} color={color} />,
+    },
+    ...resto.map((slide) => ({
       id: slide.id,
       node: <ParejaSlideCard slide={slide} ficha={ficha} color={color} />,
     })),
@@ -71,6 +80,16 @@ export default async function ParejaPage({
       id: "partidos",
       node: <ParejaPartidosCard ficha={ficha} color={color} />,
     },
+    ...(cierre
+      ? [
+          {
+            id: "cierre",
+            node: (
+              <ParejaSlideCard slide={cierre} ficha={ficha} color={color} />
+            ),
+          },
+        ]
+      : []),
     {
       id: "footer",
       fullBleed: true,
