@@ -1,3 +1,14 @@
+import {
+  Flag,
+  Gauge,
+  ListChecks,
+  MapPin,
+  Medal,
+  Swords,
+  Target,
+  Trophy,
+} from "lucide-react";
+
 import type {
   ParejaFicha,
   ParejaSlidePayload,
@@ -38,6 +49,13 @@ export function ParejaPortadaCard({
 }) {
   return (
     <div className="flex min-h-[50dvh] flex-col justify-center gap-4">
+      <span
+        aria-hidden="true"
+        className="flex h-11 w-11 items-center justify-center rounded-xl"
+        style={{ backgroundColor: `${color}1f`, color }}
+      >
+        <Flag className="h-5 w-5" strokeWidth={1.8} />
+      </span>
       <p
         className="text-[11px] font-medium uppercase tracking-[0.25em]"
         style={{ color }}
@@ -86,6 +104,7 @@ export function ParejaSlideCard({ slide, ficha, color }: ParejaSlideCardProps) {
           titulo={slide.titulo}
           texto={slide.texto}
           color={color}
+          icono={<Trophy className="h-5 w-5" strokeWidth={1.8} />}
         >
           <Reveal>
             <dl className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -116,6 +135,7 @@ export function ParejaSlideCard({ slide, ficha, color }: ParejaSlideCardProps) {
           titulo={slide.titulo}
           texto={slide.texto}
           color={color}
+          icono={<Gauge className="h-5 w-5" strokeWidth={1.8} />}
         >
           <Reveal>
             <p className="rounded-xl border border-line bg-surface px-3 py-2 text-sm leading-relaxed">
@@ -134,7 +154,12 @@ export function ParejaSlideCard({ slide, ficha, color }: ParejaSlideCardProps) {
         ["defensa", defensa],
       ];
       return (
-        <CardFrame titulo={slide.titulo} texto={slide.texto} color={color}>
+        <CardFrame
+          titulo={slide.titulo}
+          texto={slide.texto}
+          color={color}
+          icono={<Swords className="h-5 w-5" strokeWidth={1.8} />}
+        >
           <Reveal>
             <ol className="flex flex-col gap-2">
               {barras.map(([etiqueta, valor]) => (
@@ -167,7 +192,12 @@ export function ParejaSlideCard({ slide, ficha, color }: ParejaSlideCardProps) {
     }
     case "sus_insignias": {
       return (
-        <CardFrame titulo={slide.titulo} texto={slide.texto} color={color}>
+        <CardFrame
+          titulo={slide.titulo}
+          texto={slide.texto}
+          color={color}
+          icono={<Medal className="h-5 w-5" strokeWidth={1.8} />}
+        >
           <Reveal>
             <ul className="flex flex-col gap-2">
               {ficha.insignias.map((ins) => (
@@ -205,6 +235,7 @@ export function ParejaSlideCard({ slide, ficha, color }: ParejaSlideCardProps) {
           titulo={slide.titulo}
           texto={slide.texto}
           color={color}
+          icono={<Target className="h-5 w-5" strokeWidth={1.8} />}
         >
           <Reveal>
             <p className="rounded-xl border border-line bg-surface px-3 py-2 text-sm">
@@ -229,6 +260,7 @@ export function ParejaSlideCard({ slide, ficha, color }: ParejaSlideCardProps) {
           titulo={slide.titulo}
           texto={slide.texto}
           color={color}
+          icono={<MapPin className="h-5 w-5" strokeWidth={1.8} />}
         >
           <Reveal>
             <p className="rounded-xl border border-line bg-surface px-3 py-2 text-sm">
@@ -310,6 +342,7 @@ export function ParejaPartidosCard({
       titulo="Sus partidos"
       texto={`Así le fue a ${ficha.pareja} en la fase de grupos.`}
       color={color}
+      icono={<ListChecks className="h-5 w-5" strokeWidth={1.8} />}
     >
       <Reveal>
         <ol className="flex flex-col gap-2">

@@ -6,6 +6,8 @@ interface CardFrameProps {
   titulo: string;
   texto: string;
   color: string;
+  /** Insignia decorativa opcional sobre el número o el titular. */
+  icono?: ReactNode;
   children?: ReactNode;
 }
 
@@ -19,10 +21,20 @@ export function CardFrame({
   titulo,
   texto,
   color,
+  icono,
   children,
 }: CardFrameProps) {
   return (
     <div className="flex flex-col gap-4">
+      {icono !== undefined && (
+        <span
+          aria-hidden="true"
+          className="flex h-11 w-11 items-center justify-center rounded-xl"
+          style={{ backgroundColor: `${color}1f`, color }}
+        >
+          {icono}
+        </span>
+      )}
       {numero !== undefined && (
         <p
           className="font-display text-7xl leading-none tracking-tight tabular-nums sm:text-8xl"
