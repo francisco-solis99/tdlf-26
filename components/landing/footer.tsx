@@ -57,7 +57,7 @@ export function Footer() {
             {site.venue.name}, {site.venue.city}
           </p>
           <p className="mt-2 text-xs text-muted">
-            Construido por Francisco Solis 🚀🧑‍💻
+            Construido por Francisco Solis y Juan Ramirez 🚀🧑‍💻
           </p>
         </div>
 
